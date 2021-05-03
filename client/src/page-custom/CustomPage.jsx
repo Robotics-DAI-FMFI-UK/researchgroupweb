@@ -212,6 +212,7 @@ const CustomPage = ({ initPage }) => {
   return (
     <ActiveModuleProvider setModules={setModules} setWarning={setWarning}>
       {/*<div className="full-width">*/}
+      <h1>Custom page</h1>
       {getAuth() && hasEditPermission && (
         <Toolbar
           page={page}

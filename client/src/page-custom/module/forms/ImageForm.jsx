@@ -57,7 +57,7 @@ const ImageForm = ({ SelectPageRef, ...props }) => {
       <Input name="subtitle" as="textarea" />
       <Select name="objectFit" options={options} />
       <Input name="backgroundColor" />
-      {/*{SelectPageRef}*/}
+      {SelectPageRef}
     </Form>
   );
 };

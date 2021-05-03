@@ -6,9 +6,9 @@ const ModeContext = createContext();
 export const ModeProvider = ({ children }) => {
   const [editMode, setEditMode] = useState(getAuth() && getEdit());
 
-  // useEffect(() => {
-  //   editMode ? setEdit() : delEdit();
-  // }, [editMode]);
+  useEffect(() => {
+    editMode ? setEdit() : delEdit();
+  }, [editMode]);
 
   return (
     <ModeContext.Provider value={[editMode, setEditMode]}>
