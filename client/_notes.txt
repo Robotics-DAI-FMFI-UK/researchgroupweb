@@ -1,0 +1,86 @@
+FIX LAYOUT
+ - auto-order layout
+ - keep addButton at the end
+
+----------------
+
+WIKI LOGIC:
+
+User_A začne meniť obsah
+- vytvorí sa mu kópia stránky S, tú potom edituje,
+    (zmeny sa ukladajú u clienta)
+
+- save as draft
+- discard changes
+- remove draft
+- pull request
+
+- originalnu verziu stranky moze otvorit v novom okne
+
+- ak si User_B zobrazi stranku S, bude vidiet original, ale aj draft User_A (ak ju ulozil)
+    pri editovani sa mu vytvori vlastna kopia ktoru moze ulozit ako draft atd.
+
+
+Adminovi po pull request príde email na schválenie zmeny / publikovani stranky
+Admin moze hociktoru verziu stranky zmenit ako aktualnu verziu
+Admin moze nastavit podstranku ako chranenu = users ju nemozu editovat
+Admin moze priradit userovi zodpovednost za podstranku = user sa stane "adminom" podstranky
+
+---------------
+
+OPTIONAL:
+- email | life notifications,
+- undo | redo
+- toggle: Breadcrumb, Navbrand
+- Cropp / filter(css) image: https://www.educative.io/edpresso/how-to-crop-an-image-in-css | magic draw
+- templates for pages, modules
+- multiple languages,
+- dark mode: https://www.youtube.com/watch?v=G00V4tRx1ME&ab_channel=WillCodeForViews
+- mozem zmazat grid item podla aktualneho breakpointu
+    napr. vymazem obrazok v 'xs' ale v ostatnych ostane
+- change template of existing page,
+- side modules over multiple sites,
+- material ui
+
+---------------------------------
+
+    ÚVOD
+    1. PREHĽAD PROBLEMATIKY
+        (... úvod)
+
+        Podobné systémy
+            Wix
+            Sanity
+            MediaWiki
+            Výstup analýzy
+
+        Požiadavky
+            Use-case diagram
+
+        Predchádzajúce riešenie
+            Návrh a architektúra
+            Použité technológie
+            Nedostatky riešenia
+            Využiteľnosť riešenia
+
+        Dostupné technológie
+            NodeJS
+            MongoDB
+            ReactJS
+            React-grid-layout
+            Editor.js
+
+    2. NÁVRH A ARCHITEKTÚRA
+        (... úvod)
+
+        Entity
+            Pages
+            Modules
+            Users
+
+        Návrh používateľského rozhrania
+
+    3. IMPLEMENTÁCIA
+    VÝSLEDKY PRÁCE
+    ZÁVER
+    ZDROJE

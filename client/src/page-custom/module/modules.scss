@@ -1,0 +1,28 @@
+.handle {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.grid-box {
+  //height: 100%;
+}
+
+/* MODULES */
+.grid-module {
+  //object-fit: fill;
+  //width: 100%;
+  height: 100%;
+}
+
+.module-img {
+  //width: 100%;
+  height: 100%;
+}
+
+.overflow-dots {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

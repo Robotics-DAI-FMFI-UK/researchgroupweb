@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  min-width: 320px !important;
+}
+
+body::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #6e6e6e;
+}
+
+.my-container {
+  padding: 2% 10% !important;
+  margin: 0 auto;
+}
+
+.my-toast {
+  position: absolute;
+  z-index: 9999;
+  top: 75px;
+  right: 9px;
+  width: 250px;
+  height: 100px;
+}
+
+.full-width {
+  margin: -2% -12% !important;
+}
+
+/* FORMS */
+.my-form {
+  margin: 1em;
+}
+
+.breadcrumb {
+  background-color: white !important;
+  padding: 4px 8px !important;
+}
+
+.space-children > * {
+  margin: 4px;
+}
+
+.card {
+  border: none !important;
+}
+
+.embed-video {
+  width: 90vh;
+  height: calc(9 / 16 * 90vh);
+}
+
+.embed-post {
+  border: none;
+  overflow: hidden;
+}
+
+/* reactTooltip */
+.__react_component_tooltip {
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* editor-js decrease padding-bottom */
+.codex-editor__redactor {
+  padding-bottom: 150px !important;
+}
+
+.ce-block__content,
+.ce-toolbar__content {
+  max-width: 90% !important;
+}
+
+.ce-toolbar__actions-buttons,
+.ce-toolbar__plus {
+  z-index: 1500 !important;
+}
+
+/*# sourceMappingURL=main.css.map */

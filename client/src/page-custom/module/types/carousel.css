@@ -1,0 +1,21 @@
+.item {
+    /*height: 100%;*/
+    height: 100%;
+}
+
+.item-img {
+    width: 100%;
+    /*height: 100%;*/
+    height: 100%;
+}
+
+._carousel {
+    /*height: 100%;*/
+    height: 100%;
+}
+
+.carousel-inner {
+    /*background-color: blue;*/
+    /*height: 100%;*/
+    height: 100%;
+}
