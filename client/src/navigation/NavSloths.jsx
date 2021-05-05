@@ -12,6 +12,7 @@ import { useToastContext } from "../providers/ToastProvider";
 import useWarning from "../utils/hooks/useWarning";
 import Form from "react-bootstrap/Form";
 import { Col, Row } from "react-bootstrap";
+import {URL_PREFIX} from "../config";
 
 const NavSloths = () => {
   const { setSuccessToast, setErrorToast } = useToastContext();
@@ -76,7 +77,7 @@ const NavSloths = () => {
 
   useEffect(() => {
     axios
-      .get("/navbars")
+      .get(`${URL_PREFIX}/navbars`)
       .then((res) => {
         setNavbarVersions(res.data);
       })
@@ -85,7 +86,7 @@ const NavSloths = () => {
       });
 
     axios
-      .get("/navbars/published")
+      .get(`${URL_PREFIX}/navbars/published`)
       .then((res) => {
         loadNavbarData(res.data);
         setPublishedId(res.data._id);
@@ -144,7 +145,7 @@ const NavSloths = () => {
     // return;
 
     axios
-      .post("/navbars", {
+      .post(`${URL_PREFIX}/navbars`, {
         created_by: getAuth()?.user._id,
         items: updatedItems,
       })
@@ -265,7 +266,7 @@ const NavSloths = () => {
 
     try {
       await axios
-        .post("/navbars/import", formData, {
+        .post(`${URL_PREFIX}/navbars/import`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
@@ -287,7 +288,7 @@ const NavSloths = () => {
     setPublishedId(data._id);
 
     await axios
-      .patch("/navbars", {
+      .patch(`${URL_PREFIX}/navbars`, {
         currentId: data._id,
         prevId: publishedId,
       })
@@ -312,7 +313,7 @@ const NavSloths = () => {
     }
 
     await axios
-      .delete("/navbars/" + data._id)
+      .delete(`${URL_PREFIX}/navbars/` + data._id)
       .then((res) => {
         setSuccessToast("remove versions succeeded");
         setNavbarVersions((prevState) => {
@@ -325,7 +326,7 @@ const NavSloths = () => {
   }
 
   return (
-    <div className="full-width p-4">
+    <div className="">
       <div className="d-xl-none">
         <h6>
           You have to use larger display to be able to modify content of
@@ -334,7 +335,6 @@ const NavSloths = () => {
       </div>
       <Row
         style={{
-          width: "1000px",
           minWidth: "800px",
           // maxHeight: "66px",
           // height: "300px",
@@ -397,12 +397,15 @@ const NavSloths = () => {
               </SmallButton>
             </ButtonGroup>
           </div>
+          <div style={{width: "294px"}}>
+
           <Form.File
-            className="d-inline-block"
+            className="d-inline-block "
             custom
             label={filename}
             onChange={onUploadChange}
           />
+          </div>
 
           <MyGridLayout
             setWarning={setWarning}

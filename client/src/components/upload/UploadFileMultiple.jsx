@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
+import {URL_PREFIX} from "../../config";
 
 const UploadFileMultiple = ({ onUploadChange, setItems }) => {
   const onChange = async (e) => {
@@ -16,7 +17,7 @@ const UploadFileMultiple = ({ onUploadChange, setItems }) => {
         const formData = new FormData();
         formData.append("file", files[i]);
 
-        const res = await axios.post("/upload", formData, {
+        const res = await axios.post(`${URL_PREFIX}/upload`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

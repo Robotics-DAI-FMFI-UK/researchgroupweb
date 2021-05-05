@@ -4,7 +4,6 @@ const useWarning = () => {
   const [warning, setWarning] = useState();
 
   useEffect(() => {
-    // console.log("IS DIRTY", warning);
     window.onbeforeunload = warning && (() => "message");
     return () => (window.onbeforeunload = null);
   }, [warning]);

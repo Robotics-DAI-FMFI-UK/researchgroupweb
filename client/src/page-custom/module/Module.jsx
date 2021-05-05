@@ -2,21 +2,13 @@ import React, { useState } from "react";
 import ModuleToolbar from "./ModuleToolbar";
 import { ModuleBuilder } from "./ModuleBuilder";
 import { useModeContext } from "../../providers/ModeProvider";
-import {
-  getAuth,
-  getUserPermission,
-  objectId,
-  roundToTwo,
-} from "../../utils/functions";
+import { cloneObj, objectId, roundToTwo } from "../../utils/functions";
 import { SizeMe } from "react-sizeme";
 import { ROW_HEIGHT } from "../../components/MyGridLayout";
 import { usePagesContext } from "../../App";
 import { useActiveModuleContext } from "../ActiveModuleProvider";
 import _ from "lodash";
-// import { useSizeMe } from "../../utils/hooks/useSizeMe";
 
-// https://github.com/react-grid-layout/react-grid-layout/issues/190
-// https://stackoverflow.com/questions/53483850/how-to-change-react-parent-component-size-based-on-child-component-size-without
 export const Module = ({
   module,
   setModules,
@@ -37,9 +29,9 @@ export const Module = ({
   if (!module) return null;
   const isActive = module._id === activeModule?._id;
 
-  const calcTypes = ["editor-js", "alert"];
   const calcH = (currHeightPx) => {
     return;
+
     if (!currHeightPx || !calcTypes.includes(module.type) || !editMode) return;
     currHeightPx = Math.round(currHeightPx);
 
@@ -128,7 +120,7 @@ export const Module = ({
   const createCardCopy = (module, position) => {
     const newId = objectId();
 
-    const position_copy = _.clone(position);
+    const position_copy = cloneObj(position);
     position_copy.i = newId;
 
     addIntoLayouts(position_copy, true);
@@ -198,3 +190,5 @@ export const Module = ({
     </div>
   );
 };
+
+const calcTypes = ["editor-js", "alert"];

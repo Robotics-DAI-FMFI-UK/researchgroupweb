@@ -9,10 +9,10 @@ import {
   FormLabel,
   InputGroup,
 } from "react-bootstrap";
-import { upperFirst } from "lodash";
 
 import { useYupResolver } from "../../utils/hooks/useYupResolver";
 import * as Yup from "yup";
+import { upperFirst } from "../../utils/functions";
 
 export const Error = ({ error }) => {
   if (!error) return null;

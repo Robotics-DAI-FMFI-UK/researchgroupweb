@@ -4,7 +4,6 @@ import { Alert as BsAlert } from "react-bootstrap";
 const Alert = ({ module }) => {
   if (!module.body) module.body = placeholder;
   const { heading, message, variant } = module.body;
-  // console.log("Alert", module);
 
   const style = {
     // overflowY: "auto",
@@ -23,7 +22,7 @@ const Alert = ({ module }) => {
 const placeholder = {
   heading: "Alert header!",
   message: "A long text message of the alert",
-  variant: "danger",
+  variant: "warning",
 };
 
 export default Alert;

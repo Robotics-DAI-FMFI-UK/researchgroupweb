@@ -35,9 +35,7 @@ import InlineCode from "@editorjs/inline-code"; // https://github.com/editor-js/
 // https://github.com/natterstefan/editorjs-inline-tool
 
 // CUSTOM
-import Timeline from "./custom-timeline/tool";
 import Image from "./custom-image/tool";
-// import Grid from "./custom-grid/tool";
 import { MDImporter, MDParser } from "./markdown";
 
 // TUNES
@@ -81,8 +79,6 @@ export const EDITOR_JS_TOOLS = {
   alert: Alert,
 
   image: Image,
-  // grid: Grid,
-  timeline: Timeline,
   markdownParser: MDParser,
   markdownImporter: MDImporter,
 

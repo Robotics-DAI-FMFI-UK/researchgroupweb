@@ -1,12 +1,7 @@
 import { Router } from "express";
 import Page from "../models/Page";
 import Module from "../models/Module";
-import { getModelById, fillUpdate, fillCreate } from "./shared";
-// import { mongo } from "mongoose";
-// import { forEach } from "async";
-
-// let async = require("async");
-// let q = require("q");
+import { fillUpdate, fillCreate } from "./shared";
 
 const router = Router();
 
@@ -30,7 +25,6 @@ router.post("/with-layouts", async (req, res) => {
       return res.status(404).json({ message: "Cannot find the page" });
     }
 
-    // prepare constants
     const breakpoints = ["lg", "md", "sm"];
     const layouts = {};
 
@@ -45,6 +39,7 @@ router.post("/with-layouts", async (req, res) => {
       };
     });
 
+    // TODO transaction
     // init session
     // const session = await Page.startSession();
     // session.startTransaction();
@@ -138,6 +133,8 @@ router.get("/", async (req, res) => {
       });
     }
 
+    console.log("pagesWithModules", pagesWithModules);
+
     res.json(pagesWithModules);
   } catch (e) {
     res.status(400).json({ message: e.message });
@@ -156,7 +153,6 @@ router.patch("/:id", getPage, async (req, res) => {
 });
 
 // UPDATE layouts and modules
-// https://mongoosejs.com/docs/transactions.html, https://thecodebarbarian.com/whats-new-in-mongoose-5-10-improved-transactions.html
 router.patch("/with-grid/:id", async (req, res) => {
   const { layouts, modules, removeIds } = req.body;
   console.log("page._id", req.params.id);
@@ -182,6 +178,7 @@ router.patch("/with-grid/:id", async (req, res) => {
         };
       })
     );
+
     // TODO remove module only if it's id is not in other pages layouts
     // const pages = await Page.find({ _id: { $ne: req.params.id } });
     // const remainIds = [];
@@ -250,23 +247,6 @@ async function getPage(req, res, next) {
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
-
-  // const moduleIds = page.layouts.lg.map((position) => position.i);
-  // const modules = await Module.find({ _id: { $in: moduleIds } });
-  //
-  // res.page = {
-  //   layouts: page.layouts,
-  //   published: page.published,
-  //   create_date: page.create_date,
-  //   update_date: page.update_date,
-  //   _id: page._id,
-  //   title: page.title,
-  //   path: page.path,
-  //   template: page.template,
-  //   created_by: page.created_by,
-  //   modules: modules,
-  // };
-  // console.log(res.page);
 
   res.page = page;
   next();

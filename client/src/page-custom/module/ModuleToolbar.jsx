@@ -25,9 +25,9 @@ const ModuleToolbar = ({
 
   const style = {
     position: "absolute",
-    top: "-32px",
+    top: "-30px",
     left: "0",
-    zIndex: "9",
+    zIndex: "1001",
     width: "100%",
   };
 

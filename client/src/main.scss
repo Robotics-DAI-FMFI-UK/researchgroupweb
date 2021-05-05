@@ -1,12 +1,13 @@
 $text-primary: "#b6b6b6";
 $text-secondary: "#ececec";
 
-$bg-primary: "#23232e";
+$dark-color: "#23232e";
 $bg-secondary: "#141418";
 
 body {
   margin: 0;
   padding: 0;
+  background-color: #eee;
   overflow: auto;
   min-width: 320px !important;
 }
@@ -19,15 +20,36 @@ body::-webkit-scrollbar-thumb {
   background: #6e6e6e;
 }
 
-.my-container {
-  padding: 2% 10% !important;
-  margin: 0 auto;
+.main-container {
+  max-width: 1200px;
+  margin: 20px auto;
 }
 
-//.modal-dialog {
-//  width: 100%;
-//  max-width: 90%;
-//}
+.login-btn {
+  margin-top: 8px;
+  font-size: 25px;
+  color: gray;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  color: whitesmoke;
+}
+
+.nav-link:hover {
+  text-decoration: underline !important;
+}
+
+.user-modal {
+  background-color: transparent !important;
+}
+
+@media only screen and (max-width: 1200px){
+  .img-logo {
+    width: 50px;
+    height: 50px;
+  }
+}
 
 .my-toast {
   position: absolute;
@@ -42,11 +64,8 @@ body::-webkit-scrollbar-thumb {
   margin: -2% -12% !important;
 }
 
-/* FORMS */
 .my-form {
   margin: 1em;
-}
-.my-form > * {
 }
 
 .breadcrumb {
@@ -66,16 +85,9 @@ body::-webkit-scrollbar-thumb {
   width: 90vh;
   height: calc(9 / 16 * 90vh);
 }
-
 .embed-post {
   border:none;
   overflow:hidden;
-}
-
-/* reactTooltip */
-.__react_component_tooltip {
-  padding: 0 !important;
-  border: none !important;
 }
 
 /* editor-js decrease padding-bottom */
@@ -86,12 +98,10 @@ body::-webkit-scrollbar-thumb {
 .ce-toolbar__content {
   max-width: 90% !important;
 }
-
 .ce-toolbar__actions-buttons,
 .ce-toolbar__plus{
   z-index: 1500 !important;
 }
-
 //.codex-editor {
 //  background-color: #fff6fc;
 //}

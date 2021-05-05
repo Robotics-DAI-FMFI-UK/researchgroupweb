@@ -40,7 +40,7 @@ const EditorJS = ({ module, hasEditPermission }) => {
       readOnly={readOnly}
       onChange={handleSave}
       onReady={() => {
-        if (!readOnly) {
+        if (!readOnly && editor && editMode.current) {
           new Undo({ editor: editor.current });
           new DragDrop(editor.current);
         }

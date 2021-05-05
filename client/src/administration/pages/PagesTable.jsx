@@ -3,7 +3,6 @@ import Table from "react-bootstrap/Table";
 import PageRow from "./PageRow";
 import SmallButton from "../../components/buttons/SmallButton";
 import NewPageModal from "../../components/modals/NewPageModal";
-import NavbarSloths from "../../navigation/NavSloths";
 import { usePagesContext } from "../../App";
 import { getAuth } from "../../utils/functions";
 
@@ -34,11 +33,10 @@ const PageTable = () => {
 
   const headers = [...columns.values()];
   const fields = [...columns.keys()];
-  console.log(pages);
+
   return (
     <div style={{ margin: "16px" }}>
       <h1>Pages table</h1>
-      {/*{hasEditPermission && <NavbarSloths pages={pages} setPages={setPages} />}*/}
       <Table responsive>
         <thead>
           <tr>
@@ -58,9 +56,7 @@ const PageTable = () => {
           ))}
         </tbody>
       </Table>
-      {/*{hasEditPermission && (*/}
       <SmallButton onClick={toggleModal}>Create new Page</SmallButton>
-      {/*)}*/}
       {showModal && <NewPageModal onHide={toggleModal} setPages={setPages} />}
     </div>
   );

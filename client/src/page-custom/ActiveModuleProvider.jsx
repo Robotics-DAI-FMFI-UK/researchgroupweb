@@ -12,9 +12,7 @@ export const ActiveModuleProvider = ({ children, setModules, setWarning }) => {
   }, [activeModule]);
 
   const updateModules = (module) => {
-    // console.log("UPDATING MODULES", module);
     setModules((prev) => {
-      // console.log("prev", prev);
       return prev.map((m) => {
         return m._id === module._id ? module : m;
       });
@@ -27,21 +25,12 @@ export const ActiveModuleProvider = ({ children, setModules, setWarning }) => {
   };
 
   const toggleActiveModule = (module) => {
-    // console.log("TOGGGGLEEE");
-    // if (module.type === "editor-js") return;
-
     setActiveModule((prev) => {
-      // nebol takze nastavim, netreba updateModules
       if (!prev) return module;
 
-      // ulozim predoslu verziu
       updateModules(prev);
 
-      // je ten isty tak "vypnem"
-      if (prev._id === module._id) return undefined;
-
-      // je iny, tak vymenim
-      return module;
+      return prev._id === module._id ? undefined : module;
     });
   };
 

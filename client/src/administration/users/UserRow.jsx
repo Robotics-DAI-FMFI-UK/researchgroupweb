@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import Image from "react-bootstrap/Image";
-import { formatDate, getAuth } from "../../utils/functions";
+import { formatDate, getErrorMsg } from "../../utils/functions";
 import axios from "axios";
 import { Form } from "react-bootstrap";
 import uuid from "react-uuid";
 import NewPageModal from "../../components/modals/NewPageModal";
 import SmallButton from "../../components/buttons/SmallButton";
+import { URL_PREFIX } from "../../config";
+import { useToastContext } from "../../providers/ToastProvider";
 
 const UserRow = ({ user: _user, setUsers, fields }) => {
   const [user, setUser] = useState(_user);
   const { isAdmin } = user;
+
+  const { serErrorToast } = useToastContext();
 
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => setShowModal((prev) => !prev);
@@ -17,15 +21,14 @@ const UserRow = ({ user: _user, setUsers, fields }) => {
   const Toggle = () => {
     const handleChange = () => {
       axios
-        .patch(`users/${user._id}`, { isAdmin: !isAdmin })
+        .patch(`${URL_PREFIX}/users/${user._id}`, { isAdmin: !isAdmin })
         .then((res) => {
           setUser((prev) => {
             return { ...prev, isAdmin: !isAdmin };
           });
-          console.log("success", res);
         })
         .catch((err) => {
-          console.log("error", err.res);
+          serErrorToast(getErrorMsg(err));
         });
     };
 
@@ -41,13 +44,12 @@ const UserRow = ({ user: _user, setUsers, fields }) => {
 
   const removePage = () => {
     axios
-      .delete(`/users/${user._id}`)
+      .delete(`${URL_PREFIX}/users/${user._id}`)
       .then((res) => {
         setUsers((prev) => prev.filter(({ _id }) => _id !== user._id));
-        console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        serErrorToast(getErrorMsg(err));
       });
   };
 

@@ -4,6 +4,7 @@ import { Form, Input, Select } from "../../../components/forms/MyForm";
 import axios from "axios";
 import { getErrorMsg } from "../../../utils/functions";
 import { useToastContext } from "../../../providers/ToastProvider";
+import {URL_PREFIX} from "../../../config";
 
 const ImageForm = ({ SelectPageRef, ...props }) => {
   const { setErrorToast } = useToastContext();
@@ -24,7 +25,7 @@ const ImageForm = ({ SelectPageRef, ...props }) => {
 
     try {
       await axios
-        .post("/upload", formData, {
+        .post(`${URL_PREFIX}/upload`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

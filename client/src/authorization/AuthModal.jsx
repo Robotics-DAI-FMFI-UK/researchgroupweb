@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { setAuth, reloadPage, getErrorMsg } from "../utils/functions";
+import {
+  setAuth,
+  reloadPage,
+  getErrorMsg,
+  upperFirst,
+} from "../utils/functions";
 import LoginForm from "./forms/LoginForm.jsx";
 import RegisterForm from "./forms/RegisterForm";
 import { Modal } from "react-bootstrap";
-import { upperFirst } from "lodash";
+import { URL_PREFIX } from "../config";
 
 /** action: "login" or "register" */
 const AuthModal = ({ action, onHide, setUsers }) => {
@@ -15,7 +20,7 @@ const AuthModal = ({ action, onHide, setUsers }) => {
   const handleSubmit = (data) => {
     console.log(data);
     axios
-      .post(`/auth/${action}`, data)
+      .post(`${URL_PREFIX}/auth/${action}`, data)
       .then((res) => {
         if (action === "login") {
           setAuth(res.data);

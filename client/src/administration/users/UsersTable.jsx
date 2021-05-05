@@ -29,7 +29,6 @@ const UsersTable = () => {
     ["email", "email"],
     ["isAdmin", "Admin"],
     ["register_date", "Register"],
-    // ["pages", "Pages"], // TODO
     ["remove", "Remove"],
   ]);
 

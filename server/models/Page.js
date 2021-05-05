@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import Module from "./Module";
 import Navbar from "./Navbar";
 const uniqueValidator = require("mongoose-unique-validator");
 
@@ -31,7 +30,7 @@ const PageSchema = new Schema({
     uniqueCaseInsensitive: true,
     validate: {
       validator: (title) => title.length < 25,
-      message: (props) => "Title is too long",
+      message: () => "Title is too long",
     },
   },
   description: {
@@ -45,11 +44,11 @@ const PageSchema = new Schema({
     validate: [
       {
         validator: (v) => v.match(/^\/[/.a-zA-Z0-9-]+$/),
-        message: (props) => "Not valid url path",
+        message: () => "Not valid url path",
       },
       {
         validator: (path) => !reservedPaths.includes(path),
-        message: (props) => "The path is reserved",
+        message: () => "The path is reserved",
       },
     ],
   },

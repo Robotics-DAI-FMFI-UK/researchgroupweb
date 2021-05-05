@@ -1,6 +1,5 @@
 import { Router } from "express";
 import Navbar from "../models/Navbar";
-import Page from "../models/Page";
 import { fillCreate } from "./shared";
 const router = Router();
 
@@ -88,106 +87,7 @@ router.post("/import", (req, res) => {
   }
 
   return res.json({ readFile: readFile });
-
-  // TODO handle import
-  // let errMsg = validateNavbarJSON(readFile);
-  // if (errMsg) return res.status(500).json({ message: errMsg });
-  // const output = [];
-  //
-  // const outputItems = readFile.map((item) => {
-  //   if (isString(item)) {
-  //     Page.findOne(
-  //       { title: { $regex: item, $options: "i" } },
-  //       "path title",
-  //       (err, data) => {
-  //         if (err) errMsg = "xx";
-  //         console.log("page", data);
-  //         output.push(data);
-  //         return data;
-  //       }
-  //     );
-  // const page = parseNavbarItem(item);
-  // if (!page) {
-  //   errMsg = `Page with title ${item} not found`;
-  //   return;
-  // }
-  // console.log("page", page);
-  // outputItems.push(page);
-  // return page;
-  // } else {
-  //   const dropdown = [item[0]];
-  //   console.log("hello", item);
-  //   for (let i = 1; i < item.length; i++) {
-  //     console.log("world");
-  //     const res = Page.findOne(
-  //       { title: { $regex: item[i], $options: "i" } },
-  //       "path title",
-  //       (err, data) => {
-  //         if (err) errMsg = "xx";
-  //         console.log("dropdown", data);
-  //         dropdown.push(data);
-  //       }
-  //     ).exec();
-  //
-  //     console.log("res", res);
-  // const page = parseNavbarItem(item[i]);
-  // if (!page) {
-  //   errMsg = `Page with title ${item[i]} not found`;
-  //   return;
-  // }
-  // console.log("dropdown", page);
-  // dropdown.push(page);
-  //     }
-  //     output.push(dropdown);
-  //     return dropdown;
-  //   }
-  // });
-  //
-  // console.log("output", output);
-  //
-  // if (errMsg) return res.status(500).json({ message: errMsg });
-  //
-  // return res.json({ readFile: outputItems });
 });
-
-function validateNavbarJSON(readFile) {
-  if (!isArray(readFile)) return "Missing array brackets";
-
-  for (let i = 0; i < readFile.length; i++) {
-    const item = readFile[i];
-    if (!item) {
-      return `${i} - item cannot be empty`;
-    }
-    if (isString(item)) {
-      continue;
-    }
-    if (!isArray(item)) {
-      return `${i} - item must be a string or array`;
-    }
-
-    const dropdown = item;
-    if (dropdown.length < 3) {
-      return `${i} - dropdown missing name or pages`;
-    }
-    dropdown.forEach((item, j) => {
-      if (!isString(item)) {
-        return `${i},${j} - page must be a string`;
-      }
-    });
-  }
-}
-
-function sortObject(obj) {
-  return Object.keys(obj).sort((a, b) => a - b);
-}
-
-function isString(obj) {
-  return typeof obj === "string";
-}
-
-function isNumber(obj) {
-  return typeof obj === "number";
-}
 
 function isArray(obj) {
   return Array.isArray(obj);

@@ -17,11 +17,9 @@ router.get("/", async (req, res) => {
 // U
 router.patch("/:id", getUser, async (req, res) => {
   // if ("password" in req.body) req.redirect /password/:id
-
   const { email } = req.body;
 
   try {
-    // validate email
     if (email && email !== res.user.email) {
       const user = await User.findOne({ email });
       if (user) throw Error("Email is already taken");

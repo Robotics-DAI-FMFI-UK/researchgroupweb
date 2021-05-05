@@ -25,7 +25,7 @@ const NavbarSchema = new Schema({
         default: "",
         validate: {
           validator: (name) => name.length < 15,
-          message: (props) => "Dropdown name is too long",
+          message: () => "Dropdown name is too long",
         },
       },
       pages: {

@@ -18,7 +18,7 @@ require("./index.css").toString();
 /**
  * Code Tool for the Editor.js allows to include code examples in your articles.
  */
-class CodeBox {
+export default class CodeBox {
   /**
    * Allow to press Enter inside the CodeTool textarea
    *
@@ -451,4 +451,4 @@ class CodeBox {
   }
 }
 
-module.exports = CodeBox;
+// module.exports = CodeBox;

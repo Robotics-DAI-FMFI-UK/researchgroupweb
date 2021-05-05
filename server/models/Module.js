@@ -15,6 +15,4 @@ const ModuleSchema = new Schema({
 
 const Module = model("module", ModuleSchema);
 
-// TODO on delete "cascade" -> remove from pages layouts
-
 export default Module;

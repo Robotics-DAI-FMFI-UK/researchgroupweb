@@ -1,25 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
 import {
-  Form,
   Form as F,
   FormControl,
   FormGroup,
   FormLabel,
   Modal,
 } from "react-bootstrap";
-import { Error, Input, Submit, Switch } from "../components/forms/MyForm";
+import { Error, Submit } from "../components/forms/MyForm";
 import SmallButton from "../components/buttons/SmallButton";
 import { getErrorMsg, reloadPage } from "../utils/functions";
 import JsonModal from "../components/modals/JsonModal";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
-import { upperFirst } from "lodash";
 
 const Settings = ({ page, setPage, onHide }) => {
   const [error, setError] = useState();
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: page,
   });
 
@@ -105,10 +103,6 @@ const Settings = ({ page, setPage, onHide }) => {
                 label="published"
                 value={published}
                 onClick={() => setPublished((prev) => !prev)}
-
-                // ref={register}
-                // onClick={(formState.published = !formState.published)}
-                // checked={formState.published}
               />
             </FormGroup>
 
@@ -121,9 +115,9 @@ const Settings = ({ page, setPage, onHide }) => {
           <SmallButton variant="outline-danger" onClick={removePage}>
             remove
           </SmallButton>
-          <SmallButton variant="outline-primary" onClick={toggleModal}>
-            JSON
-          </SmallButton>
+          {/*<SmallButton variant="outline-primary" onClick={toggleModal}>*/}
+          {/*  JSON*/}
+          {/*</SmallButton>*/}
         </Modal.Footer>
       </Modal>
       {showModal && <JsonModal onHide={toggleModal} page={page} />}

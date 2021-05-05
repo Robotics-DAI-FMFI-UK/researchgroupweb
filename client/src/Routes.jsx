@@ -1,5 +1,6 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import Switch from "react-router-dom/Switch";
+import Route from "react-router-dom/Route";
 import { getAuth } from "./utils/functions";
 import uuid from "react-uuid";
 
@@ -13,10 +14,7 @@ import NavSloths from "./navigation/NavSloths";
 
 function Routes({ pages }) {
   const auth = getAuth();
-  let visiblePages = pages;
-  if (!auth) {
-    visiblePages = visiblePages.filter((page) => page.published);
-  }
+  let visiblePages = auth ? pages : pages.filter((page) => page.published);
 
   const PrivateRoute = ({ component: Component, onlyAdmin, ...rest }) => {
     let hasAccess = auth;
@@ -25,10 +23,8 @@ function Routes({ pages }) {
     }
     return (
       <Route
-        render={
-          (props) =>
-            hasAccess ? <Component {...props} /> : <AuthModal action="login" />
-          // <Redirect to={{ pathname: "/login", state: { from: props.location }}} />
+        render={(props) =>
+          hasAccess ? <Component {...props} /> : <AuthModal action="login" />
         }
         {...rest}
       />

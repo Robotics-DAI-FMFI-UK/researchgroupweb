@@ -6,13 +6,13 @@ import AlertForm from "./AlertForm";
 import CarouselForm from "./CarouselForm";
 import HtmlForm from "./HtmlForm";
 import ImageForm from "./ImageForm";
-import EditorJsForm from "./EditorJsForm";
 import SmallButton from "../../../components/buttons/SmallButton";
 import { useToastContext } from "../../../providers/ToastProvider";
 import { getErrorMsg } from "../../../utils/functions";
 import { usePagesContext } from "../../../App";
 import CreatableSelect from "react-select/creatable";
 import { useActiveModuleContext } from "../../ActiveModuleProvider";
+import { URL_PREFIX } from "../../../config";
 
 const EditForm = ({ activeModule }) => {
   const { pages } = usePagesContext();
@@ -20,11 +20,8 @@ const EditForm = ({ activeModule }) => {
   const { updateActiveModule, closeActiveModule } = useActiveModuleContext();
   const [origin] = useState(activeModule);
 
-  console.log("prekreslujem", activeModule);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // console.log(name, value);
     updateActiveModule({
       ...activeModule,
       body: { ...activeModule.body, [name]: value },
@@ -37,7 +34,7 @@ const EditForm = ({ activeModule }) => {
 
   const onSubmit = (data) => {
     axios
-      .patch(`/modules/${activeModule._id}`, {
+      .patch(`${URL_PREFIX}/modules/${activeModule._id}`, {
         body: activeModule.body,
       })
       .then((res) => {
@@ -49,8 +46,6 @@ const EditForm = ({ activeModule }) => {
         console.log(err);
       });
   };
-
-  // console.log("TEST", activeModule.body);
 
   const props = {
     defaultValues: activeModule?.body,
@@ -95,22 +90,16 @@ const EditForm = ({ activeModule }) => {
   };
 
   const [selected, setSelected] = useState(defaultSelected());
-  const handleCreate = (data) => {
-    console.log(data);
-  };
 
   props.SelectPageRef = (
     <div style={{ marginBottom: "16px" }}>
       <hr />
       <label className="form-label">Page reference</label>
-      {/*<Switch name="external" label="External page reference" />*/}
-      {/*<Input value={selected} onChange={selectOption} />*/}
       <CreatableSelect
         menuContainerStyle={{ top: "auto", bottom: "100%" }}
         isClearable
         value={selected}
         onChange={selectOption}
-        // onCreateOption={handleCreate}
         options={options}
       />
     </div>
@@ -143,8 +132,6 @@ const moduleFactory = (activeModule) => {
       return AlertForm;
     case "carousel":
       return CarouselForm;
-    case "editor-js":
-      return EditorJsForm;
     case "html":
       return HtmlForm;
     case "image":

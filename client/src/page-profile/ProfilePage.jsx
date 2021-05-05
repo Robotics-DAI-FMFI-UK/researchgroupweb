@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { ButtonGroup, Button, Container } from "react-bootstrap";
-import ImageEditor from "./ImageEditor";
-import UserInfoForm from "./forms/UserInfoForm";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import UserPassForm from "./forms/UserPassForm";
-import { getAuth, setAuth, tokenConfig } from "../utils/functions";
+import { getAuth, getErrorMsg, setAuth } from "../utils/functions";
 import SmallButton from "../components/buttons/SmallButton";
 import { useToastContext } from "../providers/ToastProvider";
+import { URL_PREFIX } from "../config";
+import UserInfoForm from "./forms/UserInfoForm";
 
 const ProfilePage = () => {
   const [form, setForm] = useState("profile");
@@ -22,7 +22,8 @@ const ProfilePage = () => {
   };
 
   const saveProfile = (data) => {
-    onSubmit("/users", data).then((res) => {
+    onSubmit("users", data).then((res) => {
+      console.log("res", res);
       if (res.ok) {
         setAuth({ ...auth, user: { ...user, ...data } });
       }
@@ -30,23 +31,14 @@ const ProfilePage = () => {
   };
 
   const savePassword = (data) => {
-    onSubmit("/users/password", data).then();
-  };
-
-  const saveImage = (image) => {
-    onSubmit("/users", { avatar: image }).then((res) => {
-      if (res.ok) {
-        setAuth({ ...auth, user: { ...user, avatar: image } });
-      }
-    });
+    onSubmit("users/password", data).then();
   };
 
   const onSubmit = (url, data) => {
     console.log("submit", data);
     return axios
-      .patch(`${url}/${user.id}`, data)
+      .patch(`${URL_PREFIX}/${url}/${user.id}`, data)
       .then((res) => {
-        console.log(res);
         setError(null);
         setSuccessToast("Update succeed");
         return {
@@ -55,7 +47,7 @@ const ProfilePage = () => {
         };
       })
       .catch((err) => {
-        setError(err.response.data.message);
+        setError(getErrorMsg(err));
         return {
           ok: false,
           data: err,
@@ -72,8 +64,7 @@ const ProfilePage = () => {
   const active = (id) => (form === id ? "active" : "");
 
   return (
-    <Container className="d-flex align-items-end justify-content-center mt-5">
-      {/*<ImageEditor src={user?.avatar} saveImage={saveImage} />*/}
+    <div className="d-flex align-items-end justify-content-center mt-5">
       <div>
         <h1>Profile settings</h1>
         <ButtonGroup className="my-3 btn-block" onClick={changeForm}>
@@ -90,7 +81,7 @@ const ProfilePage = () => {
           <UserPassForm {...props} />
         )}
       </div>
-    </Container>
+    </div>
   );
 };
 

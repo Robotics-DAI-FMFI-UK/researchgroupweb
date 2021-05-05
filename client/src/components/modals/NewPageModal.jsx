@@ -3,15 +3,16 @@ import axios from "axios";
 import { useHistory } from "react-router";
 import MyModal from "./MyModal";
 import { Form as F } from "react-bootstrap";
-import { Error, Form, Input, Select, Submit, Switch } from "../forms/MyForm";
+import { Error, Form, Input, Submit, Switch } from "../forms/MyForm";
 import {
+  cloneObj,
   getAuth,
   getErrorMsg,
-  objectId,
   reloadPage,
+  upperFirst,
 } from "../../utils/functions";
-import { upperFirst, clone } from "lodash";
 import * as Yup from "yup";
+import { URL_PREFIX } from "../../config";
 
 const reservedPaths = ["/users", "/profile"];
 
@@ -41,7 +42,7 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
     axios
       .post(endPoint, {
         ...data,
-        path: "/" + data.path,
+        path: `${URL_PREFIX}/` + data.path,
         created_by: getAuth()?.user.id,
       })
       .then((res) => {
@@ -71,22 +72,19 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
   const createFromImport = (rawPage) => {
     return axios
       .post("pages", {
-        // ...importedPage,
         created_by: getAuth()?.user.id,
       })
       .then((res) => {
         console.log(res);
-        // setPages((prev) => [...prev, res.data]);
         history.push(res.data.path);
         reloadPage();
       })
       .catch((err) => {
-        console.log(err);
-        // setError(getErrorMsg(err));
+        setError(getErrorMsg(err));
       });
 
     console.log("IMPORT RAW", rawPage);
-    const importedPage = clone(rawPage);
+    const importedPage = cloneObj(rawPage);
     delete importedPage.modules;
 
     console.log("IMPORTING PAGE", importedPage);
@@ -96,7 +94,7 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
 
   const updateFromImport = (importData) => {
     axios
-      .patch(`/pages/with-grid/${importData._id}`, {
+      .patch(`${URL_PREFIX}/pages/with-grid/${importData._id}`, {
         // TODO
         // columns,
         // modules,
@@ -124,7 +122,7 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
 
     try {
       await axios
-        .post("/pages/import", formData, {
+        .post(`${URL_PREFIX}/pages/import`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
@@ -164,8 +162,6 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
           <Input name="title" required />
           <Input name="path" label="url path" required prepend="/" />
           <Input name="description" as="textarea" />
-          {/*<Input name="navbar" disabled />*/}
-          {/*<Select name="template" options={["grid", "blog"]} required />*/}
           {page && <Switch name="copy" label="copy current page layouts" />}
           <Error error={error} />
           <Submit>Create</Submit>

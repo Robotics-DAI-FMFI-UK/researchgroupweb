@@ -25,7 +25,6 @@ const RegisterForm = ({ handleSubmit, authError }) => {
         required
       />
       <Error error={authError} />
-      {/*<button>send</button>*/}
       <Submit className="btn-block">Register</Submit>
     </Form>
   );

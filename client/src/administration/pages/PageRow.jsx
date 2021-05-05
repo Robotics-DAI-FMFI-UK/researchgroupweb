@@ -4,9 +4,14 @@ import uuid from "react-uuid";
 import SmallButton from "../../components/buttons/SmallButton";
 import axios from "axios";
 import EditableCell from "./EditableCell";
+import { URL_PREFIX } from "../../config";
+import { Link } from "react-router-dom";
+import { useToastContext } from "../../providers/ToastProvider";
+import { getErrorMsg } from "../../utils/functions";
 
 const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
   const [page, setPage] = useState(_page);
+  const { serErrorToast } = useToastContext();
 
   const editableFields = ["title", "path", "description"];
   const isEditable = (field) => editableFields.includes(field);
@@ -23,13 +28,12 @@ const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
 
   const removePage = () => {
     axios
-      .delete(`/pages/${page._id}`)
+      .delete(`${URL_PREFIX}/pages/${page._id}`)
       .then((res) => {
         setPages((prev) => prev.filter(({ _id }) => _id !== page._id));
-        console.log(res);
       })
       .catch((err) => {
-        console.log(err);
+        serErrorToast(getErrorMsg(err));
       });
   };
 
@@ -38,15 +42,14 @@ const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
 
     const handleChange = () => {
       axios
-        .patch(`pages/${page._id}`, { published: !published })
+        .patch(`${URL_PREFIX}/pages/${page._id}`, { published: !published })
         .then((res) => {
-          console.log("success", res);
           setPage((prev) => {
             return { ...prev, published: !published };
           });
         })
         .catch((err) => {
-          console.log("error", err);
+          serErrorToast(getErrorMsg(err));
         });
     };
 
@@ -88,7 +91,7 @@ const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
     }
     if (field === "open") {
       body = (
-        <SmallButton href={page.path} variant="link">
+        <SmallButton as={Link} to={page.path} variant="link">
           open
         </SmallButton>
       );

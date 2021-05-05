@@ -1,8 +1,7 @@
-import SmallButton from "../components/buttons/SmallButton";
 import { BsArrowLeftRight } from "react-icons/bs";
 import Select from "react-select";
 import React, { useState } from "react";
-import { FormControl, Row } from "react-bootstrap";
+import FormControl from "react-bootstrap/FormControl";
 import "./sloth.css";
 
 export const NavSloth = ({ item: _item, setNavItems, options, setWarning }) => {
@@ -24,10 +23,6 @@ export const NavSloth = ({ item: _item, setNavItems, options, setWarning }) => {
   };
 
   const handleChange = (e) => {
-    if (e.target.value.length > 10) {
-      // ref with prevValue
-    }
-
     setWarning(true);
   };
 
@@ -50,14 +45,11 @@ export const NavSloth = ({ item: _item, setNavItems, options, setWarning }) => {
 
   return (
     <div>
-      {/*<SmallButton className="handle btn-block" style={{ maxHeight: "50px" }}>*/}
       <div className="text-center">
         <BsArrowLeftRight color="black" className="handle" size="20" />
       </div>
-      {/*</SmallButton>*/}
       {item?.pages.length > 1 && (
         <FormControl
-          // className="text-center"
           onBlur={handleBlur}
           onChange={handleChange}
           defaultValue={item.name}

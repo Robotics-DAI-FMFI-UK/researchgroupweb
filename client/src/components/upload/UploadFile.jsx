@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
+import {URL_PREFIX} from "../../config";
 
-const UploadFile = ({ onUploadChange, url = "/upload" }) => {
+const UploadFile = ({ onUploadChange, url = `${URL_PREFIX}/upload` }) => {
   const [filename, setFilename] = useState("Select local file");
   const [errorMsg, setErrorMsg] = useState("");
 

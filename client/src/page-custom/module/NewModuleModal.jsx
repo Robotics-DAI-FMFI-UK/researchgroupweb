@@ -1,18 +1,11 @@
 import React, { useState } from "react";
 import MyModal from "../../components/modals/MyModal";
-import {
-  Error,
-  Form,
-  Input,
-  Select,
-  Submit,
-} from "../../components/forms/MyForm";
 import axios from "axios";
 import { getErrorMsg } from "../../utils/functions";
-import { useForm } from "react-hook-form";
-import { Form as F, FormControl, FormGroup, FormLabel } from "react-bootstrap";
-import { upperFirst } from "lodash";
+import { Form as F, FormControl, FormGroup } from "react-bootstrap";
 import SmallButton from "../../components/buttons/SmallButton";
+import { URL_PREFIX } from "../../config";
+import { BsExclamationTriangle } from "react-icons/bs";
 
 const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
   const [error, setError] = useState();
@@ -26,6 +19,12 @@ const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
 
   const createCopy = async () => {
     let _id = await navigator.clipboard.readText();
+
+    if (!_id) {
+      setError("Your clipboard is empty");
+      return;
+    }
+
     _id = _id.replaceAll('"', "");
 
     const localModule = modules.find((m) => m._id === _id);
@@ -42,7 +41,7 @@ const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
 
     // find in db
     axios
-      .get(`/modules/${_id}`)
+      .get(`${URL_PREFIX}/modules/${_id}`)
       .then((res) => {
         addNewModule(res.data, hardCopy);
         toggleModal();
@@ -59,7 +58,13 @@ const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
       <>
         <hr />
         <p className="pl-5">
-          <em>or</em>
+          {error ? (
+            <span style={{ color: "red" }}>
+              <BsExclamationTriangle /> {error}
+            </span>
+          ) : (
+            <em>or</em>
+          )}
         </p>
         <hr />
       </>
@@ -69,7 +74,6 @@ const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
   const ModuleForm = () => {
     return (
       <>
-        {/* SELECT TYPE */}
         <FormGroup>
           <FormControl as="select" onChange={createType}>
             <>
@@ -85,7 +89,6 @@ const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
           </FormControl>
         </FormGroup>
         <Delimiter />
-        {/* SELECT COPY */}
         <SmallButton
           className="btn-block p-2 mb-2 pl-3 text-left"
           onClick={createCopy}
@@ -100,7 +103,6 @@ const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
             type="checkbox"
           />
         </FormGroup>
-        <Error error={error} />
       </>
     );
   };

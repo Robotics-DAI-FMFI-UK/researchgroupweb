@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import BrowserRouter from "react-router-dom/BrowserRouter";
 import axios from "axios";
 import "./main.css";
 import "./gridLayout.css";
@@ -10,18 +10,19 @@ import Routes from "./Routes.jsx";
 import { FetchError, FetchLoading } from "./components/Fetchers";
 import { ModeProvider } from "./providers/ModeProvider";
 import { ToastProvider } from "./providers/ToastProvider";
+import { URL_PREFIX } from "./config";
 
 const PagesContext = createContext();
 
 function App() {
+
   const [pages, setPages] = useState();
   const [error, setError] = useState();
   const [loaded, setLoaded] = useState();
 
   useEffect(() => {
-    console.log("FETCH PAGES");
     axios
-      .get("/pages")
+      .get(`${URL_PREFIX}/pages`)
       .then((res) => {
         setLoaded(true);
         setPages(res.data);
@@ -35,19 +36,17 @@ function App() {
   if (error) return <FetchError e={error.message} />;
   if (!loaded || !pages) return <FetchLoading />;
 
-  console.log(pages);
-
   return (
     <PagesContext.Provider value={{ pages, setPages }}>
       <ModeProvider>
         <ToastProvider>
-          <Router>
+          <BrowserRouter>
             <Navbar pages={pages} />
-            <div className="my-container">
+            <div className="main-container">
               <Routes pages={pages} />
             </div>
             <Footer />
-          </Router>
+          </BrowserRouter>
         </ToastProvider>
       </ModeProvider>
     </PagesContext.Provider>

@@ -48,12 +48,6 @@
 .react-grid-item .add {
     cursor: pointer;
 }
-/*.react-grid-dragHandleExample {*/
-/*    cursor: move; !* fallback if grab cursor is unsupported *!*/
-/*    cursor: grab;*/
-/*    cursor: -moz-grab;*/
-/*    cursor: -webkit-grab;*/
-/*}*/
 li b {
     font-size: 19px;
     line-height: 14px;

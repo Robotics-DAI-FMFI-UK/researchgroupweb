@@ -23,10 +23,11 @@ const Sidebar = () => {
     left: side === "left" ? "0" : "",
     width: openSidebar ? "300px" : "0",
     minHeight: "100vh",
+    maxHeight: "100vh",
+    overflowY: "scroll",
     transition: "ease .3s",
     backgroundColor: "#eee",
     zIndex: "999",
-    // overflowY: "auto",
     boxShadow: `${side === "right" ? "-" : ""}5px 0 10px #1C1C1C`,
   };
 

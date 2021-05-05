@@ -1,56 +1,29 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
-import {
-  BsPersonLinesFill,
-  BsPeopleFill,
-  BsBoxArrowRight,
-  BsFiles,
-} from "react-icons/bs";
-import { IconContext } from "react-icons";
 import AuthModal from "../../authorization/AuthModal";
-import { delAuth, getAuth, reloadPage } from "../../utils/functions";
-import SmallButton from "../../components/buttons/SmallButton";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { getAuth } from "../../utils/functions";
+import NavActionBtns from "../NavActionBtns";
 
-const UserModal = ({ onHide }) => {
+const UserModal = ({ onHide, showModal }) => {
   const user = getAuth()?.user;
 
   const style = {
     marginTop: "2.4em",
-    position: "fix",
     width: "15%",
     minWidth: "300px",
-    left: "85%",
-  };
-
-  const logout = () => {
-    delAuth();
-    reloadPage();
+    right: "5px",
+    left: "unset"
   };
 
   const LoginUser = () => (
-    <Modal show={true} onHide={onHide} style={style}>
-      <Modal.Body>
+    <Modal show={showModal} onHide={onHide} style={style} backdropClassName="user-modal" className="d-none d-lg-block">
+      <Modal.Body style={{
+        backgroundColor: "#eee",
+        boxShadow: "3px 3px 10px 0px gray"
+      }}>
         <h2>{user.name}</h2>
         <p>{user.email}</p>
-        <IconContext.Provider value={{ size: "20", color: "white" }}>
-          <ButtonGroup className="w-100">
-            <SmallButton href="/pages" title="pages">
-              <BsFiles />
-            </SmallButton>
-            {/*{user.admin && (*/}
-            <SmallButton href="/users" title="users">
-              <BsPeopleFill />
-            </SmallButton>
-            {/*)}*/}
-            <SmallButton href="/profile" title="profile">
-              <BsPersonLinesFill />
-            </SmallButton>
-            <SmallButton onClick={logout} title="logout">
-              <BsBoxArrowRight />
-            </SmallButton>
-          </ButtonGroup>
-        </IconContext.Provider>
+        <NavActionBtns onHide={onHide}/>
       </Modal.Body>
     </Modal>
   );

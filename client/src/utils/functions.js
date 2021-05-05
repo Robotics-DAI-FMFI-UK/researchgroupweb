@@ -42,6 +42,13 @@ export const getUserPermission = (initPage) => {
   );
 };
 
+export const upperFirst = (str) => {
+  if (typeof str !== "string") return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export const cloneObj = (obj) => JSON.parse(JSON.stringify(obj));
+
 export const formatDate = (date) => {
   return date.substr(0, 10).split("-").reverse().join(".");
 };

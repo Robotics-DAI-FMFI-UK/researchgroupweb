@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import Toolbar from "./Toolbar";
 import MyGridLayout from "../components/MyGridLayout";
-import { getAuth, getUserPermission, objectId } from "../utils/functions";
+import {
+  cloneObj,
+  getAuth,
+  getUserPermission,
+  objectId,
+} from "../utils/functions";
 import useWarning from "../utils/hooks/useWarning";
 import { Module } from "./module/Module";
 import SmallButton from "../components/buttons/SmallButton";
-import _ from "lodash";
 import NewModuleModal from "./module/NewModuleModal";
 import { useModeContext } from "../providers/ModeProvider";
 import { ActiveModuleProvider } from "./ActiveModuleProvider";
 
 const CustomPage = ({ initPage }) => {
   // ------------ INITIALIZATION ------------
-  // console.log("CUSTOM PAGE", page);
-
   const [editMode] = useModeContext();
   const hasEditPermission = getUserPermission(initPage);
 
@@ -27,21 +29,13 @@ const CustomPage = ({ initPage }) => {
   const [showModal, setShowModal] = useState();
   const toggleModal = () => setShowModal((prev) => !prev);
 
-  const [breakpoint, setBreakpoint] = useState("lg"); // todo calc
+  const [breakpoint, setBreakpoint] = useState("lg");
   const [layouts, setLayouts] = useState(() => getInitLayouts(initPage));
 
-  document.title = initPage.title;
+  document.title = `RG | ${initPage.title}`;
   // ------------ INITIALIZATION ------------
 
   // ------------ EVENTS HANDLERS ------------
-  useEffect(() => {
-    // console.log("layouts", layouts);
-  }, [layouts]);
-
-  useEffect(() => {
-    // console.log("USE EFFECT: addButton", addButton);
-  }, [addButton]);
-
   useEffect(() => {
     console.log("new module", newModule);
     if (!newModule) return;
@@ -51,7 +45,6 @@ const CustomPage = ({ initPage }) => {
   }, [newModule]);
 
   const onLayoutChange = (layout, layouts) => {
-    console.log("layouts", layouts);
     setLayouts(layouts);
   };
 
@@ -115,27 +108,12 @@ const CustomPage = ({ initPage }) => {
   }
 
   async function addNewModule(module, hardCopy) {
-    // console.log(module);
-
     const module_id = hardCopy ? module._id : objectId();
 
-    const position = _.clone(addButton);
+    const position = cloneObj(addButton);
     position.i = module_id;
 
-    console.log("position", position);
-    console.log("module", module);
-    // return;
-
-    // setLayouts((prev) => {
-    //   return {
-    //     ...prev,
-    //     [breakpoint]: [position, ...prev[breakpoint]],
-    //   };
-    // });
-
-    console.log("setting new module", module);
     setNewModule({ ...module, _id: module_id });
-
     addIntoLayouts(position, hardCopy !== undefined);
   }
 
@@ -153,17 +131,15 @@ const CustomPage = ({ initPage }) => {
       lastPosition.x = newX;
       lastPosition.y = newY;
     }
-    // console.log("new...Module", layoutWithId);
-    // console.log("found...AddButton", lastPosition);
+
     let newY = lastPosition.y;
     const newX = (lastPosition.x + 1) % cols[breakpoint];
     if (newX < lastPosition.x) {
       newY += 1;
     }
-    // lastPosition.x = newX;
+
     addButton.x = newX;
     addButton.y = newY;
-    // console.log("updated...AddButton", lastPosition);
 
     setLayouts((prev) => {
       return {
@@ -176,13 +152,9 @@ const CustomPage = ({ initPage }) => {
   }
 
   const createGridBoxItem = (position) => {
-    // console.log("position", position);
     const module = modules.find((module) => module._id === position.i);
     return (
       <div key={position.i}>
-        {/*{position.i === addButton.i ? (*/}
-        {/*  <AddButton />*/}
-        {/*) : (*/}
         <Module
           module={module}
           setModules={setModules}
@@ -195,7 +167,6 @@ const CustomPage = ({ initPage }) => {
           breakpoint={breakpoint}
           hasEditPermission={hasEditPermission}
         />
-        {/*)}*/}
       </div>
     );
   };
@@ -211,8 +182,6 @@ const CustomPage = ({ initPage }) => {
 
   return (
     <ActiveModuleProvider setModules={setModules} setWarning={setWarning}>
-      {/*<div className="full-width">*/}
-      <h1>Custom page</h1>
       {getAuth() && hasEditPermission && (
         <Toolbar
           page={page}
@@ -224,7 +193,6 @@ const CustomPage = ({ initPage }) => {
         />
       )}
       <MyGridLayout
-        // width={state}
         breakpoints={breakpoints}
         cols={cols}
         compactType="vertical"
@@ -255,7 +223,6 @@ const CustomPage = ({ initPage }) => {
           toggleModal={toggleModal}
         />
       )}
-      {/*</div>*/}
     </ActiveModuleProvider>
   );
 };
@@ -269,9 +236,9 @@ const cols = {
 };
 const BREAKPOINTS = ["lg", "md", "sm"];
 const breakpoints = {
-  lg: 1200,
-  md: 800,
-  sm: 600,
+  lg: 1119,
+  md: 799,
+  sm: 599,
 };
 const restrictions = {
   // maxW: 3,
@@ -287,7 +254,7 @@ const addButton = {
   ...restrictions,
 };
 const getInitLayouts = (initPage) => {
-  const initLayouts = _.clone(initPage.layouts);
+  const initLayouts = cloneObj(initPage.layouts);
 
   findLastPosition(initLayouts.lg);
 
@@ -297,7 +264,7 @@ const findLastPosition = (layout) => {
   let w = 0;
   let x = 0;
   let y = Math.max(0, ...layout.map((l) => l.y));
-  // console.log("y", y);
+
   layout
     .filter((l) => l.y === y)
     .forEach((l) => {
@@ -306,20 +273,15 @@ const findLastPosition = (layout) => {
         w = l.w;
       }
     });
-  // console.log("x", x);
+
   x += w;
-  // console.log("x + w", x);
   if (x % 3 < x) {
-    // console.log("y + 1", y);
     y += 1;
   }
   x %= 3;
-  // console.log("x % 3", x);
+
   addButton.x = x;
   addButton.y = y;
-  // setAddButton((prev) => {
-  //   return { ...prev, x, y };
-  // });
 };
 
 export default CustomPage;

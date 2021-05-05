@@ -19,10 +19,8 @@ const CarouselForm = ({ SelectPageRef, ...props }) => {
   const _controls = watch("controls");
   const _fade = watch("fade");
   const _allowPause = watch("allowPause");
-  const _objectFit = watch("objectFit");
 
   const renderImage = (image) => {
-    console.log("image", image);
     const removeItem = () => {
       setItems((prev) => {
         console.log("prev", prev);
@@ -67,7 +65,7 @@ const CarouselForm = ({ SelectPageRef, ...props }) => {
   return (
     <>
       <form>
-        <div>
+        <div style={{ height: "800px" }}>
           <input
             ref={register}
             type="checkbox"
@@ -132,19 +130,6 @@ const CarouselForm = ({ SelectPageRef, ...props }) => {
           <span className="px-2">Fade animation</span>
         </div>
         <hr />
-        {/*<Select*/}
-        {/*  name="objectFit"*/}
-        {/*  options={options}*/}
-        {/*  ref={register}*/}
-        {/*  onChange={(e) =>*/}
-        {/*    props.handleChange({*/}
-        {/*      target: {*/}
-        {/*        name: "objectFit",*/}
-        {/*        value: e.target.value,*/}
-        {/*      },*/}
-        {/*    })*/}
-        {/*  }*/}
-        {/*/>*/}
       </form>
       <Form {...props}>
         <Select name="objectFit" options={options} />
