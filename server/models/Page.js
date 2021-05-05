@@ -29,7 +29,7 @@ const PageSchema = new Schema({
     unique: true,
     uniqueCaseInsensitive: true,
     validate: {
-      validator: (title) => title.length < 25,
+      validator: (title) => title.length < 35,
       message: () => "Title is too long",
     },
   },
