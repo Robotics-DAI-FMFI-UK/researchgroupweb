@@ -30,7 +30,7 @@ yarn-debug.log*
 yarn-error.log*
 
 client/.eslintcache
-client/package-lock.json
 client/yarn.lock
+client/package-lock.json
 server/package-lock.json
 client/public/uploads/*

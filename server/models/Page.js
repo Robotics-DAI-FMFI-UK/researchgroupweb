@@ -43,7 +43,7 @@ const PageSchema = new Schema({
     uniqueCaseInsensitive: true,
     validate: [
       {
-        validator: (v) => v.match(/^\/[/.a-zA-Z0-9-]+$/),
+        validator: (path) => path.match(/^\/[/.a-zA-Z0-9-]+$/),
         message: () => "Not valid url path",
       },
       {
