@@ -2,20 +2,25 @@ import React, { useState } from "react";
 import axios from "axios";
 import {
   setAuth,
-  reloadPage,
   getErrorMsg,
   upperFirst,
+  reloadPage,
 } from "../utils/functions";
 import LoginForm from "./forms/LoginForm.jsx";
 import RegisterForm from "./forms/RegisterForm";
 import { Modal } from "react-bootstrap";
 import { URL_PREFIX } from "../config";
+import { Redirect } from "react-router-dom";
+import { usePagesContext } from "../App";
 
 /** action: "login" or "register" */
-const AuthModal = ({ action, onHide, setUsers }) => {
+const AuthModal = ({ action, onHide, setUsers, path }) => {
+  // const { setPagesAuth } = usePagesContext();
+
   const [authError, setAuthError] = useState();
   const [show, setShow] = useState(true);
   const fallback = () => setShow(false);
+  // const [logged, setLogged] = useState(false);
 
   const handleSubmit = (data) => {
     console.log(data);
@@ -23,6 +28,8 @@ const AuthModal = ({ action, onHide, setUsers }) => {
       .post(`${URL_PREFIX}/auth/${action}`, data)
       .then((res) => {
         if (action === "login") {
+          // setPagesAuth(res.data);
+          // setLogged(true);
           setAuth(res.data);
           reloadPage();
         } else {
@@ -43,6 +50,10 @@ const AuthModal = ({ action, onHide, setUsers }) => {
 
   const props = { handleSubmit, authError };
   const title = `${upperFirst(action)} form`;
+
+  // if (logged) {
+  //   return <Redirect to={`${path || "/"}`} />;
+  // }
 
   return (
     <Modal show={show} onHide={onHide || fallback} centered>

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import MyModal from "../../components/modals/MyModal";
 import axios from "axios";
 import { getErrorMsg } from "../../utils/functions";
 import { Form as F, FormControl, FormGroup } from "react-bootstrap";
 import SmallButton from "../../components/buttons/SmallButton";
 import { URL_PREFIX } from "../../config";
 import { BsExclamationTriangle } from "react-icons/bs";
+import Modal from "react-bootstrap/Modal";
 
-const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
+const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
   const [error, setError] = useState();
   const [hardCopy, setHardCopy] = useState(false);
   const toggleHardCopy = () => setHardCopy((prev) => !prev);
@@ -71,9 +71,12 @@ const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
     );
   };
 
-  const ModuleForm = () => {
-    return (
-      <>
+  return (
+    <Modal show={showModal} centered onHide={toggleModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>New Module</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <FormGroup>
           <FormControl as="select" onChange={createType}>
             <>
@@ -103,12 +106,8 @@ const NewModuleModal = ({ modules, addNewModule, toggleModal }) => {
             type="checkbox"
           />
         </FormGroup>
-      </>
-    );
-  };
-
-  return (
-    <MyModal onHide={toggleModal} title="New Module" body={<ModuleForm />} />
+      </Modal.Body>
+    </Modal>
   );
 };
 

@@ -51,12 +51,8 @@ const MyGridLayout = ({
     }
   };
 
-  useEffect(() => {
-    console.log("WIDTH", width);
-  }, [width]);
-
   const calc = (size) => {
-    console.log(size.width, width);
+    // console.log(size.width, width);
 
     if (prevSize.width === size.width) {
       return;

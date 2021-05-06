@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
-import { Modal, Navbar as BsNavbar } from "react-bootstrap";
+import { Navbar as BsNavbar } from "react-bootstrap";
 import { UserIcon } from "./user-icon/UserIcon";
 import { useLocation } from "react-router";
 import uuid from "react-uuid";
@@ -12,10 +12,14 @@ import { BsPencil } from "react-icons/bs";
 import SmallButton from "../components/buttons/SmallButton";
 import { Link } from "react-router-dom";
 import { URL_PREFIX } from "../config";
+import { useToastContext } from "../providers/ToastProvider";
 
 const Navbar = ({ pages }) => {
   const location = useLocation();
+  const { setErrorToast } = useToastContext();
 
+  const [activeLink, setActiveLink] = useState(location.pathname);
+  console.log("location", location);
   const [navItems, setNavItems] = useState([]);
   const hasEditPermission = getAuth()?.user.isAdmin;
 
@@ -47,47 +51,59 @@ const Navbar = ({ pages }) => {
         });
 
         items.sort((a, b) => a.x - b.x);
-
         setNavItems(items);
       })
       .catch((e) => {
-        console.log("error", e);
+        setErrorToast("Failed to load navigation");
       });
   }, []);
 
   const CustomNavs = () => {
-    return navItems.map((navItem) => (
-      <div key={uuid()}>
-        {navItem.pages.length === 1 ? (
-          <Nav.Link
-            as={Link}
-            className="text-center"
-            to={navItem.pages[0].path}
-          >
-            {navItem.pages[0].title}
-          </Nav.Link>
-        ) : (
-          <DropDown navItem={navItem} />
-        )}
-      </div>
-    ));
+    return navItems.map((navItem) => {
+      return (
+        <div key={uuid()}>
+          {navItem.pages.length === 1 ? (
+            <SingleNavLink navItem={navItem} />
+          ) : (
+            <DropDown navItem={navItem} />
+          )}
+        </div>
+      );
+    });
+  };
+
+  const SingleNavLink = ({ navItem }) => {
+    const isActive = location.pathname === navItem.pages[0].path;
+
+    return (
+      <Nav.Link
+        as={Link}
+        to={navItem.pages[0].path}
+        className={`text-center ${isActive && "active-link"}`}
+      >
+        {navItem.pages[0].title}
+      </Nav.Link>
+    );
   };
 
   const DropDown = ({ navItem }) => {
+    const hasActive = navItem.pages.find((p) => p.path === location.pathname);
+
     return (
       <NavDropdown
         title={navItem.name || "Dropdown"}
         key={navItem._id}
         id={navItem._id}
-        className="text-center"
+        className={`text-center ${hasActive && "active-link"}`}
       >
         {navItem.pages.map((page) => {
+          const isActive = page.path === hasActive?.path;
           return (
             <NavDropdown.Item
               as={Link}
               to={page.path}
               key={page.path}
-              className="text-center"
+              className={`text-center ${isActive && "active-drop-link"}`}
             >
               {page.title}
             </NavDropdown.Item>

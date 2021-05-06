@@ -9,10 +9,12 @@ import {
 } from "react-bootstrap";
 import { Error, Submit } from "../components/forms/MyForm";
 import SmallButton from "../components/buttons/SmallButton";
-import { getErrorMsg, reloadPage } from "../utils/functions";
+import { getErrorMsg } from "../utils/functions";
 import JsonModal from "../components/modals/JsonModal";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
+import { usePagesContext } from "../App";
+import { Redirect } from "react-router-dom";
 
 const Settings = ({ page, setPage, onHide }) => {
   const [error, setError] = useState();
@@ -27,18 +29,28 @@ const Settings = ({ page, setPage, onHide }) => {
   const [showModal, setShowModal] = useState();
   const toggleModal = () => setShowModal((prev) => !prev);
 
+  const { setPages } = usePagesContext();
+  const [addedPath, setAddedPath] = useState("");
+
   const onSubmit = (data) => {
     console.log(data);
     return axios
       .patch(`/pages/${page._id}`, data)
       .then((res) => {
-        setPage((prev) => {
-          return { ...prev, ...data };
+        const updatedPage = { ...page, ...data };
+
+        setPage(updatedPage);
+
+        setPages((prev) => {
+          return prev.map((p) => {
+            if (p._id !== page._id) return p;
+            return updatedPage;
+          });
         });
 
         if (page.path !== data.path) {
+          setAddedPath(data.path);
           history.push(data.path);
-          reloadPage();
         }
       })
       .catch((err) => {
@@ -50,12 +62,22 @@ const Settings = ({ page, setPage, onHide }) => {
     axios
       .delete(`/pages/${page._id}`)
       .then((res) => {
-        reloadPage();
+        setAddedPath(page.path);
+
+        setPages((prev) => {
+          return prev.filter((p) => p._id !== page._id);
+        });
+
+        setAddedPath(page.path);
       })
       .catch((err) => {
         setError(getErrorMsg(err));
       });
   };
+
+  if (addedPath) {
+    return <Redirect to={addedPath} />;
+  }
 
   return (
     <>

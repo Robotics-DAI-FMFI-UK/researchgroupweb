@@ -53,7 +53,7 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "PORT=8096 HOST=kempelen.dai.fmph.uniba.sk HTTPS=true SSL_CRT_FILE=/home/janspirka98/.ssl/cert.pem SSL_KEY_FILE=/home/janspirka98/.ssl/privkey.pem react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

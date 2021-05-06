@@ -23,10 +23,7 @@ const ProfilePage = () => {
 
   const saveProfile = (data) => {
     onSubmit("users", data).then((res) => {
-      console.log("res", res);
-      if (res.ok) {
-        setAuth({ ...auth, user: { ...user, ...data } });
-      }
+      if (res.ok) setAuth({ ...auth, user: { ...user, ...data } });
     });
   };
 
@@ -35,7 +32,6 @@ const ProfilePage = () => {
   };
 
   const onSubmit = (url, data) => {
-    console.log("submit", data);
     return axios
       .patch(`${URL_PREFIX}/${url}/${user.id}`, data)
       .then((res) => {

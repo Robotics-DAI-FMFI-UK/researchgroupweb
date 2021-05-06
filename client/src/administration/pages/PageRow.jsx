@@ -33,7 +33,7 @@ const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
         setPages((prev) => prev.filter(({ _id }) => _id !== page._id));
       })
       .catch((err) => {
-        serErrorToast(getErrorMsg(err));
+        if (serErrorToast) serErrorToast(getErrorMsg(err));
       });
   };
 

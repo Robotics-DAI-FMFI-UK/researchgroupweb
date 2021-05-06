@@ -44,7 +44,7 @@ const PageSchema = new Schema({
     validate: [
       {
         validator: (path) => path.match(/^\/[/.a-zA-Z0-9-]+$/),
-        message: () => "Not valid url path",
+        message: () => "Not valid url path!",
       },
       {
         validator: (path) => !reservedPaths.includes(path),

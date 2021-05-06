@@ -7,7 +7,6 @@ import { SizeMe } from "react-sizeme";
 import { ROW_HEIGHT } from "../../components/MyGridLayout";
 import { usePagesContext } from "../../App";
 import { useActiveModuleContext } from "../ActiveModuleProvider";
-import _ from "lodash";
 
 export const Module = ({
   module,

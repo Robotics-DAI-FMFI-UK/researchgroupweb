@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router";
+import { Redirect } from "react-router-dom";
 import MyModal from "./MyModal";
 import { Form as F } from "react-bootstrap";
 import { Error, Form, Input, Submit, Switch } from "../forms/MyForm";
@@ -8,27 +8,32 @@ import {
   cloneObj,
   getAuth,
   getErrorMsg,
-  reloadPage,
   upperFirst,
 } from "../../utils/functions";
 import * as Yup from "yup";
 import { URL_PREFIX } from "../../config";
+import { usePagesContext } from "../../App";
 
 const reservedPaths = ["/users", "/profile"];
 
 const validationSchema = Yup.object({
   path: Yup.string()
     .notOneOf(reservedPaths, "The path name is reserved")
-    .matches(/^[/.a-zA-Z0-9-]+$/, "Not valid url path"),
+    .matches(/^[/.a-zA-Z0-9-]+$/, "Not valid url path."),
 });
 
-const NewPageModal = ({ onHide, page, path, setPages }) => {
-  // const { setPages } = usePagesContext();
-  const history = useHistory();
+const NewPageModal = ({ onHide, page, path, redirect = true }) => {
+  const { setPages } = usePagesContext();
   const [error, setError] = useState();
   const [filename, setFilename] = useState("Create from local file");
+  const [addedPath, setAddedPath] = useState("");
+
+  useEffect(() => {
+    console.log("add", addedPath);
+  }, [addedPath]);
 
   const handleSubmit = (data, e) => {
+    console.log(data);
     e.preventDefault();
 
     let endPoint = "/pages";
@@ -42,26 +47,27 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
     axios
       .post(endPoint, {
         ...data,
-        path: `${URL_PREFIX}/` + data.path,
+        path: `/${data.path}`,
         created_by: getAuth()?.user.id,
       })
       .then((res) => {
-        if (setPages) {
-          setPages((prev) => [
-            ...prev,
-            {
-              ...res.data,
-              created_by: {
-                _id: getAuth().user.id,
-                name: getAuth().user.name,
-              },
-            },
-          ]);
+        if (onHide && !redirect) {
           onHide();
-        } else {
-          history.push(res.data.path);
-          reloadPage();
         }
+
+        setAddedPath(res.data.path);
+
+        setPages((prev) => [
+          ...prev,
+          {
+            ...res.data,
+            modules: [],
+            created_by: {
+              _id: getAuth().user.id,
+              name: getAuth().user.name,
+            },
+          },
+        ]);
       })
       .catch((err) => {
         console.log(err);
@@ -76,8 +82,6 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
       })
       .then((res) => {
         console.log(res);
-        history.push(res.data.path);
-        reloadPage();
       })
       .catch((err) => {
         setError(getErrorMsg(err));
@@ -103,7 +107,6 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
       .then((res) => {
         console.log(res);
         // history.push(value.path);
-        reloadPage();
       })
       .catch((err) => {
         setError(getErrorMsg(err));
@@ -157,10 +160,16 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
         <Form
           onSubmit={handleSubmit}
           validationSchema={validationSchema}
-          defaultValues={defaultValues}
+          // defaultValues={defaultValues}
         >
-          <Input name="title" required />
-          <Input name="path" label="url path" required prepend="/" />
+          <Input name="title" required defaultValue={defaultValues.title} />
+          <Input
+            name="path"
+            label="url path"
+            required
+            prepend="/"
+            defaultValue={defaultValues.path}
+          />
           <Input name="description" as="textarea" />
           {page && <Switch name="copy" label="copy current page layouts" />}
           <Error error={error} />
@@ -172,6 +181,11 @@ const NewPageModal = ({ onHide, page, path, setPages }) => {
       </>
     );
   };
+
+  if (addedPath) {
+    console.log("redirect");
+    return <Redirect to={addedPath} />;
+  }
 
   return (
     <MyModal

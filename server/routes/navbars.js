@@ -16,11 +16,9 @@ router.post("/", async (req, res) => {
 
 // FIND the published
 router.get("/published", async (req, res) => {
-  console.log("hello");
   let navbar;
   try {
     navbar = await Navbar.findOne({ published: true });
-    console.log(navbar);
     if (navbar === null) {
       return res.status(404).json({ message: "Cannot find published navbar" });
     }

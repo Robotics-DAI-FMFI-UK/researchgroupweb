@@ -16,6 +16,8 @@ import { useModeContext } from "../providers/ModeProvider";
 import { ActiveModuleProvider } from "./ActiveModuleProvider";
 
 const CustomPage = ({ initPage }) => {
+  document.title = `RG | ${initPage.title}`;
+
   // ------------ INITIALIZATION ------------
   const [editMode] = useModeContext();
   const hasEditPermission = getUserPermission(initPage);
@@ -31,13 +33,10 @@ const CustomPage = ({ initPage }) => {
 
   const [breakpoint, setBreakpoint] = useState("lg");
   const [layouts, setLayouts] = useState(() => getInitLayouts(initPage));
-
-  document.title = `RG | ${initPage.title}`;
   // ------------ INITIALIZATION ------------
 
   // ------------ EVENTS HANDLERS ------------
   useEffect(() => {
-    console.log("new module", newModule);
     if (!newModule) return;
     setModules((prev) => [...prev, newModule]);
     setWarning(true);
@@ -195,8 +194,8 @@ const CustomPage = ({ initPage }) => {
       <MyGridLayout
         breakpoints={breakpoints}
         cols={cols}
-        compactType="vertical"
         layouts={layouts}
+        compactType="vertical"
         onLayoutChange={onLayoutChange}
         draggableHandle=".handle"
         onBreakpointChange={onBreakpointChange}
@@ -216,13 +215,12 @@ const CustomPage = ({ initPage }) => {
         </div>
       </MyGridLayout>
       {hasEditPermission && <Sidebar />}
-      {showModal && (
-        <NewModuleModal
-          modules={modules}
-          addNewModule={addNewModule}
-          toggleModal={toggleModal}
-        />
-      )}
+      <NewModuleModal
+        showModal={showModal}
+        modules={modules}
+        addNewModule={addNewModule}
+        toggleModal={toggleModal}
+      />
     </ActiveModuleProvider>
   );
 };

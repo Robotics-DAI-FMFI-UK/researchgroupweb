@@ -1,5 +1,5 @@
 import React from "react";
-import { Error, Form, Input, Submit } from "../../components/forms/MyForm";
+import { Error, Submit } from "../../components/forms/MyForm";
 import { FormControl, FormGroup, FormLabel } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 

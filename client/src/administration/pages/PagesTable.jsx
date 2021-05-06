@@ -57,7 +57,13 @@ const PageTable = () => {
         </tbody>
       </Table>
       <SmallButton onClick={toggleModal}>Create new Page</SmallButton>
-      {showModal && <NewPageModal onHide={toggleModal} setPages={setPages} />}
+      {showModal && (
+        <NewPageModal
+          onHide={toggleModal}
+          setPages={setPages}
+          redirect={false}
+        />
+      )}
     </div>
   );
 };

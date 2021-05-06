@@ -12,7 +12,7 @@ import { useToastContext } from "../providers/ToastProvider";
 import useWarning from "../utils/hooks/useWarning";
 import Form from "react-bootstrap/Form";
 import { Col, Row } from "react-bootstrap";
-import {URL_PREFIX} from "../config";
+import { URL_PREFIX } from "../config";
 
 const NavSloths = () => {
   const { setSuccessToast, setErrorToast } = useToastContext();
@@ -325,6 +325,19 @@ const NavSloths = () => {
       });
   }
 
+  const cardStyle = {
+    borderRadius: "4px",
+    backgroundImage: "linear-gradient( 180deg, rgb(238, 238, 238), white)",
+  };
+
+  const navCardStyle = {
+    backgroundColor: "#fff",
+    flexDirection: "column",
+    margin: "20px",
+    border: "1px solid rgb(33, 37, 41, 30%)",
+    borderRadius: "4px",
+  };
+
   return (
     <div className="">
       <div className="d-xl-none">
@@ -341,72 +354,100 @@ const NavSloths = () => {
         }}
         className="d-none d-xl-block"
       >
-        <Col xs="3">
-          {navbarVersions.map((version, i) => {
-            return (
-              <ButtonGroup className="d-block">
-                <SmallButton
-                  onClick={() => removeVersion(version)}
-                  variant="link"
-                >
-                  <span>&times;</span>
-                </SmallButton>
-                <SmallButton
-                  onClick={() => changeVersion(version)}
-                  variant="link"
-                >
-                  <span
-                    style={{
-                      color: version._id === currentId ? "red" : "blue",
-                      // textDecoration: version._id === currentId && "underline",
-                    }}
-                  >
-                    {version.create_date.substr(0, 16).replace("T", ", ")}
-                  </span>
-                </SmallButton>
-
-                {version._id === publishedId ? (
-                  <span>*</span>
-                ) : (
-                  <SmallButton
-                    onClick={() => publishVersion(version)}
-                    variant="link"
-                  >
-                    publish
-                  </SmallButton>
-                )}
-              </ButtonGroup>
-            );
-          })}
-        </Col>
         <Col>
-          <div>
-            <ButtonGroup>
-              <SmallButton onClick={save} disabled={!warning}>
-                Save navbar
-              </SmallButton>
-              <SmallButton title="export">
-                <a
-                  href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                    JSON.stringify(exportData)
-                  )}`}
-                  download="data.json"
-                >
-                  <RiDownloadFill size={"18"} color={"white"} />
-                </a>
-              </SmallButton>
-            </ButtonGroup>
-          </div>
-          <div style={{width: "294px"}}>
+          <Row className="mb-5">
+            <Col className="p-5" xs={4} style={cardStyle}>
+              {/*IMPORT EXPORT part*/}
+              <Row className="mb-4">
+                <Col>
+                  <ButtonGroup style={{ width: "100%" }}>
+                    <SmallButton
+                      onClick={save}
+                      disabled={!warning}
+                      className="mr-4 text-black"
+                      variant="success"
+                    >
+                      Save navbar
+                    </SmallButton>
+                    <SmallButton title="export">
+                      <a
+                        href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                          JSON.stringify(exportData)
+                        )}`}
+                        download="data.json"
+                      >
+                        <RiDownloadFill size={"18"} color={"white"} />
+                      </a>
+                    </SmallButton>
+                  </ButtonGroup>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.File
+                    className="d-inline-block "
+                    custom
+                    label={filename}
+                    onChange={onUploadChange}
+                  />
+                </Col>
+              </Row>
+            </Col>
+            <Col xs={1}></Col>
+            <Col className="p-2" xs={7} style={cardStyle}>
+              {/*ACTIVE NAVBAR PICKER*/}
+              <Row>
+                {navbarVersions.map((version, i) => (
+                  <ButtonGroup className="d-flex" style={navCardStyle}>
+                    <SmallButton
+                      onClick={() => removeVersion(version)}
+                      variant="link"
+                    >
+                      <span>&times;</span>
+                    </SmallButton>
 
-          <Form.File
-            className="d-inline-block "
-            custom
-            label={filename}
-            onChange={onUploadChange}
-          />
-          </div>
+                    <SmallButton
+                      onClick={() => changeVersion(version)}
+                      variant="link"
+                    >
+                      <span
+                        style={{
+                          color: version._id === currentId ? "red" : "blue",
+                        }}
+                      >
+                        {version.create_date.substr(0, 16).replace("T", ", ")}
+                      </span>
+                    </SmallButton>
 
+                    {version._id === publishedId ? (
+                      <SmallButton variant="danger" disabled>
+                        ACTIVE
+                      </SmallButton>
+                    ) : (
+                      <SmallButton
+                        onClick={() => publishVersion(version)}
+                        variant="primary"
+                      >
+                        Publish
+                      </SmallButton>
+                    )}
+                  </ButtonGroup>
+                ))}
+              </Row>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      <Row
+        style={{
+          minWidth: "800px",
+          // maxHeight: "66px",
+          // height: "300px",
+        }}
+        className="d-none d-xl-block"
+      >
+        <Col style={cardStyle} className="h-100">
           <MyGridLayout
             setWarning={setWarning}
             breakpoints={{ lg: 1200 }}

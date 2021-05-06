@@ -40,6 +40,16 @@ body::-webkit-scrollbar-thumb {
   text-decoration: underline !important;
 }
 
+.active-drop-link {
+  background-color: #343a40 !important;
+  color: white !important;
+}
+
+.active-link {
+  color: white !important;
+  text-decoration: underline;
+}
+
 .user-modal {
   background-color: transparent !important;
 }
