@@ -55,7 +55,7 @@ const Toolbar = ({ page, setPage, warning, setWarning, layouts, modules }) => {
     top: "5px",
     left: "5px",
     paddingTop: "124px",
-    zIndex: "9999",
+    zIndex: "102",
   };
 
   return (
@@ -80,15 +80,14 @@ const Toolbar = ({ page, setPage, warning, setWarning, layouts, modules }) => {
                 >
                   <BsFileEarmarkPlus />
                 </SmallButton>
-                <SmallButton title="export">
-                  <a
-                    href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                      JSON.stringify(page, null, 2)
-                    )}`}
-                    download="data.json"
-                  >
-                    <RiDownloadFill />
-                  </a>
+                <SmallButton
+                  title="export"
+                  href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                    JSON.stringify(page, null, 2)
+                  )}`}
+                  download="data.json"
+                >
+                  <RiDownloadFill />
                 </SmallButton>
                 <SmallButton onClick={save} title="save" disabled={!warning}>
                   <BiSave />

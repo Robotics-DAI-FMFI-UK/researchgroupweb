@@ -28,7 +28,7 @@ const setLocaleStorage = (key, value) => localStorage.setItem(key, value);
 const getLocaleStorage = (key) => JSON.parse(localStorage.getItem(key));
 const delLocaleStorage = (key) => localStorage.removeItem(key);
 
-export const setAuth = (u) => setLocaleStorage("auth", JSON.stringify(u));
+export const setAuth = (a) => setLocaleStorage("auth", JSON.stringify(a));
 export const getAuth = () => getLocaleStorage("auth");
 export const delAuth = () => delLocaleStorage("auth");
 

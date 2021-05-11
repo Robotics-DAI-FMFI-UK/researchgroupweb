@@ -21,15 +21,13 @@ router.post("/with-layouts", async (req, res) => {
   try {
     let page = fillCreate(req, Page);
 
-    if (page === null) {
-      return res.status(404).json({ message: "Cannot find the page" });
-    }
-
     const breakpoints = ["lg", "md", "sm"];
     const layouts = {};
 
+    // TODO kopiu to sice robi, ale zle priradi moduly ku layout
     const moduleIds = req.body.layouts.lg.map((position) => position.i);
     const modules = await Module.find({ _id: { $in: moduleIds } }); // { _id: 0 });
+
     const withoutIds = modules.map((module) => {
       // delete module._id;
       return {
@@ -39,6 +37,26 @@ router.post("/with-layouts", async (req, res) => {
       };
     });
 
+    const newModules = await Module.insertMany(withoutIds, {
+      ordered: true,
+    });
+    const insertedIds = newModules.map((res) => res._id);
+
+    breakpoints.forEach((bp) => {
+      layouts[bp] = req.body.layouts[bp].map((p, index) => {
+        return {
+          x: p.x,
+          y: p.y,
+          w: p.w,
+          h: p.h,
+          static: p.static,
+          i: insertedIds[index],
+        };
+      });
+    });
+
+    page.layouts = layouts;
+
     // TODO transaction
     // init session
     // const session = await Page.startSession();
@@ -46,8 +64,8 @@ router.post("/with-layouts", async (req, res) => {
     //
     // try {
     //   const opts = { session };
-    //   const insertedModules = await Module.insertMany(withoutIds, opts);
-    //   const newIds = insertedModules.map((res) => res._id);
+    //   const newModules = await Module.insertMany(withoutIds, opts);
+    //   const newIds = newModules.map((res) => res._id);
     //
     //   breakpoints.forEach((bp) => {
     //     layouts[bp] = req.body.layouts[bp].map((p, index) => {
@@ -75,27 +93,8 @@ router.post("/with-layouts", async (req, res) => {
     //   session.endSession();
     //   return res.status(400).json({ message: e.message });
     // }
-
-    const result = await Module.insertMany(withoutIds);
-    const newIds = result.map((res) => res._id);
-
-    breakpoints.forEach((bp) => {
-      layouts[bp] = req.body.layouts[bp].map((p, index) => {
-        return {
-          x: p.x,
-          y: p.y,
-          w: p.w,
-          h: p.h,
-          static: p.static,
-          i: newIds[index],
-        };
-      });
-    });
-
-    page.layouts = layouts;
-
     const newPage = await page.save();
-    res.status(201).json(newPage);
+    res.status(201).json({ newPage, newModules });
   } catch (e) {
     res.status(400).json({ message: e.message });
   }
@@ -105,6 +104,11 @@ router.post("/with-layouts", async (req, res) => {
 router.get("/:id", getPage, (req, res) => {
   res.json(res.page);
 });
+
+// // FIND pages by created_by
+// router.get("/created_by/:id", getPage, (req, res) => {
+//
+// });
 
 // FIND all
 router.get("/", async (req, res) => {

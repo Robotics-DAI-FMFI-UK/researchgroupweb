@@ -27,6 +27,5 @@ export async function getModelById(req, res, Model) {
   } catch (e) {
     return res.status(500).json({ message: e.message });
   }
-  console.log(model);
   return model;
 }

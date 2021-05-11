@@ -34,8 +34,12 @@ import InlineCode from "@editorjs/inline-code"; // https://github.com/editor-js/
 // import { StyleInlineTool } from "editorjs-style"; // https://github.com/hata6502/editorjs-style
 // https://github.com/natterstefan/editorjs-inline-tool
 
+import SimpleImage from "@editorjs/simple-image";
+
 // CUSTOM
 import Image from "./custom-image/tool";
+import ImageTool from "@editorjs/image";
+import Timeline from "./custom-timeline/tool";
 import { MDImporter, MDParser } from "./markdown";
 
 // TUNES
@@ -54,7 +58,6 @@ export const EDITOR_JS_TOOLS = {
   delimiter: Delimiter,
 
   alignTune: AlignmentBlockTune,
-  // nestedList: NestedList,
   // social: SocialPost,
 
   marker: Marker,
@@ -63,7 +66,7 @@ export const EDITOR_JS_TOOLS = {
   paragraph: {
     class: Paragraph,
     inlineToolbar: true,
-    tunes: ["alignTune"],
+    // tunes: ["alignTune"],
   },
   list: {
     class: List,
@@ -78,11 +81,20 @@ export const EDITOR_JS_TOOLS = {
   table: Table,
   alert: Alert,
 
-  image: Image,
+  // image: Image,
   markdownParser: MDParser,
   markdownImporter: MDImporter,
+  timeline: Timeline,
 
   // linkTool: LinkTool,
-  // simpleImage: SimpleImage,
+  image: {
+    class: ImageTool,
+    config: {
+      endpoints: {
+        byFile: "http://localhost:4000/upload", // Your backend file uploader endpoint
+        byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+      },
+    },
+  },
   // gist: Gist,
 };

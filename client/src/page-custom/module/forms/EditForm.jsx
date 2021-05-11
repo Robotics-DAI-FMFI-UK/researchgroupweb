@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import { upperFirst } from "lodash";
 import AlertForm from "./AlertForm";
 import CarouselForm from "./CarouselForm";
 import HtmlForm from "./HtmlForm";
 import ImageForm from "./ImageForm";
 import SmallButton from "../../../components/buttons/SmallButton";
 import { useToastContext } from "../../../providers/ToastProvider";
-import { getErrorMsg } from "../../../utils/functions";
+import { getErrorMsg, upperFirst } from "../../../utils/functions";
 import { usePagesContext } from "../../../App";
 import CreatableSelect from "react-select/creatable";
 import { useActiveModuleContext } from "../../ActiveModuleProvider";
@@ -56,6 +55,7 @@ const EditForm = ({ activeModule }) => {
   const options = pages.map((page) => {
     return { value: page._id, label: page.title };
   });
+
   const defaultSelected = () => {
     const reference = activeModule?.body?.reference;
     if (!reference) return;

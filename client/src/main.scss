@@ -63,7 +63,7 @@ body::-webkit-scrollbar-thumb {
 
 .my-toast {
   position: absolute;
-  z-index: 9999;
+  z-index: 999;
   top: 75px;
   right: 9px;
   width: 250px;
@@ -110,7 +110,7 @@ body::-webkit-scrollbar-thumb {
 }
 .ce-toolbar__actions-buttons,
 .ce-toolbar__plus{
-  z-index: 1500 !important;
+  z-index: 999 !important;
 }
 //.codex-editor {
 //  background-color: #fff6fc;

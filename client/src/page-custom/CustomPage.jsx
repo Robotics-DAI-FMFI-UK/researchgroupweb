@@ -26,7 +26,7 @@ const CustomPage = ({ initPage }) => {
   const [modules, setModules] = useState(initPage.modules);
   const [newModule, setNewModule] = useState();
 
-  const [warning, setWarning] = useWarning();
+  const [warning, setWarning, Prompt] = useWarning();
 
   const [showModal, setShowModal] = useState();
   const toggleModal = () => setShowModal((prev) => !prev);
@@ -76,9 +76,7 @@ const CustomPage = ({ initPage }) => {
     for (let l = 0; l < layout.length; l++) {
       let { w, h, i } = layout[l];
 
-      if (w === 3 && WIDTH === 2) w = 2;
-      if (w === 3 && WIDTH === 1) w = 1;
-      if (w === 2 && WIDTH === 1) w = 1;
+      if (w > WIDTH) w = WIDTH;
 
       let mod = (last_x + w) % WIDTH;
       if (mod <= last_x) {
@@ -203,6 +201,8 @@ const CustomPage = ({ initPage }) => {
         isBounded={true}
         simulateBreakpoints={hasEditPermission}
         hasEditPermission={hasEditPermission}
+        style={{ backgroundColor: "#eee" }}
+        autoSize={true}
       >
         {layouts[breakpoint].slice(0, -1).map(createGridBoxItem)}
         <div
@@ -221,6 +221,7 @@ const CustomPage = ({ initPage }) => {
         addNewModule={addNewModule}
         toggleModal={toggleModal}
       />
+      {Prompt}
     </ActiveModuleProvider>
   );
 };
@@ -234,7 +235,7 @@ const cols = {
 };
 const BREAKPOINTS = ["lg", "md", "sm"];
 const breakpoints = {
-  lg: 1119,
+  lg: 1199,
   md: 799,
   sm: 599,
 };

@@ -56,7 +56,6 @@ export const Module = ({
 
   const handleClick = (e) => {
     if (editMode && hasEditPermission) {
-      console.log("click");
       toggleActiveModule(module);
       return;
     }

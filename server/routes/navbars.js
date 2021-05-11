@@ -78,7 +78,6 @@ router.post("/import", (req, res) => {
   }
 
   const readFile = JSON.parse(file.data);
-  console.log("read file", readFile);
 
   if (!isArray(readFile)) {
     res.status(500).json({ message: "Missing array brackets" });

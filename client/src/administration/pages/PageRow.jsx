@@ -22,10 +22,6 @@ const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
     setPages((prev) => prev.map((p) => (p._id !== page._id ? p : page)));
   }, [page]);
 
-  const exportPage = () => {
-    //  TODO
-  };
-
   const removePage = () => {
     axios
       .delete(`${URL_PREFIX}/pages/${page._id}`)
@@ -77,7 +73,14 @@ const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
     }
     if (field === "export") {
       body = (
-        <SmallButton id="export" variant="outline-primary" onClick={exportPage}>
+        <SmallButton
+          id="export"
+          variant="outline-primary"
+          href={`data:text/json;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(page, null, 2)
+          )}`}
+          download="data.json"
+        >
           Export
         </SmallButton>
       );

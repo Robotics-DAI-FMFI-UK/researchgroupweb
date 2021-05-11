@@ -4,7 +4,11 @@ import bcrypt from "bcryptjs";
 import { getModelById, fillUpdate } from "./shared";
 const router = Router();
 
-// R all
+/**
+ * @route   GET /users
+ * @desc    Get all users
+ */
+
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
@@ -14,7 +18,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-// U
+/**
+ * @route   PATCH /users/:id
+ * @desc    Update user's profile
+ * @param   req.body.email,
+ *          req.body.name
+ */
+
 router.patch("/:id", getUser, async (req, res) => {
   // if ("password" in req.body) req.redirect /password/:id
   const { email } = req.body;
@@ -33,7 +43,14 @@ router.patch("/:id", getUser, async (req, res) => {
   }
 });
 
-// U password
+/**
+ * @route   PATCH /users/:id
+ * @desc    Update user's password
+ * @param   req.body.password,
+ *          req.body.newPassword
+ *          req.body.confirmPassword
+ */
+
 router.patch("/password/:id", getUser, async (req, res) => {
   const { password, newPassword, confirmPassword } = req.body;
 
@@ -62,7 +79,11 @@ router.patch("/password/:id", getUser, async (req, res) => {
   }
 });
 
-// D
+/**
+ * @route   DELETE /users
+ * @desc    Delete the user
+ */
+
 router.delete("/:id", getUser, async (req, res) => {
   try {
     await res.user.remove();
@@ -76,20 +97,5 @@ async function getUser(req, res, next) {
   res.user = await getModelById(req, res, User);
   next();
 }
-
-// async function getUser(req, res, next) {
-//   let user;
-//   try {
-//     user = await User.findById(req.params.id);
-//     if (user === null) {
-//       return res.status(404).json({ message: "Cannot find the user" });
-//     }
-//   } catch (e) {
-//     return res.status(500).json({ message: e.message });
-//   }
-//
-//   res.user = user;
-//   next();
-// }
 
 export default router;

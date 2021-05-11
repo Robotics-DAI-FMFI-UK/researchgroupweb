@@ -32,6 +32,14 @@ router.get("/", async (req, res) => {
 });
 
 /**
+ * @route   GET /modules
+ * @desc    Read module by id
+ */
+router.get("/:id", getModule, (req, res) => {
+  res.json(res.module);
+});
+
+/**
  * @route   GET /modules/page/:id
  * @desc    Read module by page id
  */

@@ -18,8 +18,6 @@ const Navbar = ({ pages }) => {
   const location = useLocation();
   const { setErrorToast } = useToastContext();
 
-  const [activeLink, setActiveLink] = useState(location.pathname);
-  console.log("location", location);
   const [navItems, setNavItems] = useState([]);
   const hasEditPermission = getAuth()?.user.isAdmin;
 

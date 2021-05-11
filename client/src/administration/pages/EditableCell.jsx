@@ -1,23 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import uuid from "react-uuid";
 import axios from "axios";
 import { useToastContext } from "../../providers/ToastProvider";
 import { getErrorMsg } from "../../utils/functions";
 
 const EditableCell = ({ field, page, setPage }) => {
-  const { setErrorToast } = useToastContext();
+  const { setErrorToast, setSuccessToast } = useToastContext();
   const [originState] = useState(page[field]);
   const ref = useRef(page[field]);
-
-  const [refresh, setRefresh] = useState(false);
 
   const handleChange = (e) => {
     ref.current = e.currentTarget.textContent;
   };
-
-  useEffect(() => {
-    if (refresh) setRefresh(false);
-  }, [refresh]);
 
   const submitChange = (e) => {
     const textContent = e.currentTarget.textContent;
@@ -25,7 +19,7 @@ const EditableCell = ({ field, page, setPage }) => {
     axios
       .patch(`pages/${page._id}`, { [field]: textContent })
       .then((res) => {
-        console.log("success", res);
+        setSuccessToast(`${field} successfully updated`);
         setPage((prev) => {
           return { ...prev, [field]: textContent };
         });
@@ -33,7 +27,6 @@ const EditableCell = ({ field, page, setPage }) => {
       .catch((err) => {
         setErrorToast(getErrorMsg(err));
         ref.current = originState;
-        setRefresh(true);
       });
   };
 
@@ -50,7 +43,7 @@ const EditableCell = ({ field, page, setPage }) => {
       onBlur={submitChange}
       contentEditable
     >
-      {refresh ? originState : ref.current}
+      {ref.current}
     </td>
   );
 };

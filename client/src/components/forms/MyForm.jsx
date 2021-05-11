@@ -32,7 +32,6 @@ export function Form({
   validationSchema,
   ...rest
 }) {
-  // console.log("this is  my form");
   const resolver = useYupResolver(validationSchema || Yup.object({}));
   const methods = useForm({
     resolver,

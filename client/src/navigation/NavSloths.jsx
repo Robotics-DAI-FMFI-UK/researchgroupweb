@@ -13,6 +13,7 @@ import useWarning from "../utils/hooks/useWarning";
 import Form from "react-bootstrap/Form";
 import { Col, Row } from "react-bootstrap";
 import { URL_PREFIX } from "../config";
+import { Prompt } from "react-router-dom";
 
 const NavSloths = () => {
   const { setSuccessToast, setErrorToast } = useToastContext();
@@ -340,7 +341,7 @@ const NavSloths = () => {
 
   return (
     <div className="">
-      <div className="d-xl-none">
+      <div className="d-xl-none ml-3">
         <h6>
           You have to use larger display to be able to modify content of
           navigation bar
@@ -369,15 +370,14 @@ const NavSloths = () => {
                     >
                       Save navbar
                     </SmallButton>
-                    <SmallButton title="export">
-                      <a
-                        href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                          JSON.stringify(exportData)
-                        )}`}
-                        download="data.json"
-                      >
-                        <RiDownloadFill size={"18"} color={"white"} />
-                      </a>
+                    <SmallButton
+                      title="export"
+                      href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                        JSON.stringify(exportData)
+                      )}`}
+                      download="data.json"
+                    >
+                      <RiDownloadFill size={"18"} color={"white"} />
                     </SmallButton>
                   </ButtonGroup>
                 </Col>
@@ -477,6 +477,7 @@ const NavSloths = () => {
           </MyGridLayout>
         </Col>
       </Row>
+      <Prompt when={warning} message={"Changes you made may not be saved."} />
     </div>
   );
 };

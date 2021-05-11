@@ -51,17 +51,19 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
         created_by: getAuth()?.user.id,
       })
       .then((res) => {
+        const { newPage, newModules } = res.data;
+
         if (onHide && !redirect) {
           onHide();
         }
 
-        setAddedPath(res.data.path);
+        setAddedPath(newPage.path);
 
         setPages((prev) => [
           ...prev,
           {
-            ...res.data,
-            modules: [],
+            ...newPage,
+            modules: newModules,
             created_by: {
               _id: getAuth().user.id,
               name: getAuth().user.name,

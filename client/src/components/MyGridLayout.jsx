@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useModeContext } from "../providers/ModeProvider";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -19,6 +19,7 @@ const MyGridLayout = ({
   setWarning,
   simulateBreakpoints,
   hasEditPermission,
+  breakpoints,
   ...rest
 }) => {
   const [editMode] = useModeContext();
@@ -26,11 +27,13 @@ const MyGridLayout = ({
     ResponsiveGridLayout = Responsive;
   }
 
-  const [prevSize, setPrevSize] = useState({ width: 9999 });
-  const [width, setWidth] = useState(1201);
+  const [prevSize, setPrevSize] = useState({ width: 0 });
+  const [width, setWidth] = useState(breakpoints.lg + 1);
 
   isDraggable =
     isDraggable === undefined ? editMode && hasEditPermission : isDraggable;
+
+  isResizable = isResizable && editMode && hasEditPermission;
 
   const isChanged = (oldItem, newItem) => {
     if (oldItem.i === "addButton") return false;
@@ -51,74 +54,71 @@ const MyGridLayout = ({
     }
   };
 
-  const calc = (size) => {
-    // console.log(size.width, width);
-
-    if (prevSize.width === size.width) {
-      return;
-    }
-
-    if (size.width < 600) {
-      setWidth(Math.round(size.width));
-    } else if (size.width < 800) {
-      setWidth(601);
-    } else if (size.width < 1200) {
-      setWidth(801);
-    }
-
+  const handleSizeChange = (size) => {
+    if (prevSize.width === size.width) return;
+    setWidth(size.width);
     setPrevSize(size);
   };
 
-  const handleClick = (w) => {
-    setWidth(w);
+  const ViewButtons = () => {
+    const ViewButton = ({ bp, active, disabled, children }) => (
+      <SmallButton
+        variant="outline-dark"
+        active={active}
+        disabled={disabled}
+        onClick={() => setWidth(breakpoints[bp] + 1)}
+      >
+        {children}
+      </SmallButton>
+    );
+
+    return (
+      <div className="d-flex justify-content-center pb-4">
+        <ButtonGroup>
+          <SmallButton style={{ fontWeight: "bold" }} variant="dark" disabled>
+            Device views:
+          </SmallButton>
+          <ViewButton bp="sm" active={width <= breakpoints.md} disabled={false}>
+            Mobile
+          </ViewButton>
+          <ViewButton
+            bp="md"
+            active={breakpoints.md + 1 <= width && width <= breakpoints.lg}
+            disabled={prevSize.width < breakpoints.md}
+          >
+            Tablet
+          </ViewButton>
+          <ViewButton
+            bp="lg"
+            active={width >= breakpoints.lg + 1}
+            disabled={prevSize.width < breakpoints.lg}
+          >
+            Desktop
+          </ViewButton>
+        </ButtonGroup>
+      </div>
+    );
   };
 
   return (
     <div>
-      {simulateBreakpoints && (
-        // <div className="ml-0 mb-4">
-        <div className="d-flex justify-content-center pb-4">
-          <ButtonGroup>
-            <SmallButton style={{ fontWeight: "bold" }}>
-              Device views:
-            </SmallButton>
-            <SmallButton active={width <= 601} onClick={() => handleClick(601)}>
-              Mobile
-            </SmallButton>
-            <SmallButton
-              active={width === 801}
-              disabled={prevSize.width < 800}
-              onClick={() => handleClick(801)}
-            >
-              Tablet
-            </SmallButton>
-            <SmallButton
-              active={width === 1201}
-              disabled={prevSize.width < 1200}
-              onClick={() => handleClick(1201)}
-            >
-              Desktop
-            </SmallButton>
-          </ButtonGroup>
-        </div>
-      )}
-      <SizeMe monitorHeight>
+      {simulateBreakpoints && <ViewButtons />}
+      <SizeMe>
         {({ size }) => {
-          calc(size);
+          handleSizeChange(size);
           return (
             <ResponsiveGridLayout
-              style={{ backgroundColor: "#eee" }}
               width={width}
+              breakpoints={breakpoints}
               compactType={compactType}
               measureBeforeMount={!animated}
               useCSSTransforms={animated}
-              autoSize={true}
-              isResizable={isResizable && editMode && hasEditPermission}
+              isResizable={isResizable}
               isDraggable={isDraggable}
-              rowHeight={ROW_HEIGHT}
-              {...rest}
               onDragStop={onDragStop}
               onResizeStop={onResizeStop}
+              rowHeight={ROW_HEIGHT}
+              {...rest}
             >
               {children}
             </ResponsiveGridLayout>

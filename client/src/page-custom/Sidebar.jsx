@@ -27,7 +27,7 @@ const Sidebar = () => {
     overflowY: "scroll",
     transition: "ease .3s",
     backgroundColor: "#eee",
-    zIndex: "999",
+    zIndex: "103",
     boxShadow: `${side === "right" ? "-" : ""}5px 0 10px #1C1C1C`,
   };
 

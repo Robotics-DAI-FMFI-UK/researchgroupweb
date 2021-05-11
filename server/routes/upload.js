@@ -10,9 +10,6 @@ router.post("/", (req, res) => {
 
   const name = `[${Date.now()}]-${file.name.replace(/ /g, "-")}`;
   const path = `${__dirname}/../../client/public/uploads/${name}`;
-  //console.log(path);
-
-  //return res.status(500).json({ message: "err.message" });
 
   file.mv(path, (err) => {
     if (err) return res.status(500).json({ message: err.message });

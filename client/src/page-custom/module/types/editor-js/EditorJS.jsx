@@ -35,7 +35,7 @@ const EditorJS = ({ module, hasEditPermission }) => {
     <EditorJs
       placeholder="Let`s write an awesome story!"
       instanceRef={(instance) => (editor.current = instance)}
-      data={module.body} // DEFAULT_INITIAL_DATA
+      data={module.body}
       tools={EDITOR_JS_TOOLS}
       readOnly={readOnly}
       onChange={handleSave}

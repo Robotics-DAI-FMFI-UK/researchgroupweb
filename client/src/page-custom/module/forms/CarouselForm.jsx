@@ -65,7 +65,7 @@ const CarouselForm = ({ SelectPageRef, ...props }) => {
   return (
     <>
       <form>
-        <div style={{ height: "800px" }}>
+        <div>
           <input
             ref={register}
             type="checkbox"
