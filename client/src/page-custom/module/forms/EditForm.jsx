@@ -5,19 +5,23 @@ import AlertForm from "./AlertForm";
 import CarouselForm from "./CarouselForm";
 import HtmlForm from "./HtmlForm";
 import ImageForm from "./ImageForm";
+import { useActiveModuleContext } from "../../ActiveModuleProvider";
 import SmallButton from "../../../components/buttons/SmallButton";
 import { useToastContext } from "../../../providers/ToastProvider";
 import { getErrorMsg, upperFirst } from "../../../utils/functions";
-import { usePagesContext } from "../../../App";
-import CreatableSelect from "react-select/creatable";
-import { useActiveModuleContext } from "../../ActiveModuleProvider";
 import { URL_PREFIX } from "../../../config";
 
-const EditForm = ({ activeModule }) => {
-  const { pages } = usePagesContext();
+const EditForm = () => {
   const { setSuccessToast, setErrorToast } = useToastContext();
-  const { updateActiveModule, closeActiveModule } = useActiveModuleContext();
+
+  const {
+    activeModule,
+    updateActiveModule,
+    closeActiveModule,
+  } = useActiveModuleContext();
+
   const [origin] = useState(activeModule);
+  const resetActiveModule = () => updateActiveModule(origin);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,87 +31,26 @@ const EditForm = ({ activeModule }) => {
     });
   };
 
-  const reset = () => {
-    updateActiveModule(origin);
-  };
-
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     axios
       .patch(`${URL_PREFIX}/modules/${activeModule._id}`, {
         body: activeModule.body,
       })
       .then((res) => {
         setSuccessToast("Module saved successfully");
-        console.log(res);
       })
       .catch((err) => {
         setErrorToast(getErrorMsg(err));
-        console.log(err);
       });
   };
 
   const props = {
-    defaultValues: activeModule?.body,
+    activeModule,
     handleChange,
     onSubmit,
   };
 
-  const options = pages.map((page) => {
-    return { value: page._id, label: page.title };
-  });
-
-  const defaultSelected = () => {
-    const reference = activeModule?.body?.reference;
-    if (!reference) return;
-
-    const isExternalRef = reference.substr(0, 5) === "https";
-    if (isExternalRef) {
-      return {
-        value: reference,
-        label: reference, //.substr(8),
-      };
-    }
-
-    const refPage = options.find(
-      (ref) => ref.value === activeModule.body.reference
-    );
-
-    if (!refPage) return;
-    return {
-      value: refPage._id,
-      label: refPage.label,
-    };
-  };
-  const selectOption = (option) => {
-    console.log("ee", option);
-    setSelected(option);
-    props.handleChange({
-      target: {
-        name: "reference",
-        value: option.value,
-      },
-    });
-  };
-
-  const [selected, setSelected] = useState(defaultSelected());
-
-  props.SelectPageRef = (
-    <div style={{ marginBottom: "16px" }}>
-      <hr />
-      <label className="form-label">Page reference</label>
-      <CreatableSelect
-        menuContainerStyle={{ top: "auto", bottom: "100%" }}
-        isClearable
-        value={selected}
-        onChange={selectOption}
-        options={options}
-      />
-    </div>
-  );
-
-  if (!activeModule) return null;
-
-  const ModuleForm = moduleFactory(activeModule);
+  const ModuleForm = formFactory(activeModule);
 
   return (
     <div className="m-4">
@@ -118,7 +61,7 @@ const EditForm = ({ activeModule }) => {
         <SmallButton className="ml-0" onClick={closeActiveModule}>
           close
         </SmallButton>
-        <SmallButton className="mr-0" onClick={reset}>
+        <SmallButton className="mr-0" onClick={resetActiveModule}>
           reset
         </SmallButton>
       </ButtonGroup>
@@ -126,7 +69,7 @@ const EditForm = ({ activeModule }) => {
   );
 };
 
-const moduleFactory = (activeModule) => {
+const formFactory = (activeModule) => {
   switch (activeModule.type) {
     case "alert":
       return AlertForm;

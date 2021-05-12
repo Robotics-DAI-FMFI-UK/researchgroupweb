@@ -9,19 +9,19 @@ import {
   RiPushpin2Line,
   RiDragMove2Fill,
 } from "react-icons/ri";
-import { useActiveModuleContext } from "../ActiveModuleProvider";
 
 const ModuleToolbar = ({
   module,
   position,
-  isPinned,
   onPin,
   onRemove,
+  onShrink,
   showToolbar,
   copyCardToClipboard,
   createCardCopy,
+  toggleActiveModule,
 }) => {
-  const { toggleActiveModule } = useActiveModuleContext();
+  const isPinned = position.static;
 
   const style = {
     position: "absolute",
@@ -50,6 +50,7 @@ const ModuleToolbar = ({
           }}
         >
           <IconContext.Provider value={{ size: "20", color: "white" }}>
+            {/*<SmallButton onClick={onShrink}>S</SmallButton>*/}
             <SmallButton
               onClick={() => toggleActiveModule(module)}
               title="edit"

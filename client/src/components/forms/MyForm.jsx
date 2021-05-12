@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsExclamationTriangle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 import {
@@ -24,6 +24,7 @@ export const Error = ({ error }) => {
 };
 
 // src: https://react-hook-form.com/advanced-usage/#SmartFormComponent
+// export const Forms = React.memo((props => ))
 export function Form({
   defaultValues,
   children,
@@ -41,21 +42,29 @@ export function Form({
   const {
     handleSubmit,
     formState: { errors },
+    reset,
   } = methods;
 
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues]);
+
   const renderChild = (child) => {
-    const childName = child?.props?.name;
-    const value = defaultValues ? defaultValues[childName] : undefined;
+    if (!child) return null;
+
+    const childName = child.props?.name;
+    const onChange = child.props?.onChange || handleChange;
+    // const value = defaultValues ? defaultValues[childName] : undefined;
     return (
       <>
         {childName
           ? React.createElement(child.type, {
               ...{
                 ...child.props,
-                onChange: handleChange,
+                onChange: onChange,
                 register: methods.register,
                 key: child.props.name,
-                value: value,
+                // value: value,
               },
             })
           : child}
@@ -76,9 +85,7 @@ export function Input({
   label,
   placeholder,
   type = "text",
-  as,
   prepend,
-  rows,
   ...rest
 }) {
   label = label || rest.name;
@@ -96,8 +103,6 @@ export function Input({
             type={type}
             placeholder={placeholder}
             ref={register}
-            as={as}
-            rows={rows}
             {...rest}
           />
           {/*<Control />*/}
@@ -107,8 +112,6 @@ export function Input({
           type={type}
           placeholder={placeholder}
           ref={register}
-          as={as}
-          rows={rows}
           {...rest}
         />
         // <Control />
@@ -150,29 +153,18 @@ export function Switch({ register, label, ...rest }) {
 
   return (
     <FormGroup>
-      <F.Switch
-        id={rest.name}
-        label={upperFirst(label)}
-        ref={register}
-        {...rest}
-      />
+      <F.Switch label={upperFirst(label)} ref={register} {...rest} />
     </FormGroup>
   );
 }
 
-export function Check({ register, defaultValue, type, name, label, ...rest }) {
-  label = label || name;
+export function Check({ register, label, ...rest }) {
+  label = label || rest.name;
 
   return (
     <FormGroup>
-      <F.Check
-        ref={register}
-        // defaultChecked={defaultValue}
-        type="checkbox"
-        name={name}
-        {...rest}
-      />
-      {label}
+      <input ref={register} type="checkbox" {...rest} />
+      <span className="px-2">{label}</span>
     </FormGroup>
   );
 }

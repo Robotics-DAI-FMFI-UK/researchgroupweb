@@ -7,18 +7,27 @@ import Html from "./types/Html";
 import "./modules.css";
 
 export const ModuleBuilder = ({ module, hasEditPermission }) => {
-  switch (module.type) {
-    case "alert":
-      return <Alert module={module} />;
-    case "carousel":
-      return <Carousel module={module} />;
-    case "editor-js":
-      return <EditorJS module={module} hasEditPermission={hasEditPermission} />;
-    case "html":
-      return <Html module={module} />;
-    case "image":
-      return <Image module={module} />;
-    default:
-      return <Alert module={{ body: { heading: "Module was not found." } }} />;
+  const factory = () => {
+    switch (module.type) {
+      case "alert":
+        return Alert;
+      case "carousel":
+        return Carousel;
+      case "editor-js":
+        return EditorJS;
+      case "html":
+        return Html;
+      case "image":
+        return Image;
+      default:
+        return null;
+    }
+  };
+
+  const Module = factory();
+
+  if (!Module) {
+    return <h3>Module not found</h3>;
   }
+  return <Module module={module} hasEditPermission={hasEditPermission} />;
 };

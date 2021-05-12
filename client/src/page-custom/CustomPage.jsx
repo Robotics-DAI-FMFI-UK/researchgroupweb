@@ -105,6 +105,7 @@ const CustomPage = ({ initPage }) => {
   }
 
   async function addNewModule(module, hardCopy) {
+    // FIX ked pridam modul, tak ho da na zaciatok v ostatnych vrstvach
     const module_id = hardCopy ? module._id : objectId();
 
     const position = cloneObj(addButton);
@@ -176,53 +177,56 @@ const CustomPage = ({ initPage }) => {
   );
 
   if (!layouts) return null;
+  console.log("render PAGE");
 
   return (
-    <ActiveModuleProvider setModules={setModules} setWarning={setWarning}>
-      {getAuth() && hasEditPermission && (
-        <Toolbar
-          page={page}
-          setPage={setPage}
-          modules={modules}
-          warning={warning}
-          setWarning={setWarning}
+    <>
+      <ActiveModuleProvider setModules={setModules} setWarning={setWarning}>
+        {getAuth() && hasEditPermission && (
+          <Toolbar
+            page={page}
+            setPage={setPage}
+            modules={modules}
+            layouts={layouts}
+            warning={warning}
+            setWarning={setWarning}
+          />
+        )}
+        <MyGridLayout
+          breakpoints={breakpoints}
+          cols={cols}
           layouts={layouts}
-        />
-      )}
-      <MyGridLayout
-        breakpoints={breakpoints}
-        cols={cols}
-        layouts={layouts}
-        compactType="vertical"
-        onLayoutChange={onLayoutChange}
-        draggableHandle=".handle"
-        onBreakpointChange={onBreakpointChange}
-        setWarning={setWarning}
-        isBounded={true}
-        simulateBreakpoints={hasEditPermission}
-        hasEditPermission={hasEditPermission}
-        style={{ backgroundColor: "#eee" }}
-        autoSize={true}
-      >
-        {layouts[breakpoint].slice(0, -1).map(createGridBoxItem)}
-        <div
-          key={addButton.i}
-          style={{
-            display: editMode && hasEditPermission ? "inline" : "none",
-          }}
+          compactType="vertical"
+          onLayoutChange={onLayoutChange}
+          draggableHandle=".handle"
+          onBreakpointChange={onBreakpointChange}
+          setWarning={setWarning}
+          isBounded={true}
+          simulateBreakpoints={hasEditPermission}
+          hasEditPermission={hasEditPermission}
+          style={{ backgroundColor: "#eee" }}
+          autoSize={true}
         >
-          <AddButton />
-        </div>
-      </MyGridLayout>
-      {hasEditPermission && <Sidebar />}
-      <NewModuleModal
-        showModal={showModal}
-        modules={modules}
-        addNewModule={addNewModule}
-        toggleModal={toggleModal}
-      />
-      {Prompt}
-    </ActiveModuleProvider>
+          {layouts[breakpoint].slice(0, -1).map(createGridBoxItem)}
+          <div
+            key={addButton.i}
+            style={{
+              display: editMode && hasEditPermission ? "inline" : "none",
+            }}
+          >
+            <AddButton />
+          </div>
+        </MyGridLayout>
+        <Sidebar />
+        <NewModuleModal
+          showModal={showModal}
+          modules={modules}
+          addNewModule={addNewModule}
+          toggleModal={toggleModal}
+        />
+        {Prompt}
+      </ActiveModuleProvider>
+    </>
   );
 };
 

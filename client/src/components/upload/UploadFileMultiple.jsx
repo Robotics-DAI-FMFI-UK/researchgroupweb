@@ -1,29 +1,29 @@
 import React from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
-import {URL_PREFIX} from "../../config";
+import { URL_PREFIX } from "../../config";
+import { useToastContext } from "../../providers/ToastProvider";
+import { getErrorMsg } from "../../utils/functions";
 
 const UploadFileMultiple = ({ onUploadChange, setItems }) => {
+  const { setErrorToast } = useToastContext();
+
   const onChange = async (e) => {
     const files = e.target.files;
     if (!files) return;
-    console.log("files", files);
 
     try {
       const uploadFiles = [];
       for (let i = 0; i < files.length; i++) {
-        console.log("file", files[i]);
-
         const formData = new FormData();
         formData.append("file", files[i]);
 
         const res = await axios.post(`${URL_PREFIX}/upload`, formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "image/*",
           },
         });
 
-        console.log(res);
         uploadFiles.push(res.data.filePath);
       }
 
@@ -41,19 +41,18 @@ const UploadFileMultiple = ({ onUploadChange, setItems }) => {
         return items;
       });
     } catch (err) {
-      console.log(err);
+      setErrorToast(getErrorMsg(err));
     }
   };
 
   return (
-    <>
-      <Form.File
-        multiple
-        onChange={onChange}
-        label="Select local file"
-        custom
-      />
-    </>
+    <Form.File
+      multiple
+      onChange={onChange}
+      label="Select local file"
+      custom
+      accept="image/*"
+    />
   );
 };
 

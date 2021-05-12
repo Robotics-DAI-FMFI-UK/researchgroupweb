@@ -1,7 +1,8 @@
 import React from "react";
 import { Form, Input, Select } from "../../../components/forms/MyForm";
+import ReferenceField from "./ReferenceField";
 
-const AlertForm = ({ SelectPageRef, ...props }) => {
+const AlertForm = ({ activeModule, handleChange, onSubmit }) => {
   const variants = [
     "primary",
     "secondary",
@@ -14,11 +15,15 @@ const AlertForm = ({ SelectPageRef, ...props }) => {
   ];
 
   return (
-    <Form {...props}>
+    <Form
+      defaultValues={activeModule.body}
+      handleChange={handleChange}
+      onSubmit={onSubmit}
+    >
       <Input name="heading" as="textarea" />
       <Input name="message" as="textarea" rows={10} />
       <Select name="variant" options={variants} />
-      {SelectPageRef}
+      <ReferenceField activeModule={activeModule} handleChange={handleChange} />
     </Form>
   );
 };

@@ -4,7 +4,6 @@ import { MdAddCircle } from "react-icons/md";
 import "./style.css";
 import SmallButton from "../../../../../components/buttons/SmallButton";
 
-// TODO REMOVE Item
 const EventTimeline = (props) => {
   const [timelineData, setTimelineData] = React.useState(
     props.data.events.length > 0 ? props.data : DEFAULT_INITIAL_DATA
@@ -29,6 +28,7 @@ const EventTimeline = (props) => {
     updateTimelineData(newData);
   };
 
+  // TODO ak ostane 0 tak vymazat z props.data
   const onRemoveEvent = (index) => {
     const newData = {
       ...timelineData,

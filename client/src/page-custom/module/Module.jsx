@@ -7,6 +7,7 @@ import { SizeMe } from "react-sizeme";
 import { ROW_HEIGHT } from "../../components/MyGridLayout";
 import { usePagesContext } from "../../App";
 import { useActiveModuleContext } from "../ActiveModuleProvider";
+import { Redirect } from "react-router-dom";
 
 export const Module = ({
   module,
@@ -24,6 +25,7 @@ export const Module = ({
   const [editMode] = useModeContext();
   const [showToolbar, setShowToolbar] = useState();
   const [borderColor, setBorderColor] = useState("#fff");
+  const [redirectPath, setRedirectPath] = useState();
 
   if (!module) return null;
   const isActive = module._id === activeModule?._id;
@@ -62,11 +64,11 @@ export const Module = ({
 
     const reference = module?.body?.reference;
     if (reference && !warning) {
-      redirect(reference);
+      redirectTo(reference);
     }
   };
 
-  const redirect = (reference) => {
+  const redirectTo = (reference) => {
     const isExternalRef = reference.substr(0, 5) === "https";
 
     if (isExternalRef) {
@@ -76,7 +78,7 @@ export const Module = ({
 
     const path = pages.find((page) => page._id === reference)?.path;
     if (path) {
-      window.open(path, "_self"); // open in the same tab
+      setRedirectPath(path);
     }
   };
 
@@ -136,6 +138,10 @@ export const Module = ({
 
   const isException = module && module.type === "editor-js";
 
+  if (redirectPath) {
+    return <Redirect to={redirectPath} />;
+  }
+
   return (
     <div
       style={style}
@@ -178,12 +184,12 @@ export const Module = ({
       <ModuleToolbar
         position={position}
         module={module}
-        isPinned={position.static}
         onPin={onPin}
         onRemove={onRemove}
         showToolbar={showToolbar}
         copyCardToClipboard={copyCardToClipboard}
         createCardCopy={createCardCopy}
+        toggleActiveModule={toggleActiveModule}
       />
     </div>
   );

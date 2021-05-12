@@ -7,6 +7,7 @@ const Alert = ({ module }) => {
 
   const style = {
     // overflowY: "auto",
+    // height: "inherit",
     height: "100%",
     marginBottom: "0",
   };

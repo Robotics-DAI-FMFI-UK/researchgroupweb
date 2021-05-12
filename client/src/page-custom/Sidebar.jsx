@@ -45,7 +45,7 @@ const Sidebar = () => {
           >
             <BsArrowLeftRight size="25" />
           </SmallButton>
-          <EditForm activeModule={activeModule} />
+          <EditForm />
         </>
       ) : null}
     </div>

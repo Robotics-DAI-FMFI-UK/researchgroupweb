@@ -22,11 +22,12 @@ const EditorJS = ({ module, hasEditPermission }) => {
 
   const handleSave = async () => {
     const savedData = await editor.current.save();
+    const updatedModule = { ...module, body: savedData };
     console.log("saved data", savedData);
     if (!activeModule || activeModule._id !== module._id) {
-      toggleActiveModule(module);
+      toggleActiveModule(updatedModule);
     }
-    updateActiveModule({ ...module, body: savedData });
+    updateActiveModule(updatedModule);
   };
 
   const readOnly = !editMode || !hasEditPermission;

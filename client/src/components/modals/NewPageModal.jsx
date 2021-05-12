@@ -52,7 +52,7 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
       })
       .then((res) => {
         const { newPage, newModules } = res.data;
-
+        console.log("newPage", newPage);
         if (onHide && !redirect) {
           onHide();
         }

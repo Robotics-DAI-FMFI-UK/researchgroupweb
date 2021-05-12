@@ -4,9 +4,10 @@ import { Form, Input, Select } from "../../../components/forms/MyForm";
 import axios from "axios";
 import { getErrorMsg } from "../../../utils/functions";
 import { useToastContext } from "../../../providers/ToastProvider";
-import {URL_PREFIX} from "../../../config";
+import { URL_PREFIX } from "../../../config";
+import ReferenceField from "./ReferenceField";
 
-const ImageForm = ({ SelectPageRef, ...props }) => {
+const ImageForm = React.memo(({ activeModule, handleChange, onSubmit }) => {
   const { setErrorToast } = useToastContext();
 
   const [filename, setFilename] = useState("Select local file");
@@ -15,7 +16,6 @@ const ImageForm = ({ SelectPageRef, ...props }) => {
 
   const onUploadChange = async (e) => {
     const file = e.target.files[0];
-    console.log("file", file);
     if (!file) return;
 
     setFilename(file.name);
@@ -27,11 +27,11 @@ const ImageForm = ({ SelectPageRef, ...props }) => {
       await axios
         .post(`${URL_PREFIX}/upload`, formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "image/*",
           },
         })
         .then((res) => {
-          props.handleChange({
+          handleChange({
             target: {
               name: "src",
               value: res.data.filePath,
@@ -39,28 +39,34 @@ const ImageForm = ({ SelectPageRef, ...props }) => {
           });
         })
         .catch((err) => {
-          console.log("err", err);
           setErrorToast(getErrorMsg(err));
         });
     } catch (err) {
-      console.log("err", err);
       setErrorToast("Upload failed");
     }
   };
 
   return (
-    <Form {...props}>
-      <BsForm.File custom label={filename} onChange={onUploadChange} />
-      <br />
-      <br />
+    <Form
+      defaultValues={activeModule.body}
+      handleChange={handleChange}
+      onSubmit={onSubmit}
+    >
+      <BsForm.File
+        custom
+        label={filename}
+        onChange={onUploadChange}
+        className="mb-3"
+        accept="image/*"
+      />
       <Input label="Image source" name="src" required />
       <Input name="title" />
       <Input name="subtitle" as="textarea" />
       <Select name="objectFit" options={options} />
       <Input name="backgroundColor" />
-      {SelectPageRef}
+      <ReferenceField activeModule={activeModule} handleChange={handleChange} />
     </Form>
   );
-};
+});
 
 export default ImageForm;

@@ -27,6 +27,8 @@ const MyGridLayout = ({
     ResponsiveGridLayout = Responsive;
   }
 
+  console.log("rerender");
+
   const [prevSize, setPrevSize] = useState({ width: 0 });
   const [width, setWidth] = useState(breakpoints.lg + 1);
 
@@ -56,24 +58,27 @@ const MyGridLayout = ({
 
   const handleSizeChange = (size) => {
     if (prevSize.width === size.width) return;
+
     setWidth(size.width);
     setPrevSize(size);
   };
 
-  const ViewButtons = () => {
-    const ViewButton = ({ bp, active, disabled, children }) => (
+  const ViewToolbar = () => {
+    // render one of the three buttons
+    const ViewButton = ({ breakpoint, active, disabled, children }) => (
       <SmallButton
         variant="outline-dark"
-        active={active}
-        disabled={disabled}
-        onClick={() => setWidth(breakpoints[bp] + 1)}
+        active={active} // to mark pressed button
+        disabled={disabled} // disable button with smaller width that the current
+        onClick={() => setWidth(breakpoints[breakpoint] + 1)}
       >
-        {children}
+        {children} {/* device name */}
       </SmallButton>
     );
 
     return (
       <div className="d-flex justify-content-center pb-4">
+        {/* render group of three buttons for mobile, tablet and desktop  */}
         <ButtonGroup>
           <SmallButton style={{ fontWeight: "bold" }} variant="dark" disabled>
             Device views:
@@ -102,7 +107,7 @@ const MyGridLayout = ({
 
   return (
     <div>
-      {simulateBreakpoints && <ViewButtons />}
+      {simulateBreakpoints && <ViewToolbar />}
       <SizeMe>
         {({ size }) => {
           handleSizeChange(size);

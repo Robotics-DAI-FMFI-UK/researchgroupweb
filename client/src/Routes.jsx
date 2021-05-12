@@ -15,9 +15,8 @@ function Routes({ pages, auth }) {
 
   const PrivateRoute = ({ component: Component, onlyAdmin, path, ...rest }) => {
     let hasAccess = auth;
-    if (onlyAdmin) {
-      hasAccess = auth?.user.isAdmin;
-    }
+    if (onlyAdmin) hasAccess = auth?.user.isAdmin;
+
     return (
       <Route
         render={(props) =>

@@ -1,44 +1,40 @@
-import React from "react";
-import { Form, Input } from "../../../components/forms/MyForm";
-import { useForm } from "react-hook-form";
+import React, { useRef } from "react";
+import { Form, Input, Check } from "../../../components/forms/MyForm";
 
-const HtmlForm = ({ SelectPageRef, ...props }) => {
-  const { register, watch } = useForm({
-    defaultValues: props.defaultValues,
-  });
+const HtmlForm = ({ activeModule, handleChange, onSubmit }) => {
+  const embed = useRef(activeModule.body.embed);
 
-  const _embed = watch("embed");
+  const toggleEmbed = () => {
+    embed.current = !embed.current;
+    return embed.current;
+  };
 
   return (
-    <>
-      <Form {...props}>
-        <form>
-          <div>
-            <input
-              ref={register}
-              type="checkbox"
-              name="embed"
-              onChange={() =>
-                props.handleChange({
-                  target: {
-                    name: "embed",
-                    value: !_embed,
-                  },
-                })
-              }
-            />
-            <span className="px-2">Embedded (iframe)</span>
-          </div>
-        </form>
-        <Input
-          name="html"
-          label="Paste html code"
-          required
-          as="textarea"
-          rows={20}
-        />
-      </Form>
-    </>
+    <Form
+      defaultValues={activeModule.body}
+      handleChange={handleChange}
+      onSubmit={onSubmit}
+    >
+      <Check
+        name="embed"
+        label="Embedded (iframe)"
+        onChange={() =>
+          handleChange({
+            target: {
+              name: "embed",
+              value: toggleEmbed(),
+            },
+          })
+        }
+      />
+      <Input
+        name="html"
+        label="Paste html code"
+        required
+        as="textarea"
+        rows={20}
+      />
+    </Form>
   );
 };
 

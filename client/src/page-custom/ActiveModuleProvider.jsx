@@ -12,6 +12,8 @@ export const ActiveModuleProvider = ({ children, setModules, setWarning }) => {
   }, [activeModule]);
 
   const updateModules = (module) => {
+    // TODO ak sa nezmenil, tak nerobit update,
+    //  zbytocne sa tak renderuje cely page
     setModules((prev) => {
       return prev.map((m) => {
         return m._id === module._id ? module : m;

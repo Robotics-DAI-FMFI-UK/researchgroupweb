@@ -10,7 +10,8 @@ router.post("/", async (req, res) => {
   try {
     const page = fillCreate(req, Page);
     const newPage = await page.save();
-    res.status(201).json(newPage);
+    console.log(newPage);
+    res.status(201).json({ newPage });
   } catch (e) {
     res.status(400).json({ message: e.message });
   }

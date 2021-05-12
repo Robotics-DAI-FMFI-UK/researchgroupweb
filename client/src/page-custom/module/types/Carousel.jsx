@@ -20,6 +20,9 @@ const Carousel = ({ module }) => {
     setIndex(selectedIndex);
   };
 
+  // FIX kliknutím na indicator sa presmeru na reference
+  // console.log("carousel");
+
   return (
     <BsCarousel
       activeIndex={index}
