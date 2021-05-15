@@ -8,11 +8,13 @@ import { usePagesContext } from "./App";
 const Page404 = () => {
   const { pathname } = useLocation();
   const { pages } = usePagesContext();
+
   const [showModal, setShowModal] = useState();
   const toggleModal = () => setShowModal((prev) => !prev);
 
   if (pages.find((page) => page.path === pathname)) {
     // path is freshly created
+    // so we don't want to render Page404
     return null;
   }
 

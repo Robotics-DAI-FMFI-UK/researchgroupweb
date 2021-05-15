@@ -7,11 +7,15 @@ import EditableCell from "./EditableCell";
 import { URL_PREFIX } from "../../config";
 import { Link } from "react-router-dom";
 import { useToastContext } from "../../providers/ToastProvider";
-import { getErrorMsg } from "../../utils/functions";
+import { getAuth, getErrorMsg } from "../../utils/functions";
 
-const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
+const PageRow = ({ page: _page, setPages, fields }) => {
   const [page, setPage] = useState(_page);
   const { serErrorToast } = useToastContext();
+
+  const isAdmin = getAuth()?.user.isAdmin;
+  const hasEditPermission =
+    isAdmin || getAuth().user.id === _page.created_by._id;
 
   const editableFields = ["title", "path", "description"];
   const isEditable = (field) => editableFields.includes(field);
@@ -54,6 +58,7 @@ const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
         id={uuid()}
         checked={published}
         label={`${published}`}
+        disabled={!isAdmin}
         onChange={handleChange}
       />
     );
@@ -87,7 +92,12 @@ const PageRow = ({ page: _page, setPages, fields, hasEditPermission }) => {
     }
     if (field === "remove") {
       body = (
-        <SmallButton id="remove" variant="outline-danger" onClick={removePage}>
+        <SmallButton
+          id="remove"
+          variant="outline-danger"
+          onClick={removePage}
+          disabled={!hasEditPermission}
+        >
           remove
         </SmallButton>
       );

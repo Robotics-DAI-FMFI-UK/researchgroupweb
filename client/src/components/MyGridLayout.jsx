@@ -27,8 +27,6 @@ const MyGridLayout = ({
     ResponsiveGridLayout = Responsive;
   }
 
-  console.log("rerender");
-
   const [prevSize, setPrevSize] = useState({ width: 0 });
   const [width, setWidth] = useState(breakpoints.lg + 1);
 
@@ -83,18 +81,22 @@ const MyGridLayout = ({
           <SmallButton style={{ fontWeight: "bold" }} variant="dark" disabled>
             Device views:
           </SmallButton>
-          <ViewButton bp="sm" active={width <= breakpoints.md} disabled={false}>
+          <ViewButton
+            breakpoint="sm"
+            active={width <= breakpoints.md}
+            disabled={false}
+          >
             Mobile
           </ViewButton>
           <ViewButton
-            bp="md"
+            breakpoint="md"
             active={breakpoints.md + 1 <= width && width <= breakpoints.lg}
             disabled={prevSize.width < breakpoints.md}
           >
             Tablet
           </ViewButton>
           <ViewButton
-            bp="lg"
+            breakpoint="lg"
             active={width >= breakpoints.lg + 1}
             disabled={prevSize.width < breakpoints.lg}
           >

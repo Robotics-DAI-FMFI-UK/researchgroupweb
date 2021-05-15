@@ -5,18 +5,23 @@
  * @private
  */
 function _isNotMissed(elem) {
-  return (!(elem === undefined || elem === null));
+  return !(elem === undefined || elem === null);
 }
 
 /**
  * Create DOM element with set parameters
- * @param {string} tagName - Html tag of the element to be created
+ * @param {string} tagName - Video tag of the element to be created
  * @param {string[]} cssClasses - Css classes that must be applied to an element
  * @param {object} attrs - Attributes that must be applied to the element
  * @param {Element[]} children - child elements of creating element
  * @returns {HTMLElement} the new element
  */
-export function create(tagName, cssClasses = null, attrs = null, children = null) {
+export function create(
+  tagName,
+  cssClasses = null,
+  attrs = null,
+  children = null
+) {
   const elem = document.createElement(tagName);
 
   if (_isNotMissed(cssClasses)) {
@@ -53,7 +58,7 @@ export function getCoords(elem) {
     y1: Math.floor(rect.top + window.pageYOffset),
     x1: Math.floor(rect.left + window.pageXOffset),
     x2: Math.floor(rect.right + window.pageXOffset),
-    y2: Math.floor(rect.bottom + window.pageYOffset)
+    y2: Math.floor(rect.bottom + window.pageYOffset),
   };
 }
 
@@ -71,16 +76,16 @@ export function getSideByCoords(coords, x, y) {
   // a point is close to the boundary if the distance between them is less than the allowed distance.
   // +1px on each side due to fractional pixels
   if (x - coords.x1 >= -1 && x - coords.x1 <= sizeArea + 1) {
-    side = 'left';
+    side = "left";
   }
   if (coords.x2 - x >= -1 && coords.x2 - x <= sizeArea + 1) {
-    side = 'right';
+    side = "right";
   }
   if (y - coords.y1 >= -1 && y - coords.y1 <= sizeArea + 1) {
-    side = 'top';
+    side = "top";
   }
   if (coords.y2 - y >= -1 && coords.y2 - y <= sizeArea + 1) {
-    side = 'bottom';
+    side = "bottom";
   }
 
   return side;

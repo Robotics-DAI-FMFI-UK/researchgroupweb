@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "react-bootstrap/Image";
-import { formatDate, getErrorMsg } from "../../utils/functions";
+import { formatDate, getAuth, getErrorMsg } from "../../utils/functions";
 import axios from "axios";
 import { Form } from "react-bootstrap";
 import uuid from "react-uuid";
@@ -37,6 +37,7 @@ const UserRow = ({ user: _user, setUsers, fields }) => {
         id={uuid()}
         checked={isAdmin}
         label={`${isAdmin}`}
+        disabled={!getAuth()?.user.isAdmin}
         onChange={handleChange}
       />
     );

@@ -31,7 +31,7 @@ const NavSloths = () => {
   const [items, setItems] = useState();
 
   const [exportData, setExportData] = useState();
-  const [filename, setFilename] = useState("Import form local file");
+  const [filename, setFilename] = useState("Import local file");
 
   const [publishedId, setPublishedId] = useState();
   const [currentId, setCurrentId] = useState();

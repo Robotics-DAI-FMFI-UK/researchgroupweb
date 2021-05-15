@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import MyModal from "./MyModal";
@@ -13,29 +13,27 @@ import {
 import * as Yup from "yup";
 import { URL_PREFIX } from "../../config";
 import { usePagesContext } from "../../App";
+import uuid from "react-uuid";
 
-const reservedPaths = ["/users", "/profile"];
+const reservedPaths = ["/users", "/profile", "/nav", "/pages"];
 
 const validationSchema = Yup.object({
   path: Yup.string()
     .notOneOf(reservedPaths, "The path name is reserved")
-    .matches(/^[/.a-zA-Z0-9-]+$/, "Not valid url path."),
+    .matches(/^[/.a-zA-Z0-9-]*$/, "Not valid url path."),
 });
 
 const NewPageModal = ({ onHide, page, path, redirect = true }) => {
   const { setPages } = usePagesContext();
   const [error, setError] = useState();
+
   const [filename, setFilename] = useState("Create from local file");
   const [addedPath, setAddedPath] = useState("");
 
-  useEffect(() => {
-    console.log("add", addedPath);
-  }, [addedPath]);
-
   const handleSubmit = (data, e) => {
-    console.log(data);
     e.preventDefault();
-
+    console.log("data", data);
+    // return;
     let endPoint = "/pages";
 
     if (data.copy) {
@@ -43,7 +41,6 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
       data.layouts = page.layouts;
     }
 
-    // return;
     axios
       .post(endPoint, {
         ...data,
@@ -52,18 +49,14 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
       })
       .then((res) => {
         const { newPage, newModules } = res.data;
-        console.log("newPage", newPage);
-        if (onHide && !redirect) {
-          onHide();
-        }
-
+        if (onHide && !redirect) onHide();
         setAddedPath(newPage.path);
 
         setPages((prev) => [
           ...prev,
           {
             ...newPage,
-            modules: newModules,
+            modules: newModules || [],
             created_by: {
               _id: getAuth().user.id,
               name: getAuth().user.name,
@@ -72,7 +65,6 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
         ]);
       })
       .catch((err) => {
-        console.log(err);
         setError(getErrorMsg(err));
       });
   };
@@ -168,12 +160,13 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
           <Input
             name="path"
             label="url path"
-            required
             prepend="/"
-            defaultValue={defaultValues.path}
+            defaultValue={defaultValues.path || ""}
           />
           <Input name="description" as="textarea" />
-          {page && <Switch name="copy" label="copy current page layouts" />}
+          {page && (
+            <Switch id={uuid()} name="copy" label="copy current page layouts" />
+          )}
           <Error error={error} />
           <Submit>Create</Submit>
         </Form>

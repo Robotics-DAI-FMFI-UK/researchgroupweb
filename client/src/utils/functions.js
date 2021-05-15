@@ -94,3 +94,13 @@ export const objectId = () => {
 export const roundToTwo = (num) => {
   return +(Math.round(num + "e+2") + "e-2");
 };
+
+// https://stackoverflow.com/a/38181008/15440273
+export const insert = (arr, index, newItem) => [
+  // part of the array before the specified index
+  ...arr.slice(0, index),
+  // inserted item
+  newItem,
+  // part of the array after the specified index
+  ...arr.slice(index),
+];

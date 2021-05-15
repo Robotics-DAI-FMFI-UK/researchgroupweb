@@ -6,10 +6,10 @@ const Html = ({ module }) => {
   if (!module.body) module.body = placeholder;
   const { embed, html } = module.body;
 
-  console.log("hmtml", module.body);
+  // console.log("html", module.body);
 
   return embed ? (
-    <ResponsiveEmbed aspectRatio="16by9" className="grid-module">
+    <ResponsiveEmbed aspectRatio="16by9" className="h-100">
       {parse(html)}
     </ResponsiveEmbed>
   ) : (

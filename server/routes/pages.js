@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Page from "../models/Page";
 import Module from "../models/Module";
+import mongoose from "mongoose";
 import { fillUpdate, fillCreate } from "./shared";
 
 const router = Router();
@@ -10,7 +11,7 @@ router.post("/", async (req, res) => {
   try {
     const page = fillCreate(req, Page);
     const newPage = await page.save();
-    console.log(newPage);
+
     res.status(201).json({ newPage });
   } catch (e) {
     res.status(400).json({ message: e.message });
@@ -159,14 +160,13 @@ router.patch("/:id", getPage, async (req, res) => {
 
 // UPDATE layouts and modules
 router.patch("/with-grid/:id", async (req, res) => {
-  const { layouts, modules, removeIds } = req.body;
-  console.log("page._id", req.params.id);
-  console.log("layouts", layouts);
-  console.log("modules", modules);
-  console.log("removeIds", removeIds);
-
   try {
     const { layouts, modules, removeIds } = req.body;
+    // console.log("page._id", req.params.id);
+    // console.log("layouts", layouts);
+    // console.log("modules", modules);
+    // console.log("removeIds", removeIds);
+
     const savedPage = await Page.findByIdAndUpdate(
       { _id: req.params.id },
       { layouts }
@@ -185,25 +185,25 @@ router.patch("/with-grid/:id", async (req, res) => {
     );
 
     // TODO remove module only if it's id is not in other pages layouts
-    // const pages = await Page.find({ _id: { $ne: req.params.id } });
-    // const remainIds = [];
-    //
-    // removeIds.forEach((_id) => {
-    //   for (let i = 0; i < pages.length; i++) {
-    //     const ids = pages[i].layouts.lg.map((p) => p.i);
-    //     if (ids.includes(_id)) {
-    //       remainIds.push(_id);
-    //       return;
-    //     }
-    //   }
-    // });
-    //
-    // const deleteIds = removeIds.filter((_id) => !remainIds.includes(_id));
+    const pages = await Page.find({ _id: { $ne: req.params.id } });
+    const remainIds = [];
+    removeIds.forEach((_id) => {
+      const objId = _id;
 
-    // const deletedModules = await Module.deleteMany({
-    //   _id: { $in: deleteIds },
-    // });
-    // console.log(a)
+      for (let i = 0; i < pages.length; i++) {
+        const ids = pages[i].layouts.lg.map((p) => p.i);
+        if (ids.includes(objId)) {
+          remainIds.push(objId);
+          return;
+        }
+      }
+    });
+    const deleteIds = removeIds.filter((_id) => !remainIds.includes(_id));
+
+    const deletedModules = await Module.deleteMany({
+      _id: { $in: deleteIds },
+    });
+
     res.json({ message: "Page updated successfully" });
   } catch (e) {
     res.status(500).json({ message: e.message });

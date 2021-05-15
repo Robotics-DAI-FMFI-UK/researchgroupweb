@@ -46,6 +46,7 @@ const EventImage = (props) => {
 
   const imgStyle = {
     objectFit: objectFit,
+    height: "100%",
   };
 
   const titleStyle = {
@@ -69,8 +70,8 @@ const EventImage = (props) => {
   };
 
   return (
-    <Card key={id} className="text-white grid-module">
-      <Card.Img src={src} alt={alt} style={imgStyle} className="grid-module" />
+    <Card key={id} className="text-white h-100">
+      <Card.Img src={src} alt={alt} style={imgStyle} />
       {/* className="d-flex p-0 m-0" */}
       <Card.ImgOverlay>
         {subtitle.enable && (

@@ -20,7 +20,7 @@ const Carousel = ({ module }) => {
     setIndex(selectedIndex);
   };
 
-  // FIX kliknutím na indicator sa presmeru na reference
+  // FIX kliknutím na indicator sa presmeruje na reference
   // console.log("carousel");
 
   return (

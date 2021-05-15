@@ -16,11 +16,13 @@ const Image = ({ module }) => {
 
   const imgStyle = {
     objectFit: objectFit,
+    height: "100%",
   };
 
   const cardStyle = {
     backgroundColor: backgroundColor,
     cursor: reference ? "pointer" : "",
+    height: "100%",
   };
 
   const titleStyle = {
@@ -48,12 +50,8 @@ const Image = ({ module }) => {
   };
 
   return (
-    <Card
-      key={module._id || uuid()}
-      className="text-white grid-module"
-      style={cardStyle}
-    >
-      <Card.Img src={src} alt={alt} style={imgStyle} className="grid-module" />
+    <Card key={module._id || uuid()} className="text-white" style={cardStyle}>
+      <Card.Img src={src} alt={alt} style={imgStyle} />
       <Card.ImgOverlay style={overlayStyle}>
         {subtitle && (
           <Card.Title style={subtitleStyle} className="align-self-end">
@@ -73,7 +71,7 @@ const Image = ({ module }) => {
 const placeholder = {
   src: "/img-placeholder.jpg",
   alt: "image",
-  title: "Title ",
+  title: "Title",
   subtitle: "Subtitle placeholder",
   objectFit: "none",
 };

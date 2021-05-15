@@ -51,7 +51,7 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
       });
   };
 
-  const options = ["alert", "carousel", "editor-js", "html", "image"];
+  const options = ["alert", "carousel", "editor-js", "html", "image", "video"];
 
   const Delimiter = () => {
     return (
@@ -92,12 +92,6 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
           </FormControl>
         </FormGroup>
         <Delimiter />
-        <SmallButton
-          className="btn-block p-2 mb-2 pl-3 text-left"
-          onClick={createCopy}
-        >
-          Click to paste id of module from clipboard
-        </SmallButton>
         <FormGroup>
           <F.Check
             checked={hardCopy}
@@ -106,6 +100,12 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
             type="checkbox"
           />
         </FormGroup>
+        <SmallButton
+          className="btn-block p-2 mb-2 pl-3 text-left"
+          onClick={createCopy}
+        >
+          Click to paste id of module from clipboard
+        </SmallButton>
       </Modal.Body>
     </Modal>
   );

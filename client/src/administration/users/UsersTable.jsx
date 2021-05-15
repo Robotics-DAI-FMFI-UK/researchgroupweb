@@ -35,7 +35,7 @@ const UsersTable = () => {
   const hasEditPermission = getAuth()?.user.isAdmin;
 
   if (!hasEditPermission) {
-    columns.delete("isAdmin");
+    // columns.delete("isAdmin");
     columns.delete("remove");
   }
 

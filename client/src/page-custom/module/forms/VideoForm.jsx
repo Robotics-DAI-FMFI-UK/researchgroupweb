@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { Form as BsForm } from "react-bootstrap";
-import { Form, Input, Select } from "../../../components/forms/MyForm";
 import axios from "axios";
+import { Form, Input } from "../../../components/forms/MyForm";
 import { getErrorMsg } from "../../../utils/functions";
 import { useToastContext } from "../../../providers/ToastProvider";
 import { URL_PREFIX } from "../../../config";
-import ReferenceField from "./ReferenceField";
 
-const ImageForm = React.memo(({ activeModule, handleChange, onSubmit }) => {
+const VideoFrom = ({ activeModule, handleChange, onSubmit }) => {
   const { setErrorToast } = useToastContext();
 
-  const [filename, setFilename] = useState("Select local file");
-
-  const options = ["fill", "contain", "cover", "none", "scale-down"];
+  const [filename, setFilename] = useState(
+    activeModule.body.src || "Select local file"
+  );
 
   const onUploadChange = async (e) => {
     const file = e.target.files[0];
@@ -27,7 +26,7 @@ const ImageForm = React.memo(({ activeModule, handleChange, onSubmit }) => {
       await axios
         .post(`${URL_PREFIX}/upload`, formData, {
           headers: {
-            "Content-Type": "image/*",
+            "Content-Type": "video/*",
           },
         })
         .then((res) => {
@@ -57,16 +56,12 @@ const ImageForm = React.memo(({ activeModule, handleChange, onSubmit }) => {
         label={filename}
         onChange={onUploadChange}
         className="mb-3"
-        accept="image/*"
+        // accept="video/mp4,video/x-m4v,video/*"
       />
-      <Input label="Image source" name="src" required />
       <Input name="title" />
-      <Input name="subtitle" as="textarea" />
-      <Select name="objectFit" options={options} />
       <Input name="backgroundColor" label="Background color" />
-      <ReferenceField activeModule={activeModule} handleChange={handleChange} />
     </Form>
   );
-});
+};
 
-export default ImageForm;
+export default VideoFrom;

@@ -18,25 +18,29 @@ const PageTable = () => {
     ["description", "Description"],
     ["created_by", "Author"],
     ["published", "Published"],
-    // ["history", "History"], // TODO
+    // ["history", "History"],
     ["remove", "Remove"],
     ["export", "Export"],
     ["open", ""],
   ]);
 
-  const hasEditPermission = getAuth()?.user.isAdmin;
+  // const hasEditPermission = getAuth()?.user.isAdmin;
 
-  if (!hasEditPermission) {
-    columns.delete("published");
-    columns.delete("remove");
-  }
+  // if (!hasEditPermission) {
+  //   columns.delete("published");
+  //   columns.delete("remove");
+  // }
 
   const headers = [...columns.values()];
   const fields = [...columns.keys()];
 
   return (
     <div style={{ margin: "16px" }}>
-      <h1>Pages table</h1>
+      <h1 className="d-inline-block">Pages table</h1>
+      <SmallButton className="mb-3 mx-3" onClick={toggleModal}>
+        Create new Page
+      </SmallButton>
+
       <Table responsive>
         <thead>
           <tr>
@@ -51,7 +55,7 @@ const PageTable = () => {
               page={page}
               setPages={setPages}
               fields={fields}
-              hasEditPermission={hasEditPermission}
+              // hasEditPermission={hasEditPermission}
             />
           ))}
         </tbody>

@@ -34,7 +34,7 @@ const CustomPage = ({ initPage }) => {
   const [breakpoint, setBreakpoint] = useState("lg");
   const [layouts, setLayouts] = useState(() => getInitLayouts(initPage));
   // ------------ INITIALIZATION ------------
-
+  console.log(layouts);
   // ------------ EVENTS HANDLERS ------------
   useEffect(() => {
     if (!newModule) return;
@@ -105,7 +105,6 @@ const CustomPage = ({ initPage }) => {
   }
 
   async function addNewModule(module, hardCopy) {
-    // FIX ked pridam modul, tak ho da na zaciatok v ostatnych vrstvach
     const module_id = hardCopy ? module._id : objectId();
 
     const position = cloneObj(addButton);
@@ -140,9 +139,18 @@ const CustomPage = ({ initPage }) => {
     addButton.y = newY;
 
     setLayouts((prev) => {
+      // const index = prev.lg.length - 2;
+      // prev.sm.splice(index, 0, position);
+      // prev.md.splice(index, 0, position);
+      // prev.lg.splice(0, 0, position);
+      // console.log(prev.lg);
+
+      // return prev;
       return {
-        ...prev,
-        [breakpoint]: [position, ...prev[breakpoint]],
+        // ...prev,
+        sm: [position, ...prev.sm],
+        md: [position, ...prev.md],
+        lg: [position, ...prev.lg],
       };
     });
 

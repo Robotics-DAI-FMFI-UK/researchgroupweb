@@ -10,6 +10,7 @@ import SmallButton from "../../../components/buttons/SmallButton";
 import { useToastContext } from "../../../providers/ToastProvider";
 import { getErrorMsg, upperFirst } from "../../../utils/functions";
 import { URL_PREFIX } from "../../../config";
+import VideoForm from "./VideoForm";
 
 const EditForm = () => {
   const { setSuccessToast, setErrorToast } = useToastContext();
@@ -52,6 +53,15 @@ const EditForm = () => {
 
   const ModuleForm = formFactory(activeModule);
 
+  if (!ModuleForm) {
+    return (
+      <div className="m-4">
+        <h1 className="text-center">{upperFirst(activeModule.type)}</h1>
+        <h4 className="text-center">Form not found</h4>
+      </div>
+    );
+  }
+
   return (
     <div className="m-4">
       <h1 className="text-center">{upperFirst(activeModule.type)}</h1>
@@ -79,6 +89,8 @@ const formFactory = (activeModule) => {
       return HtmlForm;
     case "image":
       return ImageForm;
+    case "video":
+      return VideoForm;
     default:
       return null;
   }
