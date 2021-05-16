@@ -71,7 +71,6 @@ router.post("/import", (req, res) => {
 
   let file = req.files.file;
   if (!file) file = req.files.image;
-  console.log("file", file);
 
   if (file.mimetype !== "application/json") {
     return res.status(500).json({ message: "Import allows only json file" });

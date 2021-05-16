@@ -41,8 +41,6 @@ export default class Image {
       this.data = {
         ...newData,
       };
-      console.log("tool changed");
-      console.log(this.data);
     };
 
     ReactDOM.render(
@@ -81,7 +79,6 @@ export default class Image {
   }
 
   _toggleTune(tune) {
-    console.log("Image tune clicked", tune);
     this.data[tune].enable = !this.data[tune].enable;
   }
 

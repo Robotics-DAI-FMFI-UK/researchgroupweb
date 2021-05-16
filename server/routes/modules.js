@@ -45,7 +45,6 @@ router.get("/:id", getModule, (req, res) => {
  */
 
 router.get("/page/:id", async (req, res) => {
-  console.log(req.params);
   try {
     const modules = await Module.find({ page_id: req.params.id });
     res.json(modules);
@@ -122,7 +121,6 @@ router.delete("/", async (req, res) => {
  */
 
 async function getModule(req, res, next) {
-  console.log(req.params.id);
   let module;
   try {
     module = await Module.findById(req.params.id);

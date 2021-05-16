@@ -123,7 +123,6 @@ export default class Attach {
      * If file was uploaded
      */
     if (this.pluginHasData()) {
-      // POZOR
       const title = toolsContent.querySelector(`.${this.CSS.title}`).innerHTML;
 
       Object.assign(this.data, { title });
@@ -132,7 +131,6 @@ export default class Attach {
     return this.data;
   }
 
-  // TU SOM PRESTAL
   render() {
     const rootNode = document.createElement("div");
     rootNode.setAttribute("class", this.CSS.wrapper);
@@ -142,8 +140,6 @@ export default class Attach {
       this.data = {
         ...newData,
       };
-      console.log("tool changed");
-      console.log(this.data);
     };
 
     ReactDOM.render(

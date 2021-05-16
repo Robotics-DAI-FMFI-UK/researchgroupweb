@@ -93,7 +93,6 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
   const updateFromImport = (importData) => {
     axios
       .patch(`${URL_PREFIX}/pages/with-grid/${importData._id}`, {
-        // TODO
         // columns,
         // modules,
         // removeIds,

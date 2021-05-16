@@ -26,7 +26,7 @@ const EventImage = (props) => {
       : DEFAULT_INITIAL_DATA;
 
   const [imgData, setImgData] = useState(initState);
-  console.log(imgData);
+
   const updateTimelineData = (newData) => {
     setImgData(newData);
     if (props.onDataChange) {

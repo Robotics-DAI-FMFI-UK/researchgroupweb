@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import Navbar from "./Navbar";
+import Module from "./Module";
 const uniqueValidator = require("mongoose-unique-validator");
 
 const reservedPaths = ["/users", "/pages", "/nav", "/profile"];
@@ -80,31 +81,36 @@ PageSchema.plugin(uniqueValidator, {
 });
 
 PageSchema.post("remove", async (page) => {
-  // TODO test cascade remove from navbar
   Navbar.updateMany(
     { "items.pages": page._id, published: true },
     { $pullAll: { uid: [page._id] } }
   );
-  // TODO remove module only if it's id is not in other pages layouts
-  // const moduleIds = page.layouts.lg.map((position) => position.i);
-  // console.log("removing modules:", moduleIds);
-  // if (Array.isArray(moduleIds)) {
-  //   const pages = await Page.find({ _id: { $ne: page._id } });
-  //   console.log(pages);
-  //   const remainIds = [];
-  //
-  //   moduleIds.forEach((_id) => {
-  //     for (let i = 0; i < pages.length; i++) {
-  //       const ids = pages[i].layouts.lg.map((p) => p.i);
-  //       if (ids.includes(_id)) {
-  //         remainIds.push(_id);
-  //         return;
-  //       }
-  //     }
-  //   });
-  //   const deleteIds = moduleIds.filter((_id) => !remainIds.includes(_id));
-  //   Module.deleteMany({ _id: deleteIds });
-  // }
+  const moduleIds = page.layouts.lg.map((position) => position.i);
+
+  if (Array.isArray(moduleIds)) {
+    // select all pages except the removing
+    const pages = await Page.find({ _id: { $ne: page._id } });
+
+    // find module copy in pages
+    const remainIds = [];
+    moduleIds.forEach((_id) => {
+      for (let i = 0; i < pages.length; i++) {
+        const ids = pages[i].layouts.lg.map((p) => p.i);
+        if (ids.includes(_id)) {
+          remainIds.push(_id);
+          return;
+        }
+      }
+    });
+
+    // filter remaining copies
+    const deleteIds = moduleIds.filter((_id) => !remainIds.includes(_id));
+
+    // execute delete query
+    const deletedModules = await Module.deleteMany({
+      _id: { $in: deleteIds },
+    });
+  }
 });
 
 const Page = model("page", PageSchema);

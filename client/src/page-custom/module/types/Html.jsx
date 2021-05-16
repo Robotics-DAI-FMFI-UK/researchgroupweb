@@ -4,16 +4,27 @@ import parse from "html-react-parser";
 
 const Html = ({ module }) => {
   if (!module.body) module.body = placeholder;
-  const { embed, html } = module.body;
+  let { embed, html } = module.body;
 
-  // console.log("html", module.body);
+  html = html.trim();
 
-  return embed ? (
-    <ResponsiveEmbed aspectRatio="16by9" className="h-100">
-      {parse(html)}
-    </ResponsiveEmbed>
-  ) : (
-    parse(html)
+  const validIframe = () => {
+    return (
+      html.match(/^<iframe[\s\S]+><\/iframe>/) ||
+      html.match(/^<iframe[\s\S]+\/>/)
+    );
+  };
+
+  if (!embed) return <div>{parse(html)}</div>;
+
+  if (!validIframe()) return <h1>Not valid</h1>;
+
+  return (
+    <div>
+      <ResponsiveEmbed aspectRatio="16by9" className="h-100">
+        {parse(html)}
+      </ResponsiveEmbed>
+    </div>
   );
 };
 

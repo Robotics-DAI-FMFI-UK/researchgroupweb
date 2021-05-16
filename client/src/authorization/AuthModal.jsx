@@ -23,7 +23,6 @@ const AuthModal = ({ action, onHide, setUsers, path }) => {
   // const [logged, setLogged] = useState(false);
 
   const handleSubmit = (data) => {
-    console.log(data);
     axios
       .post(`${URL_PREFIX}/auth/${action}`, data)
       .then((res) => {

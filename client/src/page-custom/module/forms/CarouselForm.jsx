@@ -76,8 +76,6 @@ const CarouselForm = ({ activeModule, handleChange, onSubmit }) => {
     );
   };
 
-  // FIX select page reference prekryva upload button
-
   return (
     <Form
       defaultValues={activeModule.body}

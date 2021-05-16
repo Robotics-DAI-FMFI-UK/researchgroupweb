@@ -1,7 +1,6 @@
 import { Router } from "express";
 import Page from "../models/Page";
 import Module from "../models/Module";
-import mongoose from "mongoose";
 import { fillUpdate, fillCreate } from "./shared";
 
 const router = Router();
@@ -26,7 +25,6 @@ router.post("/with-layouts", async (req, res) => {
     const breakpoints = ["lg", "md", "sm"];
     const layouts = {};
 
-    // TODO kopiu to sice robi, ale zle priradi moduly ku layout
     const moduleIds = req.body.layouts.lg.map((position) => position.i);
     const modules = await Module.find({ _id: { $in: moduleIds } }); // { _id: 0 });
 
@@ -59,7 +57,6 @@ router.post("/with-layouts", async (req, res) => {
 
     page.layouts = layouts;
 
-    // TODO transaction
     // init session
     // const session = await Page.startSession();
     // session.startTransaction();
@@ -109,7 +106,6 @@ router.get("/:id", getPage, (req, res) => {
 
 // // FIND pages by created_by
 // router.get("/created_by/:id", getPage, (req, res) => {
-//
 // });
 
 // FIND all
@@ -139,8 +135,6 @@ router.get("/", async (req, res) => {
       });
     }
 
-    console.log("pagesWithModules", pagesWithModules);
-
     res.json(pagesWithModules);
   } catch (e) {
     res.status(400).json({ message: e.message });
@@ -162,10 +156,6 @@ router.patch("/:id", getPage, async (req, res) => {
 router.patch("/with-grid/:id", async (req, res) => {
   try {
     const { layouts, modules, removeIds } = req.body;
-    // console.log("page._id", req.params.id);
-    // console.log("layouts", layouts);
-    // console.log("modules", modules);
-    // console.log("removeIds", removeIds);
 
     const savedPage = await Page.findByIdAndUpdate(
       { _id: req.params.id },
@@ -184,22 +174,25 @@ router.patch("/with-grid/:id", async (req, res) => {
       })
     );
 
-    // TODO remove module only if it's id is not in other pages layouts
+    // select all pages except the updating
     const pages = await Page.find({ _id: { $ne: req.params.id } });
+
+    // find module copy in pages
     const remainIds = [];
     removeIds.forEach((_id) => {
-      const objId = _id;
-
       for (let i = 0; i < pages.length; i++) {
         const ids = pages[i].layouts.lg.map((p) => p.i);
-        if (ids.includes(objId)) {
-          remainIds.push(objId);
+        if (ids.includes(_id)) {
+          remainIds.push(_id);
           return;
         }
       }
     });
+
+    // filter remaining copies
     const deleteIds = removeIds.filter((_id) => !remainIds.includes(_id));
 
+    // execute delete query
     const deletedModules = await Module.deleteMany({
       _id: { $in: deleteIds },
     });
@@ -215,7 +208,6 @@ router.delete("/:id", getPage, async (req, res) => {
   try {
     await res.page.remove();
     res.json({ message: "Deleted page" });
-    console.log("removed page");
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
@@ -226,7 +218,6 @@ router.post("/import", (req, res) => {
 
   let file = req.files.file;
   if (!file) file = req.files.image;
-  console.log("file", file);
 
   if (file.mimetype !== "application/json") {
     return res.status(500).json({ message: "Import allows only json file" });

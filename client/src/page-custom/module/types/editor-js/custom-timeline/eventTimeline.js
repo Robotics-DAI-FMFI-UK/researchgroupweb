@@ -28,7 +28,6 @@ const EventTimeline = (props) => {
     updateTimelineData(newData);
   };
 
-  // TODO ak ostane 0 tak vymazat z props.data
   const onRemoveEvent = (index) => {
     const newData = {
       ...timelineData,

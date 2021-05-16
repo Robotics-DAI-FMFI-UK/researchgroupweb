@@ -4,8 +4,6 @@ const Video = ({ module }) => {
   if (!module.body) module.body = placeholder;
   const { src, type, title, backgroundColor } = module.body;
 
-  console.log("video", src);
-
   const titleStyle = {
     backgroundColor: "rgba(119,119,119,.2)",
     padding: ".75rem",
@@ -27,8 +25,8 @@ const Video = ({ module }) => {
 };
 
 const placeholder = {
-  src: "/uploads/video.mp4",
-  title: "Title",
+  src: "/video-placeholder.mp4",
+  title: "Video title",
 };
 
 export default Video;

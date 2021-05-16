@@ -3,7 +3,6 @@ import Toast from "react-bootstrap/Toast";
 
 const ToastContext = createContext();
 
-// TODO neni vidno ak som scrollnuty dole
 export const ToastProvider = ({ children }) => {
   const [toast, setToast] = useState({
     status: "", // "succeeded" | "failed"
