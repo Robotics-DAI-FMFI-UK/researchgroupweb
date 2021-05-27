@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 // connect to db
 require("dotenv").config();
@@ -16,7 +17,7 @@ import navbarRoutes from "./routes/navbars";
 
 const app = express();
 app.use(fileUpload());
-app.use(express.json());
+app.use(express.static(path.join(__dirname, "build")));
 app.use(cors({ origin: true }));
 
 // use routes
@@ -26,6 +27,10 @@ app.use("/pages", pageRoutes);
 app.use("/modules", moduleRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/navbars", navbarRoutes);
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 // run server
 const PORT = process.env.PORT;
