@@ -9,18 +9,21 @@ router.post("/", (req, res) => {
   if (!file) file = req.files.image;
 
   const name = `[${Date.now()}]-${file.name.replace(/ /g, "-")}`;
-  const path = `${__dirname}/../../client/public/uploads/${name}`;
+  // const path = `${__dirname}/../../client/public/uploads/${name}`;
+  const path = `/build/uploads/${name}`;
 
   file.mv(path, (err) => {
     if (err) return res.status(500).json({ message: err.message });
     res.json({
       success: 1,
       fileName: file.name,
-      filePath: `/uploads/${name}`,
+      // filePath: `/uploads/${name}`,
+      filePath: path,
       file: {
         name: file.name,
         size: file.size,
-        url: `/uploads/${name}`,
+        // url: `/uploads/${name}`,
+        url: path,
       },
     });
   });
