@@ -1,7 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import auth from "../middleware/auth";
+import auth from "../auth/auth";
 import User from "../models/User";
 import config from "../config";
 
@@ -14,6 +14,7 @@ const router = Router();
  */
 
 router.post("/login", async (req, res) => {
+  console.log(req);
   const { email, password } = req.body;
 
   try {

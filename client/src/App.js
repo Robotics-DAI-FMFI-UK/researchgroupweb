@@ -2,10 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import "./main.css";
-import "./gridLayout.css";
 
 import Navbar from "./navigation/Navbar.jsx";
-import Footer from "./Footer.jsx";
 import Routes from "./Routes.jsx";
 import { FetchError, FetchLoading } from "./components/Fetchers";
 import { ModeProvider } from "./providers/ModeProvider";
@@ -46,7 +44,6 @@ function App() {
             <div className="main-container">
               <Routes pages={pages} auth={auth} />
             </div>
-            <Footer />
           </BrowserRouter>
         </ToastProvider>
       </ModeProvider>

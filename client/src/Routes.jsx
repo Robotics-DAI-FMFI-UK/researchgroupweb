@@ -2,9 +2,9 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import uuid from "react-uuid";
 
-import CustomPage from "./page-custom/CustomPage.jsx";
+import CustomPage from "./custom-page/CustomPage.jsx";
 import Page404 from "./Page404";
-import ProfilePage from "./page-profile/ProfilePage";
+import ProfilePage from "./profile-settings/ProfilePage";
 import PageTable from "./administration/pages/PagesTable";
 import UsersTable from "./administration/users/UsersTable";
 import AuthModal from "./authorization/AuthModal";

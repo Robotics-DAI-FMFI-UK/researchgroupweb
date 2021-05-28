@@ -9,7 +9,7 @@
     "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "generate": "node scripts/generate.js",
-    "prod": "node server.js --exec babel-node --presets babel-preset-env"
+    "prod": "concurrently \"npm run server\""
   },
   "author": "Jan Spirka",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
+    "express-http-to-https": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.7",
     "mongoose-unique-validator": "^2.0.3",
