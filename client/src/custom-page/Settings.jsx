@@ -8,6 +8,7 @@ import { useHistory } from "react-router";
 import { usePagesContext } from "../App";
 import { Redirect } from "react-router-dom";
 import uuid from "react-uuid";
+import { URL_PREFIX } from "../config";
 
 const Settings = ({ page, setPage, onHide }) => {
   const [error, setError] = useState();
@@ -47,7 +48,7 @@ const Settings = ({ page, setPage, onHide }) => {
 
   const removePage = () => {
     axios
-      .delete(`/pages/${page._id}`)
+      .delete(`${URL_PREFIX}/pages/${page._id}`)
       .then((res) => {
         setAddedPath(page.path);
 

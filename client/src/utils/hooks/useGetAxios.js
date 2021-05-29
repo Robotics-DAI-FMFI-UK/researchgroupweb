@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { URL_PREFIX } from "../../config";
 
 const useGetAxios = (url) => {
   const [state, setState] = useState({});
@@ -7,7 +8,7 @@ const useGetAxios = (url) => {
   useEffect(() => {
     console.log("url", url);
     axios
-      .get(url)
+      .get(`${URL_PREFIX}/url`)
       .then((res) => {
         setState({
           isLoaded: true,

@@ -34,7 +34,7 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
     e.preventDefault();
     console.log("data", data);
     // return;
-    let endPoint = "/pages";
+    let endPoint = `${URL_PREFIX}/pages`;
 
     if (data.copy) {
       endPoint += "/with-layouts";

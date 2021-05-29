@@ -3,6 +3,7 @@ import uuid from "react-uuid";
 import axios from "axios";
 import { useToastContext } from "../../providers/ToastProvider";
 import { getErrorMsg } from "../../utils/functions";
+import { URL_PREFIX } from "../../config";
 
 const EditableCell = ({ field, page, setPage }) => {
   const { setErrorToast, setSuccessToast } = useToastContext();
@@ -17,7 +18,7 @@ const EditableCell = ({ field, page, setPage }) => {
     const textContent = e.currentTarget.textContent;
 
     axios
-      .patch(`pages/${page._id}`, { [field]: textContent })
+      .patch(`${URL_PREFIX}/pages/${page._id}`, { [field]: textContent })
       .then((res) => {
         setSuccessToast(`${field} successfully updated`);
         setPage((prev) => {
