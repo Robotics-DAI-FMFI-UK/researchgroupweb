@@ -10,11 +10,8 @@ const EditorJS = ({ module, hasEditPermission }) => {
   const [editMode] = useModeContext();
 
   const editor = useRef();
-  const {
-    activeModule,
-    updateActiveModule,
-    toggleActiveModule,
-  } = useActiveModuleContext();
+  const { activeModule, updateActiveModule, toggleActiveModule } =
+    useActiveModuleContext();
 
   useEffect(() => {
     console.log("Editor REF", editor);

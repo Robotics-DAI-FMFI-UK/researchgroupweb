@@ -7,7 +7,11 @@ const SuspendHtml = lazy(() => import("./types/Html"));
 const SuspendVideo = lazy(() => import("./types/Video"));
 const SuspendCarousel = lazy(() => import("./types/Carousel"));
 
-export const ModuleBuilder = ({ module, setUnsavedWarning }) => {
+export const ModuleBuilder = ({
+  module,
+  setUnsavedWarning,
+  hasEditPermission,
+}) => {
   const Fallback = () => {
     return <div>Loading...</div>;
   };
@@ -16,7 +20,13 @@ export const ModuleBuilder = ({ module, setUnsavedWarning }) => {
     case "alert":
       return <Alert module={module} />;
     case "editor-js":
-      return <EditorJS module={module} setUnsavedWarning={setUnsavedWarning} />;
+      return (
+        <EditorJS
+          module={module}
+          setUnsavedWarning={setUnsavedWarning}
+          hasEditPermission={hasEditPermission}
+        />
+      );
     case "carousel":
       return (
         <Suspense fallback={<Fallback />}>
