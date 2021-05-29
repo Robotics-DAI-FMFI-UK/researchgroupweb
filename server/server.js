@@ -26,12 +26,12 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use(cors({ origin: true }));
 
 // use routes
-app.use("/auth", authRoutes);
-app.use("/users", userRoutes);
-app.use("/pages", pageRoutes);
-app.use("/modules", moduleRoutes);
-app.use("/upload", uploadRoutes);
-app.use("/navbars", navbarRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/pages", pageRoutes);
+app.use("/api/modules", moduleRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/navbars", navbarRoutes);
 
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
