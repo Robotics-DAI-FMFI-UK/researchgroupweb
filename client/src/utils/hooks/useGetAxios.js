@@ -8,7 +8,7 @@ const useGetAxios = (url) => {
   useEffect(() => {
     console.log("url", url);
     axios
-      .get(`${URL_PREFIX}/url`)
+      .get(`${URL_PREFIX}${url}`)
       .then((res) => {
         setState({
           isLoaded: true,
