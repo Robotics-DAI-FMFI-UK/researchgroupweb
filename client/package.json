@@ -24,6 +24,7 @@
     "axios": "^0.21.1",
     "babel-preset-env": "^1.7.0",
     "bootstrap": "^4.6.0",
+    "build": "^0.1.4",
     "codemirror": "^5.61.0",
     "editorjs-alert": "^1.0.3",
     "editorjs-button": "^1.0.3",
@@ -55,8 +56,8 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts ../server/build",
+    "start": "PORT=8096 HOST=kempelen.dai.fmph.uniba.sk HTTPS=true SSL_CRT_FILE=.ssl/cert.pem SSL_KEY_FILE=.ssl/privkey.pem react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

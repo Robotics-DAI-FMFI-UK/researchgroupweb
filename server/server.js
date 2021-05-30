@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
-// import fs from "fs";
-// import https from. "https";
-import { redirectToHTTPS } from "express-http-to-https";
+import fs from "fs";
+import https from "https";
+// import { redirectToHTTPS } from "express-http-to-https";
 
 // connect to db
 require("dotenv").config();
@@ -19,10 +19,11 @@ import uploadRoutes from "./routes/upload";
 import navbarRoutes from "./routes/navbars";
 
 const app = express();
-app.use(redirectToHTTPS([/localhost:4000/]));
+// app.use(redirectToHTTPS([/localhost:4000/, /^158\.195\.\d{1,3}.\d{1,3}:\d{4}$/, /kempelen.ii.fmph.uniba.sk/]));
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "build")));
+app.use("/uploads", express.static("uploads"));
 app.use(cors({ origin: true }));
 
 // use routes
@@ -39,16 +40,19 @@ app.get("/*", function (req, res) {
 
 // run server
 const PORT = process.env.PORT;
-// const privateKey = fs.readFileSync(process.env.SSL_KEY_FILE);
-// const certificate = fs.readFileSync(process.env.SSL_CRT_FILE);
+const privateKey = fs.readFileSync(process.env.SSL_KEY_FILE);
+const certificate = fs.readFileSync(process.env.SSL_CRT_FILE);
 
-// https.createServer({
-//   key: privateKey,
-//   cert: certificate
-// }, app).listen(PORT, () => {
-//   console.log("Server is running...");
-// });
+console.log("key", privateKey);
+console.log("crf", certificate);
 
-app.listen(PORT, () =>
-  console.log(`Server Started on http://localhost:${PORT}/`)
-);
+https.createServer({
+   key: privateKey,
+   cert: certificate
+ }, app).listen(PORT, () => {
+   console.log("Server is running...");
+});
+
+//app.listen(PORT, () =>
+//  console.log(`Server Started on http://localhost:${PORT}/`)
+//);

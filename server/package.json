@@ -9,7 +9,7 @@
     "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "generate": "node scripts/generate.js",
-    "prod": "concurrently \"npm run server\""
+    "prod": "HTTPS=true concurrently \"npm run server\""
   },
   "author": "Jan Spirka",
   "license": "ISC",
