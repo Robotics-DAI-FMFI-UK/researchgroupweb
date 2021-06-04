@@ -2,7 +2,14 @@ import React from "react";
 import { Form, Input, Select } from "../../../components/forms/MyForm";
 import ReferenceField from "./ReferenceField";
 
-const AlertForm = ({ activeModule, handleChange, onSubmit }) => {
+const AlertForm = ({
+  activeModule,
+  handleChange,
+  onSubmit,
+  origin,
+  setOrigin,
+  isRestored,
+}) => {
   const variants = [
     "primary",
     "secondary",
@@ -19,6 +26,10 @@ const AlertForm = ({ activeModule, handleChange, onSubmit }) => {
       defaultValues={activeModule.body}
       handleChange={handleChange}
       onSubmit={onSubmit}
+      origin={origin}
+      activeModule={activeModule}
+      setOrigin={setOrigin}
+      isRestored={isRestored}
     >
       <Input name="heading" as="textarea" />
       <Input name="message" as="textarea" rows={10} />

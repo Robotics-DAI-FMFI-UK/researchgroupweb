@@ -36,7 +36,9 @@ export const ActiveModuleProvider = ({ children, setModules, setWarning }) => {
 
   const closeActiveModule = () => {
     setActiveModule((prev) => {
-      updateModules(prev);
+      if (prev) {
+        updateModules(prev);
+      }
       return undefined;
     });
   };

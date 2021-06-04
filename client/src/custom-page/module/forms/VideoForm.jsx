@@ -6,7 +6,14 @@ import { getErrorMsg } from "../../../utils/functions";
 import { useToastContext } from "../../../providers/ToastProvider";
 import { URL_PREFIX } from "../../../config";
 
-const VideoFrom = ({ activeModule, handleChange, onSubmit }) => {
+const VideoFrom = ({
+  activeModule,
+  handleChange,
+  onSubmit,
+  origin,
+  setOrigin,
+  isRestored,
+}) => {
   const { setErrorToast } = useToastContext();
 
   const [filename, setFilename] = useState(
@@ -50,6 +57,10 @@ const VideoFrom = ({ activeModule, handleChange, onSubmit }) => {
       defaultValues={activeModule.body}
       handleChange={handleChange}
       onSubmit={onSubmit}
+      origin={origin}
+      activeModule={activeModule}
+      setOrigin={setOrigin}
+      isRestored={isRestored}
     >
       <BsForm.File
         custom

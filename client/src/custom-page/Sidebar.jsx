@@ -7,7 +7,8 @@ import { useActiveModuleContext } from "./ActiveModuleProvider";
 
 const Sidebar = () => {
   const [editMode] = useModeContext();
-  const { activeModule } = useActiveModuleContext();
+  const { activeModule, closeActiveModule, updateActiveModule } =
+    useActiveModuleContext();
 
   const [side, setSide] = useState("right");
   const oppositeSide = side === "right" ? "left" : "right";
@@ -45,7 +46,11 @@ const Sidebar = () => {
           >
             <BsArrowLeftRight size="25" />
           </SmallButton>
-          <EditForm />
+          <EditForm
+            activeModule={activeModule}
+            closeActiveModule={closeActiveModule}
+            updateActiveModule={updateActiveModule}
+          />
         </>
       ) : null}
     </div>

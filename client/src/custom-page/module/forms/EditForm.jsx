@@ -1,30 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import AlertForm from "./AlertForm";
 import CarouselForm from "./CarouselForm";
 import HtmlForm from "./HtmlForm";
 import ImageForm from "./ImageForm";
-import { useActiveModuleContext } from "../../ActiveModuleProvider";
 import SmallButton from "../../../components/buttons/SmallButton";
 import { useToastContext } from "../../../providers/ToastProvider";
 import { getErrorMsg, upperFirst } from "../../../utils/functions";
 import { URL_PREFIX } from "../../../config";
 import VideoForm from "./VideoForm";
 
-const EditForm = () => {
+const moduleFactory = (activeModule) => {
+  if (activeModule.type === "carousel") {
+    return CarouselForm;
+  }
+  if (activeModule.type === "alert") {
+    return AlertForm;
+  }
+  if (activeModule.type === "html") {
+    return HtmlForm;
+  }
+  if (activeModule.type === "video") {
+    return VideoForm;
+  }
+  if (activeModule.type === "image") {
+    return ImageForm;
+  }
+  return null;
+};
+
+const EditForm = ({ activeModule, updateActiveModule, closeActiveModule }) => {
   const { setSuccessToast, setErrorToast } = useToastContext();
 
-  const {
-    activeModule,
-    updateActiveModule,
-    closeActiveModule,
-  } = useActiveModuleContext();
-
-  const [origin] = useState(activeModule);
-  const resetActiveModule = () => updateActiveModule(origin);
+  const [isRestored, setIsRestored] = useState(false);
+  const [origin, setOrigin] = useState(activeModule);
+  const resetActiveModule = () => {
+    setIsRestored(true);
+    updateActiveModule(origin);
+  };
 
   const handleChange = (e) => {
+    setIsRestored(false);
+
     const { name, value } = e.target;
     updateActiveModule({
       ...activeModule,
@@ -45,13 +63,7 @@ const EditForm = () => {
       });
   };
 
-  const props = {
-    activeModule,
-    handleChange,
-    onSubmit,
-  };
-
-  const ModuleForm = formFactory(activeModule);
+  const ModuleForm = moduleFactory(activeModule);
 
   if (!ModuleForm) {
     return (
@@ -66,7 +78,15 @@ const EditForm = () => {
     <div className="m-4">
       <h1 className="text-center">{upperFirst(activeModule.type)}</h1>
       <hr />
-      <ModuleForm {...props} />
+      {/*{activeModule.type === "alert" && <AlertForm {...props} />}*/}
+      <ModuleForm
+        activeModule={activeModule}
+        handleChange={handleChange}
+        onSubmit={onSubmit}
+        origin={origin}
+        setOrigin={setOrigin}
+        isRestored={isRestored}
+      />
       <ButtonGroup className="space-children w-100">
         <SmallButton className="ml-0" onClick={closeActiveModule}>
           close
@@ -77,23 +97,6 @@ const EditForm = () => {
       </ButtonGroup>
     </div>
   );
-};
-
-const formFactory = (activeModule) => {
-  switch (activeModule.type) {
-    case "alert":
-      return AlertForm;
-    case "carousel":
-      return CarouselForm;
-    case "html":
-      return HtmlForm;
-    case "image":
-      return ImageForm;
-    case "video":
-      return VideoForm;
-    default:
-      return null;
-  }
 };
 
 export default EditForm;

@@ -4,15 +4,8 @@ import uuid from "react-uuid";
 
 const Image = ({ module }) => {
   if (!module.body) module.body = placeholder;
-  const {
-    src,
-    alt,
-    title,
-    subtitle,
-    objectFit,
-    reference,
-    backgroundColor,
-  } = module.body;
+  const { src, alt, title, subtitle, objectFit, reference, backgroundColor } =
+    module.body;
 
   const imgStyle = {
     objectFit: objectFit,
@@ -21,7 +14,7 @@ const Image = ({ module }) => {
 
   const cardStyle = {
     backgroundColor: backgroundColor,
-    cursor: reference ? "pointer" : "",
+    // cursor: reference ? "pointer" : "",
     height: "100%",
   };
 
@@ -31,13 +24,15 @@ const Image = ({ module }) => {
     maxHeight: "90%",
     textOverflow: "ellipsis",
     overflow: "hidden",
+    margin: "0",
+    marginTop: "2px",
   };
 
   const subtitleStyle = {
     fontSize: "1rem",
     backgroundColor: "rgb(101,116,136,.8)",
     padding: ".25rem .75rem",
-    display: "inline-block",
+    display: "inline",
     margin: "0",
     maxWidth: "100%",
     whiteSpace: "nowrap",
@@ -47,6 +42,7 @@ const Image = ({ module }) => {
 
   const overlayStyle = {
     top: "unset",
+    padding: "0",
   };
 
   return (

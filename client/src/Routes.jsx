@@ -11,7 +11,7 @@ import AuthModal from "./authorization/AuthModal";
 import NavSloths from "./navigation/NavSloths";
 
 function Routes({ pages, auth }) {
-  const visiblePages = auth ? pages : pages.filter((page) => page.published);
+  // const visiblePages = auth ? pages : pages.filter((page) => page.published);
 
   const PrivateRoute = ({ component: Component, onlyAdmin, path, ...rest }) => {
     let hasAccess = auth;
@@ -47,7 +47,7 @@ function Routes({ pages, auth }) {
       <PrivateRoute exact path="/pages" component={PageTable} />
       <PrivateRoute exact path="/users" component={UsersTable} />
       <PrivateRoute exact path="/nav" component={NavSloths} onlyAdmin={true} />
-      {visiblePages.map(createRoute)}
+      {pages.map(createRoute)}
       <Route path="*" component={Page404} />
     </Switch>
   );

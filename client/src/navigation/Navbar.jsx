@@ -16,6 +16,10 @@ import { useToastContext } from "../providers/ToastProvider";
 
 const Navbar = ({ pages }) => {
   const location = useLocation();
+  const activePageTitle = pages.find(
+    (p) => p.path === location.pathname
+  )?.title;
+
   const { setErrorToast } = useToastContext();
 
   const [navItems, setNavItems] = useState([]);
@@ -122,16 +126,44 @@ const Navbar = ({ pages }) => {
       >
         <NavBrand />
         {/*<SearchBar />*/}
+        <SmallButton
+          as={Link}
+          to="/"
+          title="redirect to home page"
+          style={{ display: "inline" }}
+        >
+          <h6
+            className="d-none d-xl-block"
+            style={{
+              marginBottom: "0",
+              marginLeft: "100px",
+              color: "white",
+            }}
+          >
+            ROBOT GROUP, DAI FMFI UK
+          </h6>
+        </SmallButton>
         <h6
-          className="d-none d-xl-block"
           style={{
-            marginBottom: "0",
-            marginLeft: "100px",
+            paddingTop: "8px",
+            marginLeft: "10px",
+            marginRight: "10px",
             color: "white",
           }}
         >
-          ROBOT GROUP, DAI FMFI UK
+          <span
+            className="d-sm-inline d-xs-none"
+            style={{
+              marginLeft: "2px",
+              marginRight: "8px",
+              color: "white",
+            }}
+          >
+            -
+          </span>{" "}
+          {activePageTitle}
         </h6>
+
         <BsNavbar.Toggle />
         <BsNavbar.Collapse>
           <Nav className="ml-auto" navbar activeKey={location.pathname}>

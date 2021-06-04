@@ -5,7 +5,14 @@ import { Image } from "react-bootstrap";
 import SmallButton from "../../../components/buttons/SmallButton";
 import ReferenceField from "./ReferenceField";
 
-const CarouselForm = ({ activeModule, handleChange, onSubmit }) => {
+const CarouselForm = ({
+  activeModule,
+  handleChange,
+  onSubmit,
+  origin,
+  setOrigin,
+  isRestored,
+}) => {
   const options = ["fill", "contain", "cover", "none", "scale-down"];
   const defaultItem = "/img-placeholder.jpg";
 
@@ -68,8 +75,8 @@ const CarouselForm = ({ activeModule, handleChange, onSubmit }) => {
           alt={image}
           src={image}
           style={{
-            maxWidth: "118px",
-            maxHeight: "118px",
+            maxWidth: "225px",
+            maxHeight: "225px",
           }}
         />
       </div>
@@ -81,6 +88,10 @@ const CarouselForm = ({ activeModule, handleChange, onSubmit }) => {
       defaultValues={activeModule.body}
       handleChange={handleChange}
       onSubmit={onSubmit}
+      origin={origin}
+      activeModule={activeModule}
+      setOrigin={setOrigin}
+      isRestored={isRestored}
     >
       <Check name="indicators" onChange={onCheckChange} />
       <Check name="controls" onChange={onCheckChange} />

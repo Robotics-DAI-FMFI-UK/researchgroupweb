@@ -1,7 +1,14 @@
 import React, { useRef } from "react";
 import { Form, Input, Check } from "../../../components/forms/MyForm";
 
-const HtmlForm = ({ activeModule, handleChange, onSubmit }) => {
+const HtmlForm = ({
+  activeModule,
+  handleChange,
+  onSubmit,
+  origin,
+  setOrigin,
+  isRestored,
+}) => {
   const embed = useRef(activeModule.body.embed);
 
   const toggleEmbed = () => {
@@ -14,6 +21,10 @@ const HtmlForm = ({ activeModule, handleChange, onSubmit }) => {
       defaultValues={activeModule.body}
       handleChange={handleChange}
       onSubmit={onSubmit}
+      origin={origin}
+      activeModule={activeModule}
+      setOrigin={setOrigin}
+      isRestored={isRestored}
     >
       <Check
         name="embed"

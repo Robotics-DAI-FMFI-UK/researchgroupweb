@@ -21,7 +21,8 @@ export const Module = ({
   hasEditPermission,
 }) => {
   const { pages } = usePagesContext();
-  const { activeModule, toggleActiveModule } = useActiveModuleContext();
+  const { activeModule, toggleActiveModule, closeActiveModule } =
+    useActiveModuleContext();
   const [editMode] = useModeContext();
   const [showToolbar, setShowToolbar] = useState();
   const [borderColor, setBorderColor] = useState("#fff");
@@ -111,6 +112,8 @@ export const Module = ({
         sm: prev.sm.filter(({ i }) => i !== module._id),
       };
     });
+
+    closeActiveModule();
   };
 
   const copyCardToClipboard = (module) => {
@@ -131,6 +134,7 @@ export const Module = ({
   const style = {
     height: "100%",
     borderRadius: "4px",
+    cursor: module?.body?.reference ? "pointer" : "default",
     border: `1px solid ${
       isActive && editMode && hasEditPermission ? "red" : borderColor
     }`,
@@ -149,6 +153,9 @@ export const Module = ({
       onMouseEnter={() => {
         if (editMode && hasEditPermission) {
           setShowToolbar(true);
+          setBorderColor("#cce5ff");
+        }
+        if (module?.body?.reference) {
           setBorderColor("#cce5ff");
         }
       }}

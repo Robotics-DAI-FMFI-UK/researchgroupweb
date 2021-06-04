@@ -31,6 +31,10 @@ export function Form({
   onSubmit,
   handleChange,
   validationSchema,
+  activeModule,
+  origin,
+  setOrigin,
+  isRestored,
   ...rest
 }) {
   const resolver = useYupResolver(validationSchema || Yup.object({}));
@@ -46,15 +50,18 @@ export function Form({
   } = methods;
 
   useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues]);
+    if (!origin || !activeModule) return;
+    if (origin._id !== activeModule._id || isRestored) {
+      reset(defaultValues);
+      setOrigin(activeModule);
+    }
+  }, [activeModule]);
 
   const renderChild = (child) => {
     if (!child) return null;
 
     const childName = child.props?.name;
     const onChange = child.props?.onChange || handleChange;
-    // const value = defaultValues ? defaultValues[childName] : undefined;
     return (
       <>
         {childName
@@ -64,7 +71,6 @@ export function Form({
                 onChange: onChange,
                 register: methods.register,
                 key: child.props.name,
-                // value: value,
               },
             })
           : child}
@@ -105,7 +111,6 @@ export function Input({
             ref={register}
             {...rest}
           />
-          {/*<Control />*/}
         </InputGroup>
       ) : (
         <FormControl
@@ -114,7 +119,6 @@ export function Input({
           ref={register}
           {...rest}
         />
-        // <Control />
       )}
     </FormGroup>
   );

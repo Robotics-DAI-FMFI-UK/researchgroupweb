@@ -1,0 +1,18 @@
+04.06.2021
+UPDATE 1.1
+
+Changes:
+Po pridani noveho modulu, sa hned zobrazi jeho sidebar
+Ak sa vymaze activeModule, vypne sa sidebar
+image CSS viac podla nasa.gov
+modry border onHover pre modul ked ma reference
+zmenseny pading pre alert a editorjs
+ked sa navtevnik odstane na unpiblushed, pyta ho prihlasenie
+po kliknuti na app title presmerovat na home page /
+k app title vypisovat aj title danej page
+
+Fixes:
+sidebar viac nerefreshuje form
+handle overflow text in modules
+
+

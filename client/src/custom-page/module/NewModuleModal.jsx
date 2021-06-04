@@ -6,14 +6,18 @@ import SmallButton from "../../components/buttons/SmallButton";
 import { URL_PREFIX } from "../../config";
 import { BsExclamationTriangle } from "react-icons/bs";
 import Modal from "react-bootstrap/Modal";
+import { useActiveModuleContext } from "../ActiveModuleProvider";
 
 const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
+  const { toggleActiveModule } = useActiveModuleContext();
+
   const [error, setError] = useState();
   const [hardCopy, setHardCopy] = useState(false);
   const toggleHardCopy = () => setHardCopy((prev) => !prev);
 
   const createType = (e) => {
-    addNewModule({ type: e.target.value });
+    const newModule = addNewModule({ type: e.target.value });
+    toggleActiveModule(newModule);
     toggleModal();
   };
 
@@ -34,7 +38,8 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
         setError("Cannot create hard copy, module is already at the page");
         return;
       }
-      addNewModule(localModule, hardCopy);
+      const newModule = addNewModule(localModule, hardCopy);
+      toggleActiveModule(newModule);
       toggleModal();
       return;
     }
@@ -43,7 +48,8 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
     axios
       .get(`${URL_PREFIX}/modules/${_id}`)
       .then((res) => {
-        addNewModule(res.data, hardCopy);
+        const newModule = addNewModule(res.data, hardCopy);
+        toggleActiveModule(newModule);
         toggleModal();
       })
       .catch((err) => {
