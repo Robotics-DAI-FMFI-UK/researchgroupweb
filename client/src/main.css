@@ -4,7 +4,7 @@ body {
   background-color: #eee;
   overflow: auto;
   min-width: 320px !important;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 body::-webkit-scrollbar {
