@@ -31,5 +31,7 @@ client/yarn.lock
 client/package-lock.json
 server/package-lock.json
 
+server/.ssl
+
 client/public/uploads/*
 server/uploads/*
