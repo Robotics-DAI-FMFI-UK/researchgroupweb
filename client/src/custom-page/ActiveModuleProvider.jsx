@@ -25,12 +25,13 @@ export const ActiveModuleProvider = ({ children, setModules, setWarning }) => {
   };
 
   const toggleActiveModule = (module) => {
+    console.log("module", module);
     setActiveModule((prev) => {
       if (!prev) return module;
 
       updateModules(prev);
 
-      return prev._id === module._id ? undefined : module;
+      return prev._id === module?._id ? undefined : module;
     });
   };
 

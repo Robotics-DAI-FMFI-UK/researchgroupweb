@@ -48,7 +48,7 @@ const Settings = ({ page, setPage, onHide }) => {
 
   const removePage = () => {
     axios
-      .delete(`${URL_PREFIX}/pages/${page._id}`)
+      .delete(`${process.env.REACT_APP_URL}/pages/${page._id}`)
       .then((res) => {
         setAddedPath(page.path);
 

@@ -26,7 +26,7 @@ const ImageForm = React.memo(
 
       try {
         await axios
-          .post(`${URL_PREFIX}/upload`, formData, {
+          .post(`${process.env.REACT_APP_URL}/upload`, formData, {
             headers: {
               "Content-Type": "image/*",
             },

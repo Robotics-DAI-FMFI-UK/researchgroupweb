@@ -16,7 +16,8 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
   const toggleHardCopy = () => setHardCopy((prev) => !prev);
 
   const createType = (e) => {
-    const newModule = addNewModule({ type: e.target.value });
+    const type = e.target.value;
+    const newModule = addNewModule({ type, body: placeholder[type] });
     toggleActiveModule(newModule);
     toggleModal();
   };
@@ -39,6 +40,7 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
         return;
       }
       const newModule = addNewModule(localModule, hardCopy);
+      console.log("newModule", newModule);
       toggleActiveModule(newModule);
       toggleModal();
       return;
@@ -46,7 +48,7 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
 
     // find in db
     axios
-      .get(`${URL_PREFIX}/modules/${_id}`)
+      .get(`${process.env.REACT_APP_URL}/modules/${_id}`)
       .then((res) => {
         const newModule = addNewModule(res.data, hardCopy);
         toggleActiveModule(newModule);
@@ -115,6 +117,39 @@ const NewModuleModal = ({ showModal, modules, addNewModule, toggleModal }) => {
       </Modal.Body>
     </Modal>
   );
+};
+
+const placeholder = {
+  carousel: {
+    items: ["/img-placeholder.jpg", "/img-placeholder.jpg"],
+    indicators: true,
+    fade: false,
+    allowPause: true,
+    interval: 3,
+    controls: false,
+    objectFit: "none",
+    backgroundColor: "#eee",
+  },
+  alert: {
+    heading: "Alert header!",
+    message: "A long text message of the alert",
+    variant: "warning",
+  },
+  html: {
+    embed: true,
+    html: "<h1>Hello World</h1>",
+  },
+  image: {
+    src: "/img-placeholder.jpg",
+    alt: "image",
+    title: "Title",
+    subtitle: "Subtitle placeholder",
+    objectFit: "none",
+  },
+  video: {
+    src: "/video-placeholder.mp4",
+    title: "Video title",
+  },
 };
 
 export default NewModuleModal;

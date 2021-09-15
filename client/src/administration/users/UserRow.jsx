@@ -21,7 +21,9 @@ const UserRow = ({ user: _user, setUsers, fields }) => {
   const Toggle = () => {
     const handleChange = () => {
       axios
-        .patch(`${URL_PREFIX}/users/${user._id}`, { isAdmin: !isAdmin })
+        .patch(`${process.env.REACT_APP_URL}/users/${user._id}`, {
+          isAdmin: !isAdmin,
+        })
         .then((res) => {
           setUser((prev) => {
             return { ...prev, isAdmin: !isAdmin };
@@ -45,7 +47,7 @@ const UserRow = ({ user: _user, setUsers, fields }) => {
 
   const removePage = () => {
     axios
-      .delete(`${URL_PREFIX}/users/${user._id}`)
+      .delete(`${process.env.REACT_APP_URL}/users/${user._id}`)
       .then((res) => {
         setUsers((prev) => prev.filter(({ _id }) => _id !== user._id));
       })

@@ -1,7 +1,21 @@
-04.06.2021
-UPDATE 1.1
+Changes [24.06.2021]:
+- env on client
+- server config
+- html placeholder
+- html add checkbox
+- html validation
+- editorjs add embed by link paste
+- user login/logout/update in state
+- don't redirect to homepage after logout
+- toast { position: fixed }
 
-Changes:
+    Fixes:
+        - word-break css
+        - back and forward browser's history
+        - open sidebar after create new module
+
+
+Changes [04.06.2021]:
 - Po pridani noveho modulu, sa hned zobrazi jeho sidebar
 - Ak sa vymaze activeModule, vypne sa sidebar
 - Image viac podla NASA
@@ -10,10 +24,7 @@ Changes:
 - Ked sa navtevnik dostane na unpublushed page, pyta ho prihlasenie
 - Po kliknuti na app title presmerovat na home page /
 - K app title vypisuje aj page title
-- Fix word-break css
 
-Fixes:
-- Sidebar viac nerefreshuje form
-- Handle overflow text in modules
-
-
+    Fixes:
+    - Sidebar viac nerefreshuje form
+    - Handle overflow text in modules

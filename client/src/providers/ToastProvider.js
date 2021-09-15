@@ -26,7 +26,7 @@ export const ToastProvider = ({ children }) => {
     return (
       <Toast
         className="my-toast"
-        onClose={() => setToast()}
+        onClose={() => setToast(undefined)}
         show={toast}
         delay={3000}
         autohide

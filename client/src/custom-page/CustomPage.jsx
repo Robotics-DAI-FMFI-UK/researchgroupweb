@@ -14,13 +14,15 @@ import SmallButton from "../components/buttons/SmallButton";
 import NewModuleModal from "./module/NewModuleModal";
 import { useModeContext } from "../providers/ModeProvider";
 import { ActiveModuleProvider } from "./ActiveModuleProvider";
+import { useAuthContext } from "../providers/AuthProvider";
 
 const CustomPage = ({ initPage }) => {
   document.title = `RG | ${initPage.title}`;
 
   // ------------ INITIALIZATION ------------
+  const { auth } = useAuthContext();
   const [editMode] = useModeContext();
-  const hasEditPermission = getUserPermission(initPage);
+  const hasEditPermission = getUserPermission(initPage, auth);
 
   const [page, setPage] = useState(initPage);
   const [modules, setModules] = useState(initPage.modules);
@@ -34,7 +36,7 @@ const CustomPage = ({ initPage }) => {
   const [breakpoint, setBreakpoint] = useState("lg");
   const [layouts, setLayouts] = useState(() => getInitLayouts(initPage));
   // ------------ INITIALIZATION ------------
-  console.log(layouts);
+
   // ------------ EVENTS HANDLERS ------------
   useEffect(() => {
     if (!newModule) return;
@@ -49,7 +51,7 @@ const CustomPage = ({ initPage }) => {
 
   const onBreakpointChange = (bp) => {
     console.log("BREAKPOINT", bp);
-    if (!layouts[bp]) shiftLayout(bp);
+    // if (!layouts[bp]) shiftLayout(bp);
     setBreakpoint(bp);
   };
   // ------------ EVENTS HANDLERS ------------
@@ -104,7 +106,7 @@ const CustomPage = ({ initPage }) => {
     setLayouts({ ...layouts, [bp]: autoLayout });
   }
 
-  async function addNewModule(module, hardCopy) {
+  function addNewModule(module, hardCopy) {
     const module_id = hardCopy ? module._id : objectId();
 
     const position = cloneObj(addButton);
@@ -112,6 +114,7 @@ const CustomPage = ({ initPage }) => {
 
     setNewModule({ ...module, _id: module_id });
     addIntoLayouts(position, hardCopy !== undefined);
+    return { ...module, _id: module_id };
   }
 
   function addIntoLayouts(position, last = false) {
@@ -179,7 +182,11 @@ const CustomPage = ({ initPage }) => {
   // ------------ FUNCTIONS ------------
 
   const AddButton = () => (
-    <SmallButton className="add-item-button" onClick={toggleModal}>
+    <SmallButton
+      className="add-item-button"
+      style={{ lineHeight: "0.1" }}
+      onClick={toggleModal}
+    >
       <span>+</span>
     </SmallButton>
   );
@@ -190,7 +197,7 @@ const CustomPage = ({ initPage }) => {
   return (
     <>
       <ActiveModuleProvider setModules={setModules} setWarning={setWarning}>
-        {getAuth() && hasEditPermission && (
+        {hasEditPermission && (
           <Toolbar
             page={page}
             setPage={setPage}
@@ -241,8 +248,8 @@ const CustomPage = ({ initPage }) => {
 // -----------------------------------------------------------
 
 const cols = {
-  lg: 3,
-  md: 2,
+  lg: 6,
+  md: 3,
   sm: 1,
 };
 const BREAKPOINTS = ["lg", "md", "sm"];
@@ -266,7 +273,15 @@ const addButton = {
 };
 const getInitLayouts = (initPage) => {
   const initLayouts = cloneObj(initPage.layouts);
-
+  // TODO in database
+  BREAKPOINTS.forEach((b) => {
+    initLayouts[b].forEach((p) => {
+      p.w = p.w * 2;
+      p.x = p.x * 2;
+      p.h = p.h * 2;
+      p.y = p.y * 2;
+    });
+  });
   findLastPosition(initLayouts.lg);
 
   return { ...initLayouts, lg: [...initLayouts.lg, addButton] };

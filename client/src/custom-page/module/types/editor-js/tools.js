@@ -20,7 +20,7 @@ import Table from "@editorjs/table";
 
 // MEDIA / EMBED
 import Alert from "editorjs-alert"; // https://github.com/vishaltelangre/editorjs-alert
-import Html from "@editorjs/embed"; // https://github.com/editor-js/embed
+import Embed from "@editorjs/embed"; // https://github.com/editor-js/embed
 import AttachesTool from "./attaches"; // https://github.com/editor-js/attaches
 // import LinkTool from "@editorjs/link"; // https://github.com/editor-js/link
 // import Image from "@editorjs/custom-image";
@@ -77,9 +77,9 @@ export const EDITOR_JS_TOOLS = {
     inlineToolbar: true,
     tunes: ["alignTune"],
   },
-  embed: Html,
   table: Table,
   alert: Alert,
+  embed: Embed,
 
   // image: Image,
   markdownParser: MDParser,
@@ -91,10 +91,11 @@ export const EDITOR_JS_TOOLS = {
     class: ImageTool,
     config: {
       endpoints: {
-        byFile: "http://localhost:4000/upload", // Your backend file uploader endpoint
-        byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+        byFile: "http://localhost:4000/api/upload", // Your backend file uploader endpoint
+        byUrl: "http://localhost:4000/api/fetchUrl", // Your endpoint that provides uploading by Url
       },
     },
   },
+  img: Image,
   // gist: Gist,
 };

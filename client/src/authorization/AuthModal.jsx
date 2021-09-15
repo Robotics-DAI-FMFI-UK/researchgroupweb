@@ -1,36 +1,26 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {
-  setAuth,
-  getErrorMsg,
-  upperFirst,
-  reloadPage,
-} from "../utils/functions";
+import { getErrorMsg, upperFirst } from "../utils/functions";
 import LoginForm from "./forms/LoginForm.jsx";
 import RegisterForm from "./forms/RegisterForm";
 import { Modal } from "react-bootstrap";
 import { URL_PREFIX } from "../config";
-import { Redirect } from "react-router-dom";
-import { usePagesContext } from "../App";
+import { useAuthContext } from "../providers/AuthProvider";
 
 /** action: "login" or "register" */
-const AuthModal = ({ action, onHide, setUsers, path }) => {
-  // const { setPagesAuth } = usePagesContext();
+const AuthModal = ({ action, onHide, setUsers }) => {
+  const { loggIn } = useAuthContext();
 
   const [authError, setAuthError] = useState();
   const [show, setShow] = useState(true);
   const fallback = () => setShow(false);
-  // const [logged, setLogged] = useState(false);
 
   const handleSubmit = (data) => {
     axios
-      .post(`${URL_PREFIX}/auth/${action}`, data)
+      .post(`${process.env.REACT_APP_URL}/auth/${action}`, data)
       .then((res) => {
         if (action === "login") {
-          // setPagesAuth(res.data);
-          // setLogged(true);
-          setAuth(res.data);
-          reloadPage();
+          loggIn(res.data);
         } else {
           setUsers((prev) => [
             ...prev,
@@ -39,8 +29,8 @@ const AuthModal = ({ action, onHide, setUsers, path }) => {
               _id: res.data.user.id,
             },
           ]);
-          onHide();
         }
+        onHide ? onHide() : fallback();
       })
       .catch((err) => {
         setAuthError(getErrorMsg(err));
@@ -49,10 +39,6 @@ const AuthModal = ({ action, onHide, setUsers, path }) => {
 
   const props = { handleSubmit, authError };
   const title = `${upperFirst(action)} form`;
-
-  // if (logged) {
-  //   return <Redirect to={`${path || "/"}`} />;
-  // }
 
   return (
     <Modal show={show} onHide={onHide || fallback} centered>
