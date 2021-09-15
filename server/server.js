@@ -16,6 +16,7 @@ import pageRoutes from "./routes/pages";
 import moduleRoutes from "./routes/modules";
 import uploadRoutes from "./routes/upload";
 import navbarRoutes from "./routes/navbars";
+import * as path from "path";
 
 const app = express();
 app.use(fileUpload());
@@ -32,10 +33,6 @@ app.use("/api/modules", moduleRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/navbars", navbarRoutes);
 
-// app.get("/*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
-
 // run server
 const PORT = process.env.PORT;
 
@@ -44,6 +41,11 @@ if (PORT == 4001) {
   app.listen(PORT, () => console.log(`Server Started`));
 } else {
   // production
+
+  app.get("/*", function (req, res) {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+
   const privateKey = fs.readFileSync(process.env.SSL_KEY_FILE || "");
   const certificate = fs.readFileSync(process.env.SSL_CRT_FILE || "");
   https
