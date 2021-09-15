@@ -9,19 +9,18 @@ import { FetchError, FetchLoading } from "./components/Fetchers";
 import { ModeProvider } from "./providers/ModeProvider";
 import { ToastProvider } from "./providers/ToastProvider";
 import { URL_PREFIX } from "./config";
-import { getAuth } from "./utils/functions";
+import { AuthProvider } from "./providers/AuthProvider";
 
 const PagesContext = createContext();
 
 function App() {
-  const [auth, setPagesAuth] = useState(getAuth());
   const [pages, setPages] = useState();
   const [error, setError] = useState();
   const [loaded, setLoaded] = useState();
 
   useEffect(() => {
     axios
-      .get(`${URL_PREFIX}/pages`)
+      .get(`${process.env.REACT_APP_URL}/pages`)
       .then((res) => {
         setLoaded(true);
         setPages(res.data);
@@ -36,17 +35,19 @@ function App() {
   if (!loaded || !pages) return <FetchLoading />;
 
   return (
-    <PagesContext.Provider value={{ pages, setPages, setPagesAuth, auth }}>
-      <ModeProvider>
-        <ToastProvider>
-          <BrowserRouter>
-            <Navbar pages={pages} />
-            <div className="main-container">
-              <Routes pages={pages} auth={auth} />
-            </div>
-          </BrowserRouter>
-        </ToastProvider>
-      </ModeProvider>
+    <PagesContext.Provider value={{ pages, setPages }}>
+      <AuthProvider>
+        <ModeProvider>
+          <ToastProvider>
+            <BrowserRouter>
+              <Navbar pages={pages} />
+              <div className="main-container">
+                <Routes pages={pages} />
+              </div>
+            </BrowserRouter>
+          </ToastProvider>
+        </ModeProvider>
+      </AuthProvider>
     </PagesContext.Provider>
   );
 }

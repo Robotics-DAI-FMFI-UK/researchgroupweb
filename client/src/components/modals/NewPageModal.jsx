@@ -34,7 +34,7 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
     e.preventDefault();
     console.log("data", data);
     // return;
-    let endPoint = `${URL_PREFIX}/pages`;
+    let endPoint = `${process.env.REACT_APP_URL}/pages`;
 
     if (data.copy) {
       endPoint += "/with-layouts";
@@ -92,7 +92,7 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
 
   const updateFromImport = (importData) => {
     axios
-      .patch(`${URL_PREFIX}/pages/with-grid/${importData._id}`, {
+      .patch(`${process.env.REACT_APP_URL}/pages/with-grid/${importData._id}`, {
         // columns,
         // modules,
         // removeIds,
@@ -118,7 +118,7 @@ const NewPageModal = ({ onHide, page, path, redirect = true }) => {
 
     try {
       await axios
-        .post(`${URL_PREFIX}/pages/import`, formData, {
+        .post(`${process.env.REACT_APP_URL}/pages/import`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {

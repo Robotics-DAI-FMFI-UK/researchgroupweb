@@ -36,10 +36,8 @@ export const setEdit = () => setLocaleStorage("edit", "true");
 export const getEdit = () => getLocaleStorage("edit");
 export const delEdit = () => delLocaleStorage("edit");
 
-export const getUserPermission = (initPage) => {
-  return (
-    getAuth()?.user.isAdmin || initPage.created_by._id === getAuth()?.user.id
-  );
+export const getUserPermission = (initPage, auth) => {
+  return auth?.user.isAdmin || initPage.created_by._id === auth?.user.id;
 };
 
 export const upperFirst = (str) => {

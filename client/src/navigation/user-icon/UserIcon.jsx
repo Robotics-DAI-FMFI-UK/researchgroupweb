@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Image from "react-bootstrap/Image";
 import UserModal from "./UserModal";
-import { getAuth } from "../../utils/functions";
 import { BiLogIn } from "react-icons/bi";
 import NavActionBtns from "../NavActionBtns";
 
-export const UserIcon = () => {
+export const UserIcon = ({ auth }) => {
   const [showModal, setShowModal] = useState();
   const toggleModal = () => setShowModal((prev) => !prev);
 
@@ -44,7 +43,7 @@ export const UserIcon = () => {
 
   return (
     <div>
-      {getAuth() ? <LoggedIcon /> : <LogoutIcon />}
+      {auth ? <LoggedIcon /> : <LogoutIcon />}
       {showModal && <UserModal onHide={toggleModal} showModal={showModal} />}
     </div>
   );

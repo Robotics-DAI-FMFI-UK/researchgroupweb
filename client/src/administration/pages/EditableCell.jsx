@@ -18,7 +18,9 @@ const EditableCell = ({ field, page, setPage }) => {
     const textContent = e.currentTarget.textContent;
 
     axios
-      .patch(`${URL_PREFIX}/pages/${page._id}`, { [field]: textContent })
+      .patch(`${process.env.REACT_APP_URL}/pages/${page._id}`, {
+        [field]: textContent,
+      })
       .then((res) => {
         setSuccessToast(`${field} successfully updated`);
         setPage((prev) => {

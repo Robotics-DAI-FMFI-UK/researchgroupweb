@@ -36,7 +36,7 @@ const Toolbar = ({ page, setPage, warning, setWarning, layouts, modules }) => {
 
     // return;
     axios
-      .patch(`${URL_PREFIX}/pages/with-grid/${page._id}`, {
+      .patch(`${process.env.REACT_APP_URL}/pages/with-grid/${page._id}`, {
         layouts: layoutsWithoutAddBtn,
         modules: updatedModules,
         removeIds,

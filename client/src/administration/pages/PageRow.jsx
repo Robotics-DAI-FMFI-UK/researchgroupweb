@@ -28,7 +28,7 @@ const PageRow = ({ page: _page, setPages, fields }) => {
 
   const removePage = () => {
     axios
-      .delete(`${URL_PREFIX}/pages/${page._id}`)
+      .delete(`${process.env.REACT_APP_URL}/pages/${page._id}`)
       .then((res) => {
         setPages((prev) => prev.filter(({ _id }) => _id !== page._id));
       })
@@ -42,7 +42,9 @@ const PageRow = ({ page: _page, setPages, fields }) => {
 
     const handleChange = () => {
       axios
-        .patch(`${URL_PREFIX}/pages/${page._id}`, { published: !published })
+        .patch(`${process.env.REACT_APP_URL}/pages/${page._id}`, {
+          published: !published,
+        })
         .then((res) => {
           setPage((prev) => {
             return { ...prev, published: !published };

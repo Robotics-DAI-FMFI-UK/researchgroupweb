@@ -12,23 +12,33 @@ const UserModal = ({ onHide, showModal }) => {
     width: "15%",
     minWidth: "300px",
     right: "5px",
-    left: "unset"
+    left: "unset",
   };
 
   const LoginUser = () => (
-    <Modal show={showModal} onHide={onHide} style={style} backdropClassName="user-modal" className="d-none d-lg-block">
-      <Modal.Body style={{
-        backgroundColor: "#eee",
-        boxShadow: "3px 3px 10px 0px gray"
-      }}>
+    <Modal
+      show={showModal}
+      onHide={onHide}
+      style={style}
+      backdropClassName="user-modal"
+      className="d-none d-lg-block"
+    >
+      <Modal.Body
+        style={{
+          backgroundColor: "#eee",
+          boxShadow: "3px 3px 10px 0px gray",
+        }}
+      >
         <h2>{user.name}</h2>
         <p>{user.email}</p>
-        <NavActionBtns onHide={onHide}/>
+        <NavActionBtns onHide={onHide} />
       </Modal.Body>
     </Modal>
   );
 
-  return <>{user ? <LoginUser /> : <AuthModal action="login" />}</>;
+  return (
+    <>{user ? <LoginUser /> : <AuthModal action="login" onHide={onHide} />}</>
+  );
 };
 
 export default UserModal;

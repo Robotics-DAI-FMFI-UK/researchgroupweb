@@ -9,9 +9,10 @@ import PageTable from "./administration/pages/PagesTable";
 import UsersTable from "./administration/users/UsersTable";
 import AuthModal from "./authorization/AuthModal";
 import NavSloths from "./navigation/NavSloths";
+import { useAuthContext } from "./providers/AuthProvider";
 
-function Routes({ pages, auth }) {
-  // const visiblePages = auth ? pages : pages.filter((page) => page.published);
+function Routes({ pages }) {
+  const { auth } = useAuthContext();
 
   const PrivateRoute = ({ component: Component, onlyAdmin, path, ...rest }) => {
     let hasAccess = auth;

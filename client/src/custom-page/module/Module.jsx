@@ -7,7 +7,7 @@ import { SizeMe } from "react-sizeme";
 import { ROW_HEIGHT } from "../../components/MyGridLayout";
 import { usePagesContext } from "../../App";
 import { useActiveModuleContext } from "../ActiveModuleProvider";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export const Module = ({
   module,
@@ -20,13 +20,14 @@ export const Module = ({
   breakpoint,
   hasEditPermission,
 }) => {
+  const history = useHistory();
+
   const { pages } = usePagesContext();
   const { activeModule, toggleActiveModule, closeActiveModule } =
     useActiveModuleContext();
   const [editMode] = useModeContext();
   const [showToolbar, setShowToolbar] = useState();
   const [borderColor, setBorderColor] = useState("#fff");
-  const [redirectPath, setRedirectPath] = useState();
 
   if (!module) return null;
   const isActive = module._id === activeModule?._id;
@@ -78,9 +79,7 @@ export const Module = ({
     }
 
     const path = pages.find((page) => page._id === reference)?.path;
-    if (path) {
-      setRedirectPath(path);
-    }
+    if (path) history.push(path);
   };
 
   const onPin = () => {
@@ -141,10 +140,6 @@ export const Module = ({
   };
 
   const isException = module && module.type === "editor-js";
-
-  if (redirectPath) {
-    return <Redirect to={redirectPath} />;
-  }
 
   return (
     <div

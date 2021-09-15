@@ -18,11 +18,15 @@ const UploadFileMultiple = ({ onUploadChange, setItems }) => {
         const formData = new FormData();
         formData.append("file", files[i]);
 
-        const res = await axios.post(`${URL_PREFIX}/upload`, formData, {
-          headers: {
-            "Content-Type": "image/*",
-          },
-        });
+        const res = await axios.post(
+          `${process.env.REACT_APP_URL}/upload`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "image/*",
+            },
+          }
+        );
 
         uploadFiles.push(res.data.filePath);
       }
