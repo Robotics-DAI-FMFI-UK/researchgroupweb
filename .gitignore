@@ -36,3 +36,9 @@ server/.ssl
 
 client/public/uploads/*
 server/uploads/*
+
+nohup.out
+client/nohup.out
+server/nohup.out
+server/build
+
