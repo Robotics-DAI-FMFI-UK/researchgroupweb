@@ -1,7 +1,6 @@
 import React from "react";
 
 const Video = ({ module }) => {
-  if (!module.body) module.body = placeholder;
   const { src, type, title, backgroundColor } = module.body;
 
   const titleStyle = {
@@ -22,11 +21,6 @@ const Video = ({ module }) => {
       </video>
     </div>
   );
-};
-
-const placeholder = {
-  src: "/video-placeholder.mp4",
-  title: "Video title",
 };
 
 export default Video;

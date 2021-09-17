@@ -6,7 +6,7 @@ import SmallButton from "./buttons/SmallButton";
 import { SizeMe } from "react-sizeme";
 let ResponsiveGridLayout = WidthProvider(Responsive);
 
-export const ROW_HEIGHT = 150;
+export const ROW_HEIGHT = 75;
 export const ROW_WIDTH = 300;
 
 const MyGridLayout = ({

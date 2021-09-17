@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import axios from "axios";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import UserPassForm from "./forms/UserPassForm";
-import { getAuth, getErrorMsg, setAuth } from "../utils/functions";
+import { getErrorMsg } from "../utils/functions";
 import SmallButton from "../components/buttons/SmallButton";
 import { useToastContext } from "../providers/ToastProvider";
-import { URL_PREFIX } from "../config";
 import UserInfoForm from "./forms/UserInfoForm";
+import { useAuthContext } from "../providers/AuthProvider";
 
 const ProfilePage = () => {
   const [form, setForm] = useState("profile");
   const [error, setError] = useState();
   const { setSuccessToast } = useToastContext();
 
-  const auth = getAuth();
+  const { auth, loggIn } = useAuthContext();
   const user = auth.user;
 
   const changeForm = (e) => {
@@ -23,7 +23,12 @@ const ProfilePage = () => {
 
   const saveProfile = (data) => {
     onSubmit("users", data).then((res) => {
-      if (res.ok) setAuth({ ...auth, user: { ...user, ...data } });
+      if (res.ok) {
+        loggIn({
+          ...auth,
+          user: { ...user, ...data },
+        });
+      }
     });
   };
 
@@ -33,7 +38,7 @@ const ProfilePage = () => {
 
   const onSubmit = (url, data) => {
     return axios
-      .patch(`${URL_PREFIX}/${url}/${user.id}`, data)
+      .patch(`${process.env.REACT_APP_URL}/${url}/${user.id}`, data)
       .then((res) => {
         setError(null);
         setSuccessToast("Update succeed");

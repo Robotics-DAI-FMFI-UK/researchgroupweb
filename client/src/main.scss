@@ -63,7 +63,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .my-toast {
-  position: absolute;
+  position: fixed;
   z-index: 999;
   top: 75px;
   right: 9px;

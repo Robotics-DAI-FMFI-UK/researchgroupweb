@@ -1,27 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import SmallButton from "../components/buttons/SmallButton";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { BsFiles, BsPeopleFill, BsPersonLinesFill } from "react-icons/bs";
 import { BiLogOut } from "react-icons/bi";
 import { IconContext } from "react-icons";
-import { delAuth } from "../utils/functions";
+import { useAuthContext } from "../providers/AuthProvider";
 
 const NavActionBtns = ({ onHide }) => {
-  const [loggedOut, setLoggedOut] = useState(false);
+  const { loggOut } = useAuthContext();
 
   const logout = () => {
-    delAuth();
-    setLoggedOut(true);
+    loggOut();
+    onHide();
   };
 
   const handleClick = () => {
     if (onHide) onHide();
   };
-
-  if (loggedOut) {
-    return <Redirect to="/" />;
-  }
 
   return (
     <IconContext.Provider value={{ size: "20", color: "white" }}>

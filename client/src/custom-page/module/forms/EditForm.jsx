@@ -52,7 +52,7 @@ const EditForm = ({ activeModule, updateActiveModule, closeActiveModule }) => {
 
   const onSubmit = () => {
     axios
-      .patch(`${URL_PREFIX}/modules/${activeModule._id}`, {
+      .patch(`${process.env.REACT_APP_URL}/modules/${activeModule._id}`, {
         body: activeModule.body,
       })
       .then((res) => {

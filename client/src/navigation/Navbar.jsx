@@ -7,12 +7,12 @@ import uuid from "react-uuid";
 import NavBrand from "./NavBrand";
 import axios from "axios";
 import { NavDropdown } from "react-bootstrap";
-import { getAuth } from "../utils/functions";
 import { BsPencil } from "react-icons/bs";
 import SmallButton from "../components/buttons/SmallButton";
 import { Link } from "react-router-dom";
 import { URL_PREFIX } from "../config";
 import { useToastContext } from "../providers/ToastProvider";
+import { useAuthContext } from "../providers/AuthProvider";
 
 const Navbar = ({ pages }) => {
   const location = useLocation();
@@ -20,14 +20,15 @@ const Navbar = ({ pages }) => {
     (p) => p.path === location.pathname
   )?.title;
 
+  const { auth } = useAuthContext();
   const { setErrorToast } = useToastContext();
 
   const [navItems, setNavItems] = useState([]);
-  const hasEditPermission = getAuth()?.user.isAdmin;
+  const hasEditPermission = auth?.user.isAdmin;
 
   useEffect(() => {
     axios
-      .get(`${URL_PREFIX}/navbars/published`)
+      .get(`${process.env.REACT_APP_URL}/navbars/published`)
       .then((res) => {
         const items = [];
 
@@ -178,7 +179,7 @@ const Navbar = ({ pages }) => {
               </SmallButton>
             )}
             <CustomNavs />
-            <UserIcon />
+            <UserIcon auth={auth} />
           </Nav>
         </BsNavbar.Collapse>
       </BsNavbar>

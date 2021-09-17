@@ -4,6 +4,7 @@ import UploadFileMultiple from "../../../components/upload/UploadFileMultiple";
 import { Image } from "react-bootstrap";
 import SmallButton from "../../../components/buttons/SmallButton";
 import ReferenceField from "./ReferenceField";
+import { isEmptyObject } from "../../../utils/functions";
 
 const CarouselForm = ({
   activeModule,
@@ -16,7 +17,10 @@ const CarouselForm = ({
   const options = ["fill", "contain", "cover", "none", "scale-down"];
   const defaultItem = "/img-placeholder.jpg";
 
-  const [items, setItems] = useState(activeModule.body.items);
+  const [items, setItems] = useState(
+    isEmptyObject(activeModule.body) ? [] : activeModule.body.items
+  );
+
   useEffect(() => {
     setItems(activeModule.body.items);
   }, [activeModule.body.items]);
@@ -109,7 +113,7 @@ const CarouselForm = ({
       <hr />
       <label className="form-label">Upload images</label>
       <UploadFileMultiple onUploadChange={handleChange} setItems={setItems} />
-      <div className="my-2">{items.map(renderImage)}</div>
+      <div className="my-2">{items?.map(renderImage)}</div>
     </Form>
   );
 };

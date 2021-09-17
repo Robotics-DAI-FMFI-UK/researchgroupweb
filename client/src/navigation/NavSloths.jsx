@@ -78,7 +78,7 @@ const NavSloths = () => {
 
   useEffect(() => {
     axios
-      .get(`${URL_PREFIX}/navbars`)
+      .get(`${process.env.REACT_APP_URL}/navbars`)
       .then((res) => {
         setNavbarVersions(res.data);
       })
@@ -87,7 +87,7 @@ const NavSloths = () => {
       });
 
     axios
-      .get(`${URL_PREFIX}/navbars/published`)
+      .get(`${process.env.REACT_APP_URL}/navbars/published`)
       .then((res) => {
         loadNavbarData(res.data);
         setPublishedId(res.data._id);
@@ -146,7 +146,7 @@ const NavSloths = () => {
     // return;
 
     axios
-      .post(`${URL_PREFIX}/navbars`, {
+      .post(`${process.env.REACT_APP_URL}/navbars`, {
         created_by: getAuth()?.user._id,
         items: updatedItems,
       })
@@ -267,7 +267,7 @@ const NavSloths = () => {
 
     try {
       await axios
-        .post(`${URL_PREFIX}/navbars/import`, formData, {
+        .post(`${process.env.REACT_APP_URL}/navbars/import`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
@@ -289,7 +289,7 @@ const NavSloths = () => {
     setPublishedId(data._id);
 
     await axios
-      .patch(`${URL_PREFIX}/navbars`, {
+      .patch(`${process.env.REACT_APP_URL}/navbars`, {
         currentId: data._id,
         prevId: publishedId,
       })
@@ -314,7 +314,7 @@ const NavSloths = () => {
     }
 
     await axios
-      .delete(`${URL_PREFIX}/navbars/` + data._id)
+      .delete(`${process.env.REACT_APP_URL}/navbars/` + data._id)
       .then((res) => {
         setSuccessToast("remove versions succeeded");
         setNavbarVersions((prevState) => {
