@@ -6,14 +6,16 @@
 /server/.env
 /client/.env
 
+# build
+/client/build
+
 # uploads
 server/uploads/*
 
 # certificate
-server/.ssl
+/server/.ssl
 
-# ------------------
-
+# cache
 /.idea
 /server/.idea
 /client/.idea
@@ -21,3 +23,6 @@ server/.ssl
 /client/yarn.lock
 /client/package-lock.json
 /server/package-lock.json
+
+# ------------------
+notes.txt

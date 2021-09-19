@@ -41,9 +41,10 @@ if (PORT == 4001) {
   app.listen(PORT, () => console.log(`Server Started`));
 } else {
   // production
-
-  app.get("/*", function (req, res) {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
+  const root = require("path").join(__dirname, "../client", "build");
+  app.use(express.static(root));
+  app.get("*", (req, res) => {
+    res.sendFile("index.html", { root });
   });
 
   const privateKey = fs.readFileSync(process.env.SSL_KEY_FILE || "");
