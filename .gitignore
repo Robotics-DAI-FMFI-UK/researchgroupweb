@@ -6,22 +6,18 @@
 /server/.env
 /client/.env
 
+# build
+/client/build
+/server/build
+
 # uploads
-server/uploads/*
-
-# certificate
-server/.ssl
-
 client/public/uploads/*
 server/uploads/*
 
-nohup.out
-client/nohup.out
-server/nohup.out
-server/build
+# certificate
+/server/.ssl
 
-# ------------------
-
+# cache
 /.idea
 /server/.idea
 /client/.idea
@@ -29,3 +25,9 @@ server/build
 /client/yarn.lock
 /client/package-lock.json
 /server/package-lock.json
+
+# ------------------
+notes.txt
+nohup.out
+client/nohup.out
+server/nohup.out

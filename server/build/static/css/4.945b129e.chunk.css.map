@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/custom-page/module/types/carousel.css"],"names":[],"mappings":"AAIA,gBAHI,WAMJ,CAHA,UACI,UAEJ,CAMA,2BACI,WACJ","file":"4.945b129e.chunk.css","sourcesContent":[".item {\n    height: 100%;\n}\n\n.item-img {\n    width: 100%;\n    height: 100%;\n}\n\n._carousel {\n    height: 100%;\n}\n\n.carousel-inner {\n    height: 100%;\n}"]}
