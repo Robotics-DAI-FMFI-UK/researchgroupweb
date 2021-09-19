@@ -8,8 +8,10 @@
 
 # build
 /client/build
+/server/build
 
 # uploads
+client/public/uploads/*
 server/uploads/*
 
 # certificate
@@ -26,3 +28,8 @@ server/uploads/*
 
 # ------------------
 notes.txt
+nohup.out
+client/nohup.out
+server/nohup.out
+
+
