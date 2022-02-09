@@ -4,7 +4,6 @@ import Toolbar from "./Toolbar";
 import MyGridLayout from "../components/MyGridLayout";
 import {
   cloneObj,
-  getAuth,
   getUserPermission,
   objectId,
 } from "../utils/functions";
@@ -252,7 +251,6 @@ const cols = {
   md: 3,
   sm: 1,
 };
-const BREAKPOINTS = ["lg", "md", "sm"];
 const breakpoints = {
   lg: 1199,
   md: 799,
@@ -273,16 +271,7 @@ const addButton = {
 };
 const getInitLayouts = (initPage) => {
   const initLayouts = cloneObj(initPage.layouts);
-  // TODO in database
-  BREAKPOINTS.forEach((b) => {
-    initLayouts[b].forEach((p) => {
-      p.w = p.w * 2;
-      p.x = p.x * 2;
-      p.h = p.h * 2;
-      p.y = p.y * 2;
-    });
-  });
-  findLastPosition(initLayouts.lg);
+  findLastPosition(initPage.layouts.lg);
 
   return { ...initLayouts, lg: [...initLayouts.lg, addButton] };
 };
